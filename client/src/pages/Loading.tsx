@@ -2,7 +2,7 @@ import { useEffect, useRef,   } from 'react';
 import { useNavigate } from "react-router";
 
 import axios from 'axios';
-import Spinner from './helper/Spinner';
+import Spinner from './component/Spinner';
 
 function Loading() {
     let hasRun = useRef<boolean>(false);

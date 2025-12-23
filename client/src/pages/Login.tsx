@@ -2,7 +2,7 @@ import { Google } from '../helpers/loginHelper';
 import { useEffect  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../context/useAuth';
-import Spinner from '../pages/helper/Spinner'
+import Spinner from './component/Spinner'
 
 function Login () {
     const navigate = useNavigate();

@@ -1,7 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect  } from "react";
 import useAuth from "../context/useAuth";
-import Spinner from "./helper/Spinner";
+import Spinner from "./component/Spinner";
+import Header from "./component/Header";
 
 function ProtectedRoute() {
     const { status } = useAuth();
@@ -18,7 +19,10 @@ function ProtectedRoute() {
     }
 
     return (
-        <Outlet/>
+        <>
+            <Header/>
+            <Outlet/>        
+        </>
     )
 }
 
