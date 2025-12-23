@@ -22,7 +22,7 @@ api.interceptors.response.use(
         original_request._retry = true;
 
         try {
-            await axios.get('/api/auth/refresh');
+            await axios.get('/api/auth/refresh', { withCredentials: true });
         } catch (err) {
             return Promise.reject(error)
         }
