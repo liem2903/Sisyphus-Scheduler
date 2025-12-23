@@ -1,0 +1,1 @@
+GET https://localhost:4000/api/auth/get-google-details
