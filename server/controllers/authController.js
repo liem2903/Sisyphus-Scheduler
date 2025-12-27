@@ -13,6 +13,8 @@ import {
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { redis } from "../redis.js";
+
 export async function getGoogleDetails(req, res) {
     try {
         const { code } = req.query;
@@ -26,14 +28,16 @@ export async function getGoogleDetails(req, res) {
        
         let user = await getUser(id);
 
+        redis.set(user.id, access_token, {ex: 60 * 60 });
+
         if (!user) {
             const user = await createUser(id, email, name);
         }      
-
+        
         if (refresh_token) {
             await storeRefreshGoogle(user.id, refresh_token);
         }
-
+        
         res.status(200).json({data: user.id, success: true});
     } catch (err) { 
         console.log(err.message);

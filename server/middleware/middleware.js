@@ -1,7 +1,9 @@
 import jwt from "jsonwebtoken";
 import dotenv from 'dotenv';
-import { checkRefreshToken } from "../data_access/authRepository.js";
+import { checkRefreshToken, getRefreshToken, getGoogleDataAccess } from "../data_access/authRepository.js";
 dotenv.config();
+
+import redis from '../redis.js';
 
 export function authMiddleware(req, res, next) {
     const token = req.cookies.access_token;
@@ -38,5 +40,18 @@ export async function refreshMiddleware(req, res, next) {
     req.userId = userId;             
     next();
 }
+// Just generate an access token and put it in res.  
+export async function googleAuthMiddleware(req, res, next) {
+    const user_id = req.user;
 
+    await getGoogleDataAccess
+
+
+    const refresh_token = await getRefreshToken(user_id);
+
+
+    
+
+    next();
+}
 // To do - check user first and then do the refresh stuff.

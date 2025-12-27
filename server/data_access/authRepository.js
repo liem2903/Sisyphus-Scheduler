@@ -122,3 +122,15 @@ export async function logoutData(user_id) {
         console.log(err.message);
     }
 }
+
+export async function getRefreshToken(user_id) {
+    try {
+        let data = await pool.query(
+            `SELECT refresh_token FROM public.google_tokens WHERE user_id = $1`, [user_id]
+        )
+
+        return data.rows[0].refresh_token;
+    } catch (err) {
+        console.log(err.message);
+    }
+}
