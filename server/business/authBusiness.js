@@ -7,10 +7,12 @@ import {
      storeRefreshTokenData,
      rotateRefreshTokenData,
      logoutData,
+     getCalenderData
  } from "../data_access/authRepository.js";
 
 import crypto from 'crypto';
 import dotenv from 'dotenv';
+import e from "express";
 import jwt from 'jsonwebtoken';
 dotenv.config();
 
@@ -68,6 +70,25 @@ export async function createAccessTokenBusiness(user_id) {
 export async function logoutBusiness(user_id) {
     try {
         return logoutData(user_id);
+    } catch (err) {
+        throw new Error(err.message());
+    }
+}
+
+export async function getCalenderBusiness(access_token) {
+    try {
+        const now = new Date();
+
+        const start = new Date(now);
+        start.setUTCHours(0, 0, 0);
+        const end = newDate(start);
+        end.setUTCDate(end.getUTCDate() + 1);
+
+        const timeMin = start.toISOString();
+        const timeMax = end.toISOString();
+
+
+        return getCalenderData(access_token);
     } catch (err) {
         throw new Error(err.message());
     }

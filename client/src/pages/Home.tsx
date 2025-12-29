@@ -6,20 +6,15 @@ import axios from 'axios';
 function Home () {
     useEffect(() => {
         const getAccess = async () => {
-            let access_token = await axios.get('/auth/api/getAccessToken');
-
-
-
-
+            let result = await axios.get('/api/auth/getCalender');
         }
 
-        getAccess;
+        getAccess();
     }, [])
-
 
     return (
         <div className="flex gap-10 justify-evenly mt-10 relative">
-            <div className="flex flex-col items-center gap-20">   
+            <div className="flex flex-col items-center gap-20">    
                 <Event time={"10:30am"} place={"Sanctuary Hotel"} action={"Drinking Alcohol"} day={"Today"}/> 
                 <Event time={"3:30pm"} place={"Ben's House"} action={"League"} day={"Today"}/> 
             </div>

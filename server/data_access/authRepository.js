@@ -134,3 +134,44 @@ export async function getRefreshToken(user_id) {
         console.log(err.message);
     }
 }
+
+export async function refreshAccessToken(refresh_token) {
+    try {   
+        const res = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                refresh_token: refresh_token,
+                grant_type: "refresh_token"
+            })
+        });
+
+        const data = await res.json();
+
+        return {
+            access_token: data.access_token,
+            expiry_time: data.expires_in
+        };
+    } catch (err) {
+        throw new Error(data.error);
+    }
+}
+
+export async function getCalenderData(access_token) {
+    try {
+        const url = new URL("/https://www.googleapis.com/calendar/v3/calendars/primary/events");
+        url.searchParams.set("timeMin", )
+        url.searchParams.set("timeMax", )
+
+        url.searchParams.set("orderBy", "startTime");
+        url.searchParams.set("singleEvents", true);
+        const res = await fetch('/')
+
+    } catch (err) {
+
+    }
+}
