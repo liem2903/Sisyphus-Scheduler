@@ -2,6 +2,7 @@ import Event from "./component/Event";
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { api } from "../interceptor/interceptor";
+import Spinner from "./component/Spinner";
 
 type Event = {
     eventName: string,
@@ -11,10 +12,11 @@ type Event = {
 
 function Home () {
     const [ events, setEvents ] = useState<Event[]>([]);
+    const [ loading, setLoad ] = useState(false);
 
     useEffect(() => {
-
         const getAccess = async () => {
+            setLoad(true);
             let res = await api.get('/auth/getCalender');
             let calenderData = res.data.data;
             let resEvents: Event[] = []
@@ -33,25 +35,22 @@ function Home () {
             })
 
             setEvents(resEvents);
+            setLoad(false);
         }
 
         getAccess();
     }, [])
 
     return (
-        <div className="flex gap-10 justify-evenly mt-10 relative">
-            <div className="flex flex-col items-center gap-20">    
-               { events.map((e) => <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} day={"Today"} duration={e.duration}/>)}
-            </div>
-
-            <div className="flex flex-col items-center gap-20 mt-15">   
-                <Event startTime={"2:00pm"} action={"Drinking Alcohol"} day={"Tomorrow"} duration={"3"}/>  
-                <Event startTime={"5:00pm"} action={"Playing Volleyball"} day={"Tomorrow"} duration={"2"}/>  
-            </div>
-
-            <div className="absolute w-0.5 border opacity-2 shadow-2xl h-150"></div>
-        </div>
-    )
+        <>
+            {
+                loading == true ? <Spinner/> : events.length == 0 ? 
+                <div className="w-full text-violet-400 font-bold h-160 flex justify-center items-center text-2xl"> No events on today </div> : <div className="grid grid-cols-2 w-full min-h-60 pl-20 mt-12 gap-10">
+                    {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} day={"Today"} duration={e.duration}/> </div>))} 
+                </div>
+            }
+        </>
+     )
 }
 
 export default Home;
