@@ -196,3 +196,20 @@ export async function getTimezoneData(access_token) {
         console.log(err.message);
     }
 }
+
+export async function createEventData(access_token, prompt) {
+    try {
+        const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events/quickAdd");
+        url.searchParams.set("text", prompt);
+
+        await axios.post(url, null, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+        });
+    } catch (err) {
+        console.log(err.response?.status);
+        console.log(err.response?.data); 
+        console.log(err.message);
+    }
+}

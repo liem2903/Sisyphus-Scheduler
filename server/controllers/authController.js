@@ -10,7 +10,8 @@ import {
      rotateRefreshToken,
      logoutBusiness,
      getCalenderBusiness,
-     getTimezoneBusiness
+     getTimezoneBusiness,
+     createEventBusiness
     } from "../business/authBusiness.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -161,5 +162,17 @@ export async function getCalender(req, res) {
         return res.status(200).json({success: true, data: calendar.items})
     } catch (err) {
         return res.status(400).json({success: false})
+    }
+}
+
+export async function createEvent(req, res) {
+    try {
+        let access_token = req.access_token;
+        let { value: eventText } = req.body;
+        createEventBusiness(access_token, eventText);
+        return res.status(200).json({success: true});
+
+    } catch (err) {
+        return res.status(400).json({success: false});
     }
 }

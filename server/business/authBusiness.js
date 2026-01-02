@@ -8,7 +8,8 @@ import {
      rotateRefreshTokenData,
      logoutData,
      getCalenderData,
-     getTimezoneData
+     getTimezoneData,
+     createEventData
  } from "../data_access/authRepository.js";
 
 import { DateTime } from 'luxon';
@@ -93,5 +94,31 @@ export async function getTimezoneBusiness(access_token) {
         return getTimezoneData(access_token)
     } catch (err) {
         throw new Error(err.message());
+    }
+}
+
+export async function createEventBusiness(access_token, prompt) {
+    try {
+        const tmrRegex = /(tmr+|tomorrow+|tomorow+|tmrw|2mr)/i
+        // Add time regex - make it so that it's good.
+        const timeRegex = /^((0?[1-9]|1[0-2])(:)?[0-5][0-9](pm|am)?-(0?[1-9]|1[0-2])(:)?[0-5][0-9](pm|am))$/i
+        const tomorrow = prompt.toLowerCase().trim().match(tmrRegex);
+        const timeStart = prompt.trim().match(timeStartRegex);
+
+        console.log(timeStart[0]);
+
+        // If tomorrow is true then add one to both start day and end day.
+        if (tomorrow) {
+            prompt = prompt.toLowerCase().replace(tmrRegex, "").trim();
+        }
+
+        // Getting date and time as well.
+
+        console.log(prompt);
+ 
+        return 
+        createEventData(access_token, prompt);
+    } catch (err) {
+        throw new Error(err.message);
     }
 }
