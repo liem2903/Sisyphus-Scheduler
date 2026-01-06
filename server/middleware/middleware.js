@@ -5,8 +5,6 @@ dotenv.config();
 import {redis} from '../redis.js';
 export function authMiddleware(req, res, next) {
     const token = req.cookies.access_token;
-
-    console.log(`check this out ${token}`);
     
     if (!token) {
         return res.status(401).json({error: 'Not authenticated'});
@@ -26,19 +24,18 @@ export function authMiddleware(req, res, next) {
 
 export async function refreshMiddleware(req, res, next) {
     const token = req.cookies.refresh_token;
-    console.log(token);
 
     if (!token) {       
         return res.status(401).json({error: "Log out"});
     }
-
+ 
     const userId = await checkRefreshToken(token);
 
     if (!userId) {
         return res.status(401).json({error: "Invalid refresh token"});
     }
     
-    req.userId = userId;     
+    req.userId = userId;    
     next();
 }
 // Just generate an access token and put it in res.  
@@ -51,7 +48,7 @@ export async function googleAuthMiddleware(req, res, next) {
         const { access_token, expires_in } = await refreshAccessToken(refresh_token);
         const expiry_time = Date.now() + expires_in * 1000;
 
-        await redis.set(`google:access:${user_id}`, { access_token, expiry_time, time_zone }, {ex: 60 * 60})
+        await redis.set(`google:access:${user_id}`, { access_token, expiry_time, time_zone })
     } 
 
     const { access_token } = await redis.get(`google:access:${user_id}`);

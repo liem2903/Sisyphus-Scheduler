@@ -11,7 +11,7 @@ import {
      logoutBusiness,
      getCalenderBusiness,
      getTimezoneBusiness,
-     createEventBusiness
+     createEventBusiness,
     } from "../business/authBusiness.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -32,7 +32,7 @@ export async function getGoogleDetails(req, res) {
         let user = await getUser(id);
         let time_zone  = await getTimezoneBusiness(access_token);        
         let expiry_time = Date.now() + expires_in * 1000;
-        redis.set(`google:access:${user.id}`, {access_token, expiry_time, time_zone}, {ex: 60 * 60 });
+        redis.set(`google:access:${user.id}`, {access_token, expiry_time, time_zone});
 
         if (!user) {
             const user = await createUser(id, email, name);
@@ -56,6 +56,7 @@ export async function createRefreshToken(req, res) {
         const refresh_token = await createRefreshTokenLogic();
         // Create cookie for refresh_token and store it.
         await storeRefreshToken(refresh_token.code, user_id, refresh_token.expiresAt);
+        console.log(`CODE IS ${refresh_token.code}`)
         // Now create a cookie.
         res.cookie("refresh_token", refresh_token.code, {
             httpOnly: true,
@@ -64,7 +65,8 @@ export async function createRefreshToken(req, res) {
             path: "/api/auth/refresh",
             maxAge: 30 * 24 * 60 * 60 * 1000 
         }); 
-       
+
+        console.log(`COOKIE MADE ${refresh_token.code}`)
         res.status(201).json({success: true});
     } catch (err) {
         console.log(err.message);
@@ -97,7 +99,7 @@ export async function refresh(req, res) {
         let user_id = req.userId;        
         const refresh_token = await createRefreshTokenLogic();
         await rotateRefreshToken(refresh_token.code, user_id, refresh_token.expiresAt);
- 
+         
         res.cookie("refresh_token", refresh_token.code, {
             httpOnly: true,
             secure: false,
@@ -116,7 +118,6 @@ export async function refresh(req, res) {
             maxAge: 30 * 24 * 60 * 60 * 1000
         })
         
-        console.log("YEAH I MADE ACCESS TOKEN AGAIN IT SHOULD BE GOOD TO GO");
         res.status(200).json({success: true});
     } catch (err) {
         console.log(err.message);
@@ -135,7 +136,11 @@ export async function checkUser(req, res) {
 export async function logout(req, res) {
     try {
         let refresh_token = req.cookies.refresh_token
+        console.log(`LOGGING OUT... refresh_token is currently: ${refresh_token}`);
+
         await logoutBusiness(refresh_token);
+
+        console.log(`This refresh token has been removed`);
 
         res.clearCookie("access_token", {
             httpOnly: true,
@@ -143,11 +148,17 @@ export async function logout(req, res) {
             secure: false,
         });
 
+        console.log(`This access cookie has been removed!`);
+
+
         res.clearCookie("refresh_token", {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
         })
+
+        console.log(`This refresh cookie has been removed!`);
+
 
         return res.status(200).json({success: true});
     } catch (err) {

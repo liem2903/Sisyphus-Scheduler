@@ -16,6 +16,7 @@ import { DateTime } from 'luxon';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { start } from "repl";
 dotenv.config();
 
 export function getGoogleToken(code) {
@@ -99,33 +100,134 @@ export async function getTimezoneBusiness(access_token) {
 
 export async function createEventBusiness(access_token, prompt, time_zone) {
     try {
-        const tmrRegex = /(tmr+|tomorrow+|tomorow+|tmrw|2mr)/i
-        let time_start = DateTime.now().setZone(time_zone);
-        let time_end = DateTime.now().setZone(time_zone).plus({hours: 1})
+        const dateRegex = /(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9])/i;
+        const date = prompt.toLowerCase().trim().match(dateRegex);
+
+        let year = DateTime.now().setZone(time_zone).year;
+        let month = DateTime.now().setZone(time_zone).month;
+        let day = DateTime.now().setZone(time_zone).day;
+
+        if (day.toString().length == 1) {
+            day = `0${day}`;
+        }
+
+        if (month.toString().length == 1) {
+            month = `0${month}`;
+        }
+
+        if (year.toString().length == 2) {
+            year = `20${year}`;
+        }
+
+        if (date) {
+            year = date[3] 
+            month = date[2]
+            day = date[1]
+
+            if (day.length == 1) {
+                day = `0${day}`;
+            }
+
+            if (month.length == 1) {
+                month = `0${month}`;
+            }
+
+            if (year.length == 2) {
+                year = `20${year}`;
+            }
+
+            prompt = prompt.toLowerCase().replace(dateRegex, "").trim().replace("  ", " ");
+        } else {
+            const tmrRegex = /(tmr+|tomorrow+|tomorow+|tmrw|2mr)/i
+            const tomorrow = prompt.toLowerCase().trim().match(tmrRegex);
+
+        // Get date somehow.
+            if (tomorrow) {
+                day = DateTime.now().plus({days: 1}).day;
+
+                if (day.toString().length == 1) {
+                    day = `0${day}`;
+                }   
+
+                if (month.toString().length == 1) {
+                    month = `0${month}`;
+                }
+
+                prompt = prompt.toLowerCase().replace(tmrRegex, "").trim().replace("  ", " ");
+            }
+        }
+
         // Add time regex - make it so that it's good.
-        const timeStartRegex = /((0?[1-9]|1[0-2])(:?[0-5][0-9])?(pm|am)?(-)?)/i
-        const tomorrow = prompt.toLowerCase().trim().match(tmrRegex);
-        const timeStart = prompt.trim().match(timeStartRegex);
+        const timeRegex = /(1[0-2]|0?[1-9]):?([0-5][0-9])?(pm|am)?-(1[0-2]|0?[1-9]):?([0-5][0-9])?(pm|am)?/i
+        const timeStart = prompt.trim().match(timeRegex);
         
         if (timeStart) { 
-            const hours = timeStart[0].match(/^(0?[1-9]|1[0-2])$/)
-            console.log(hours);
+            let hourStart = timeStart[1];
+            let minStart = timeStart[2] ? timeStart[2]: "00";
+            let hourEnd = timeStart[4];
+            let minEnd = timeStart[5] ? timeStart[5]: "00";
+
+            // So if I see that timeStart has a pm - I add 12 hours to it UNLESS it's a 12 then I leave it.
+            if (timeStart[3] == "pm" && parseInt(hourStart) != 12) {
+                hourStart = (setMeredian(parseInt(hourStart))).toString();
+                
+                if (!timeStart[6] && parseInt(hourEnd) + parseInt(minEnd) < parseInt(timeStart[1]) + parseInt(minStart) < 12) {
+                    hourEnd = setMeredian(parseInt(hourEnd)).toString();
+                }
+            }
+            // If I see that time end has a pm I add 12 hours to it unless its a 12.
+            if (timeStart[6] == "pm" && parseInt(hourEnd) != 12) {
+                hourEnd = setMeredian(parseInt(hourEnd)).toString();
+                
+                // If time start doens't have any meredian and it's not equal to 12 I add 12
+                if (!timeStart[3] && parseInt(hourStart) != 12) {
+                    hourStart = (setMeredian(parseInt(hourStart))).toString();
+                }
+            }
+
+            prompt = prompt.toLowerCase().replace(timeRegex, "").trim().replace("  ", " ");
+            let start = DateTime.fromObject({day, year, month, hour: hourStart, minute: minStart}, {zone: time_zone});
+            let end = DateTime.fromObject({day, year, month, hour: hourEnd, minute: minEnd}, {zone: time_zone});
+
+            let body = {
+                summary: prompt,
+                start: {
+                    dateTime: start.toISO(),
+                    timeZone: start.zoneName
+                }, 
+                end: {
+                    dateTime: end.toISO(),
+                    timeZone: start.zoneName
+                }
+            };
+
+            createEventData(access_token, body, prompt);
+        } else {
+            // No time means I just make it a whole day thing.
+            let date = `${year}-${month}-${day}`;
+            console.log(date);
+            let start = DateTime.fromISO(date).toISODate();
+            let end = DateTime.fromISO(date).plus({days: 1}).toISODate(); 
+
+            let body = {
+                summary: prompt,
+                start: {
+                    date: start,
+                }, 
+                end: {
+                    date: end,
+                }
+            };
+
+            createEventData(access_token, body, prompt);
         }
 
-
-        // If tomorrow is true then add one to both start day and end day.
-        if (tomorrow) {
-            time_start = time_start.plus({days: 1});
-            time_end = time_end.plus({days: 1});
-            prompt = prompt.toLowerCase().replace(tmrRegex, "").trim().replace("  ", " ");
-        }
-        
-        console.log(prompt);
-
-        // Getting date and time as well. 
         return 
-        createEventData(access_token, prompt);
     } catch (err) {
         throw new Error(err.message);
     }
+}
+// HELPER 
+function setMeredian(time) {
+    return time + 12; 
 }

@@ -106,6 +106,8 @@ export async function rotateRefreshTokenData(refresh_token, user_id, expires_at)
         await pool.query(
             `UPDATE public.refresh_tokens SET refresh_token = $1, expires_at = $2 WHERE user_id = $3`, [refresh_token, expires_at, user_id]
         )
+
+
     } catch (err) {
         console.log(err.message);
     }
@@ -197,12 +199,11 @@ export async function getTimezoneData(access_token) {
     }
 }
 
-export async function createEventData(access_token, prompt) {
+export async function createEventData(access_token, body) {
     try {
-        const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events/quickAdd");
-        url.searchParams.set("text", prompt);
+        const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events");
 
-        await axios.post(url, null, {
+        await axios.post(url, body, {
             headers: {
                 Authorization: `Bearer ${access_token}`
             },
