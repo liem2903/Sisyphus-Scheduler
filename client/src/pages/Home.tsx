@@ -46,7 +46,7 @@ function Home () {
             {
                 loading == true ? <Spinner/> : events.length == 0 ? 
                 <div className="w-full text-violet-400 font-bold h-160 flex justify-center items-center text-2xl"> No events on today </div> : <div className="grid grid-cols-2 w-full min-h-60 pl-20 mt-12 gap-10">
-                    {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} day={"Today"} duration={e.duration}/> </div>))} 
+                    {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration}/> </div>))} 
                 </div>
             }
         </>

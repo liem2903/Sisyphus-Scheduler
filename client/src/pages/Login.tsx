@@ -30,9 +30,9 @@ function Login () {
                 <div> <h1 className="font-sans text-6xl font-semibold text-violet-500"> Welcome To Sisyphus </h1> </div> 
                 <div> <h2 className="font-sans text-1xl text-violet-500"> Your Scheduling Assistant </h2> </div> 
             </div>
-                <button className="flex justify-center items-center w-4/12 h-18 bg-violet-400 rounded-3xl mb-16 drop-shadow-2xl outline-black border-2 hover:border-violet-200 hover:cursor-grab hover:shadow-none transition-all transform hover:translate-y-1" disabled={clicked} onClick={handleClick}>  
+                <button className="flex justify-center items-center w-5/13 h-18 bg-violet-400 rounded-3xl mb-16 drop-shadow-2xl border-gray-300 border-2 hover:border-gray-200 hover:cursor-grab hover:shadow-none transition-all transform hover:translate-y-1" disabled={clicked} onClick={handleClick}>  
                     <div className="flex gap-2.5">
-                        <h2 className="text-2xl text-white font-bold"> Continue with Google </h2> 
+                        <h2 className="text-white font-bold text-xl"> Continue with Google </h2> 
                     </div>
                 </button> 
             </div>
