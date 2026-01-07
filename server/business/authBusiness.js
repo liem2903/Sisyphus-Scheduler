@@ -100,42 +100,26 @@ export async function getTimezoneBusiness(access_token) {
 
 export async function createEventBusiness(access_token, prompt, time_zone) {
     try {
-        const dateRegex = /(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9])/i;
+        const dateRegex = /(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9])(-(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9]))?/i;
         const date = prompt.toLowerCase().trim().match(dateRegex);
 
         let year = DateTime.now().setZone(time_zone).year;
         let month = DateTime.now().setZone(time_zone).month;
         let day = DateTime.now().setZone(time_zone).day;
-
-        if (day.toString().length == 1) {
-            day = `0${day}`;
-        }
-
-        if (month.toString().length == 1) {
-            month = `0${month}`;
-        }
-
-        if (year.toString().length == 2) {
-            year = `20${year}`;
-        }
+        let daySpan = 1;
+        [day, month, year] = formatDate(day, month, year);
 
         if (date) {
-            year = date[3] 
-            month = date[2]
-            day = date[1]
+            [day, month, year] = formatDate(date[1], date[2], date[3]);
 
-            if (day.length == 1) {
-                day = `0${day}`;
+            if (date[4]) {
+                let [ endDay, endMonth, endYear ] = formatDate(date[5], date[6], date[7]);
+
+                const tempStart = DateTime.fromObject({day, month, year}, {timeZone: time_zone});
+                const tempEnd = DateTime.fromObject({day: endDay, month: endMonth, year: endYear}, {timeZone: time_zone});
+                daySpan = tempEnd.diff(tempStart, 'days').as('days') + 1;
             }
-
-            if (month.length == 1) {
-                month = `0${month}`;
-            }
-
-            if (year.length == 2) {
-                year = `20${year}`;
-            }
-
+ 
             prompt = prompt.toLowerCase().replace(dateRegex, "").trim().replace("  ", " ");
         } else {
             const tmrRegex = /(tmr+|tomorrow+|tomorow+|tmrw|2mr)/i
@@ -145,14 +129,7 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
             if (tomorrow) {
                 day = DateTime.now().plus({days: 1}).day;
 
-                if (day.toString().length == 1) {
-                    day = `0${day}`;
-                }   
-
-                if (month.toString().length == 1) {
-                    month = `0${month}`;
-                }
-
+                [day, month, year] = formatDate(day, month, year)
                 prompt = prompt.toLowerCase().replace(tmrRegex, "").trim().replace("  ", " ");
             }
         }
@@ -187,7 +164,11 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
 
             prompt = prompt.toLowerCase().replace(timeRegex, "").trim().replace("  ", " ");
             let start = DateTime.fromObject({day, year, month, hour: hourStart, minute: minStart}, {zone: time_zone});
-            let end = DateTime.fromObject({day, year, month, hour: hourEnd, minute: minEnd}, {zone: time_zone});
+
+            if (daySpan > 1) {
+                day = (parseInt(day) + daySpan).toString();
+            }
+             let end = DateTime.fromObject({day, year, month, hour: hourEnd, minute: minEnd}, {zone: time_zone});
 
             let body = {
                 summary: prompt,
@@ -206,7 +187,7 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
             // No time means I just make it a whole day thing.
             let date = `${year}-${month}-${day}`;
             let start = DateTime.fromISO(date).toISODate();
-            let end = DateTime.fromISO(date).plus({days: 1}).toISODate(); 
+            let end = DateTime.fromISO(date).plus({days: daySpan}).toISODate(); 
 
             let body = {
                 summary: prompt,
@@ -230,3 +211,29 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
 function setMeredian(time) {
     return time + 12; 
 }
+
+function formatDate(day, month, year) {
+    day = formatMonthAndDay(day);
+    month = formatMonthAndDay(month);
+    year = formatYear(year);
+
+    return [day, month, year];
+}
+
+function formatMonthAndDay(time) {
+    if (time.toString().length == 1) {
+        return `0${time}`;
+    } 
+
+    return time;
+}
+
+function formatYear(year) {
+    if (year.toString().length == 2) {
+        year = `20${year}`;
+    }
+
+    return year;
+}
+
+ 
