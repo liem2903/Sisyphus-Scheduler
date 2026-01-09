@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { api } from "../interceptor/interceptor";
 import Spinner from "./component/Spinner";
+import Events from "./Events";
+import FriendChecker from "./component/FriendChecker";
 
 type Event = {
     eventName: string,
@@ -42,13 +44,24 @@ function Home () {
     }, [])
 
     return (
-        <>
-            {
+        <>  
+            {   
                 loading == true ? <Spinner/> : events.length == 0 ? 
-                <div className="w-full text-violet-400 font-bold h-160 flex justify-center items-center text-2xl"> No events on today </div> : <div className="grid grid-cols-2 w-full min-h-60 pl-20 mt-12 gap-10">
-                    {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration}/> </div>))} 
-                </div>
-            }
+                    <div className="w-full text-violet-400 font-bold h-160 flex justify-center items-center text-2xl">
+                         No events on today 
+                    </div> : 
+                    <div className="flex">
+                        <div className="flex flex-col w-fit">
+                            <Events/>
+                            <div className="grid grid-cols-2 w-300 min-h-140 pl-20 mt-12 gap-10 bg-[#F1EDFF] border-4 border-violet-200  ml-19 pt-5 overflow-hidden">
+                                {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration} day="Today"/> 
+                                </div>))} 
+                            </div>
+                        </div>
+                        <FriendChecker/> 
+                    </div>
+
+            }   
         </>
      )
 }

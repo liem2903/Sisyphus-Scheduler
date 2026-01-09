@@ -16,7 +16,6 @@ import { DateTime } from 'luxon';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
-import { start } from "repl";
 dotenv.config();
 
 export function getGoogleToken(code) {
@@ -201,13 +200,12 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
 
             createEventData(access_token, body, prompt);
         }
-
         return 
     } catch (err) {
         throw new Error(err.message);
     }
 }
-// HELPER 
+
 function setMeredian(time) {
     return time + 12; 
 }
