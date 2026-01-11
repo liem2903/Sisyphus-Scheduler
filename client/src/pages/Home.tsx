@@ -54,7 +54,7 @@ function Home () {
                             No events on today 
                             </div> : 
                             <div className="flex flex-col w-fit"> 
-                                <div className="grid grid-cols-2 w-300 min-h-140 pl-20 mt-12 gap-10 bg-[#F1EDFF] border-4 border-violet-200  ml-19 pt-5 overflow-hidden">
+                                <div className="grid grid-cols-2 w-300 min-h-140 pl-20 mt-12 gap-10 bg-[#F1EDFF] border-4 border-violet-200  ml-19 pt-5 overflow-y-scroll no-scrollbar">
                                 {events.map((e, index) => (<div className={index % 2 ? "mt-10" : ""}> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration} day="Today"/> 
                                 </div>))} 
                                 </div>
