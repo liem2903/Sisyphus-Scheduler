@@ -1,5 +1,5 @@
 
-import { getFriendsData, postFriendRequestData, setFriendRequestData } from '../data_access/friendRepository.js'
+import { getFriendsData, postFriendRequestData, setFriendRequestData, getFriendRequestsData } from '../data_access/friendRepository.js'
 
 export function getFriendsBusiness(user_id) {
     try {
@@ -20,6 +20,14 @@ export function postFriendRequestBusiness(user_id, send_id) {
 export function setFriendRequestBusiness(user_id, send_id) {
     try {
         return setFriendRequestData(user_id, send_id);
+    } catch (err) {
+        throw new Error("Error in data-base");
+    }
+}
+
+export function getFriendRequestsBusiness(user_id) {
+    try {
+        return getFriendRequestsData(user_id, send_id);
     } catch (err) {
         throw new Error("Error in data-base");
     }

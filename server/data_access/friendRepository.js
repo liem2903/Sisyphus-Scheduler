@@ -26,3 +26,12 @@ export function setFriendRequestData(status, user_id, send_id) {
         console.log(err.message());
     }
 }
+
+export function getFriendRequestsData(user_id) {
+    try {
+        let data = pool.query(`SELECT * FROM public.friend WHERE to_user = $1`, [user_id]);
+        return data[0];
+    } catch (err) {
+        console.log(err.message());
+    }
+}
