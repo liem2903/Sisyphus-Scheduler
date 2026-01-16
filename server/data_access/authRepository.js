@@ -119,6 +119,8 @@ export async function rotateRefreshTokenData(refresh_token, user_id, expires_at)
 
 export async function logoutData(refresh_token) {
     try {        
+        console.log(refresh_token);
+        
         await pool.query(
             `DELETE FROM public.refresh_tokens WHERE refresh_token = $1`, [refresh_token]
         )

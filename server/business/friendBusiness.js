@@ -27,7 +27,7 @@ export function setFriendRequestBusiness(user_id, send_id) {
 
 export function getFriendRequestsBusiness(user_id) {
     try {
-        return getFriendRequestsData(user_id, send_id);
+        return getFriendRequestsData(user_id);
     } catch (err) {
         throw new Error("Error in data-base");
     }

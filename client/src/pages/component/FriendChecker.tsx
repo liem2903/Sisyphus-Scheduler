@@ -4,25 +4,21 @@ import FriendBlock from "./FriendBlock";
 import RequestsButton from "./RequestsButton";
 import { useEffect, useState } from 'react';
 
-type FriendRequest = {
-    name: string,
-    id: string
-}
-
 function FriendChecker() {
-    const [ friendRequests, setFriendRequests ] = useState<FriendRequest[]>([])
+    const [ friendRequests, setFriendRequests ] = useState([]);
 
     useEffect(() => {
-        const getNotifications = async () => {
-            // TBD TBD
-            // const requests = await api.get('/friend/get-friend-requests');
-            // let data = requests.data.data;
+        const getNotifications = async () => { 
+            const requests = await api.get('/friend/get-friend-requests');
+            let data = requests.data.data;
+            console.log(data);
+            console.log("different");
+            setFriendRequests(data);
+            console.log(friendRequests);
         }
         
-        getNotifications
+        getNotifications();
     }, [])
-
-
 
     return <>
         <div className="flex-1 flex justify-center">
@@ -32,7 +28,7 @@ function FriendChecker() {
                         Friends 
                     </div>
                     <div className="flex-1 flex justify-center gap-x-2"> 
-                        <RequestsButton notifications={1}/>
+                        <RequestsButton notifications={friendRequests.length}/>
                         <AddFriendButton/>
                     </div>
                 </div>

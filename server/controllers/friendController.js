@@ -14,7 +14,7 @@ export async function getFriends(req, res) {
 
 export async function getFriendRequests(req, res) {
     try {
-        let user_id = req.userId;
+        let user_id = req.user.user_id;     
         let requests = await getFriendRequestsBusiness(user_id);
         res.status(200).json({status: true, data: requests});
     } catch (err) {
