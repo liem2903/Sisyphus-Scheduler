@@ -1,20 +1,23 @@
-import { api } from "../../interceptor/interceptor";
+import { api } from "../../../interceptor/interceptor";
 import AddFriendButton from "./AddFriendButton";
 import FriendBlock from "./FriendBlock";
 import RequestsButton from "./RequestsButton";
 import { useEffect, useState } from 'react';
+import type { friendRequest } from "../../../types/types";
 
 function FriendChecker() {
-    const [ friendRequests, setFriendRequests ] = useState([]);
+    const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
 
     useEffect(() => {
-        const getNotifications = async () => { 
-            const requests = await api.get('/friend/get-friend-requests');
-            let data = requests.data.data;
+        const getNotifications = async () => {             
+            const requests = await api.get('/friend/get-friend-requests', {withCredentials: true});
+            let data: friendRequest[] = requests.data.data;
+            let friendRequests: friendRequest[] = []
+
             console.log(data);
-            console.log("different");
-            setFriendRequests(data);
-            console.log(friendRequests);
+            
+            data.map(req => friendRequests.push(req));
+            setFriendRequests(friendRequests);
         }
         
         getNotifications();
@@ -28,7 +31,7 @@ function FriendChecker() {
                         Friends 
                     </div>
                     <div className="flex-1 flex justify-center gap-x-2"> 
-                        <RequestsButton notifications={friendRequests.length}/>
+                        <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
                         <AddFriendButton/>
                     </div>
                 </div>

@@ -19,9 +19,9 @@ export async function postFriendRequestData(user_id, send_id) {
     }
 }
 
-export async function setFriendRequestData(status, user_id, send_id) {
+export async function setFriendRequestData(status, id) {
     try {
-        pool.query(`UPDATE public.friend_requests SET status = $1 WHERE user_id = $2 AND send_id = $3`, [status, user_id, send_id]);
+        pool.query(`UPDATE public.friend_requests SET status = $1 WHERE id = $2`, [status, id]);
     } catch (err) {
         console.log(err.message());
     }
@@ -29,9 +29,25 @@ export async function setFriendRequestData(status, user_id, send_id) {
 
 export async function getFriendRequestsData(user_id) {
     try {       
-        let data = await pool.query(`SELECT * FROM public.friend_requests WHERE to_user = $1`, [user_id]);
+        let data = await pool.query(`SELECT * FROM public.friend_requests WHERE to_user = $1 AND status = $2`, [user_id, "Pending"]);
 
         return data.rows;
+    } catch (err) {
+        console.log(err.message());
+    }
+}
+
+export async function deleteFriendRequestData(id) {
+    try {
+        await pool.query(`DELETE FROM public.friend_requests WHERE id = $1`, [id]);
+    } catch (err) {
+        console.log(err.message());
+    }
+}
+
+export async function createFriend(friend_id, id) {
+    try {
+        await pool.query(`INSERT INTO public.friend_requests (user_id, friend_id) VALUE ($1, $2)`, [id, friend_id]);
     } catch (err) {
         console.log(err.message());
     }

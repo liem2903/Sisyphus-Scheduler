@@ -1,8 +1,8 @@
-import { Google } from '../helpers/loginHelper';
+import { Google } from '../../helpers/loginHelper';
 import { useEffect, useState  } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../context/useAuth';
-import Spinner from './component/Spinner'
+import useAuth from '../../context/useAuth';
+import Spinner from '../component/global_components/Spinner'
 
 function Login () {
     const navigate = useNavigate();

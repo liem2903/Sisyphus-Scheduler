@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from '../src/pages/Home';
-import ProtectedRoute from '../src/pages/ProtectedRoute';
+import Home from '../src/pages/main_pages/Home';
+import ProtectedRoute from '../src/pages/component/global_components/ProtectedRoute';
 
 function ProtectedRoutes() {
     return (

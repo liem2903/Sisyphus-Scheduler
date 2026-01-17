@@ -1,10 +1,10 @@
-import Event from "./component/Event";
+import Event from "../component/home_components/Event";
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
-import { api } from "../interceptor/interceptor";
-import Spinner from "./component/Spinner";
+import { api } from "../../interceptor/interceptor";
+import Spinner from "../component/global_components/Spinner";
 import Events from "./Events";
-import FriendChecker from "./component/FriendChecker";
+import FriendChecker from "../component/home_components/FriendChecker";
 
 type Event = {
     eventName: string,
@@ -20,7 +20,7 @@ function Home () {
     useEffect(() => {
         const getAccess = async () => {
             setLoad(true);
-            let res = await api.get('/auth/getCalender');
+            let res = await api.get('/auth/getCalender', {withCredentials: true});
             let calenderData = res.data.data;
             let resEvents: Event[] = []
             

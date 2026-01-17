@@ -56,7 +56,6 @@ export async function createRefreshToken(req, res) {
         const refresh_token = await createRefreshTokenLogic();
         // Create cookie for refresh_token and store it.
         await storeRefreshToken(refresh_token.code, user_id, refresh_token.expiresAt);
-        console.log(`CODE IS ${refresh_token.code}`)
         // Now create a cookie.
         res.cookie("refresh_token", refresh_token.code, {
             httpOnly: true,
@@ -97,9 +96,10 @@ export async function createAccessToken(req, res) {
 export async function refresh(req, res) {
     try {
         let user_id = req.userId;        
+
         const refresh_token = await createRefreshTokenLogic();
         await rotateRefreshToken(refresh_token.code, user_id, refresh_token.expiresAt);
-         
+        
         res.cookie("refresh_token", refresh_token.code, {
             httpOnly: true,
             secure: false,
@@ -117,7 +117,7 @@ export async function refresh(req, res) {
             path:  "/",
             maxAge: 30 * 24 * 60 * 60 * 1000
         })
-        
+
         res.status(200).json({success: true});
     } catch (err) {
         console.log(err.message);
@@ -129,6 +129,7 @@ export async function checkUser(req, res) {
     try {        
         return res.status(200).json({success: true});
     } catch (err) {
+        console.log(res);
         return res.status(400).json({success: false});
     }
 }

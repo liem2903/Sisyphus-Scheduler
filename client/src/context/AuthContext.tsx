@@ -21,7 +21,9 @@ export function AuthProvider({children}: {children: ReactNode}) {
                 await api.get('/auth/me');
                 setStatus("authenticated");
             } catch (err: any) {
-                if (err.response.status == 401) {                   
+                if (err.response.status == 401) {        
+                    console.log("FAILS SO HERE'S THE ERROR IN AUTH CONTEXT");
+                    console.log(err.response);
                     setStatus("unauthenticated");
                 }              
             }

@@ -98,6 +98,7 @@ export async function checkRefreshToken(refresh_token) {
         const data = await pool.query(
             `SELECT user_id FROM public.refresh_tokens WHERE refresh_token = $1`, [refresh_token]
         )
+        
 
         return data.rows[0].user_id;
     } catch (err) {
@@ -118,9 +119,7 @@ export async function rotateRefreshTokenData(refresh_token, user_id, expires_at)
 }
 
 export async function logoutData(refresh_token) {
-    try {        
-        console.log(refresh_token);
-        
+    try {                
         await pool.query(
             `DELETE FROM public.refresh_tokens WHERE refresh_token = $1`, [refresh_token]
         )

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import SearchBar from './component/SearchBar';
-import { api } from '../interceptor/interceptor';
+import SearchBar from '../component/home_components/SearchBar';
+import { api } from '../../interceptor/interceptor';
 
 type prop = {
     reload: boolean,

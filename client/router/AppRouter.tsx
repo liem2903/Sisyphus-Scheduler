@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
-import Login from '../src/pages/Login';
+import Login from '../src/pages/main_pages/Login';
 import ProtectedRoutes from './ProtectedRoutes';
-import Loading from '../src/pages/Loading';
+import Loading from '../src/pages/main_pages/Loading';
 
 function AppRouter () {
     return (

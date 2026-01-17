@@ -25,7 +25,7 @@ export function authMiddleware(req, res, next) {
 export async function refreshMiddleware(req, res, next) {
     const token = req.cookies.refresh_token;
 
-    if (!token) {       
+    if (!token) {      
         return res.status(401).json({error: "Log out"});
     }
  
@@ -44,16 +44,10 @@ export async function googleAuthMiddleware(req, res, next) {
     const { expiry_time, time_zone } = await redis.get(`google:access:${user_id}`);
 
     if (Date.now() > expiry_time) {
-        console.log(`the user id is this ${user_id}`);
         const refresh_token = await getRefreshToken(user_id);
-
-        console.log(refresh_token);
     
         const { access_token, expires_in } = await refreshAccessToken(refresh_token);
         const expiry_time = Date.now() + expires_in * 1000;
-
-        console.log(`My Access Token: ${access_token}`);
-        console.log(`Expires in: ${expires_in}`);
 
         await redis.set(`google:access:${user_id}`, { access_token, expiry_time, time_zone })
     } 

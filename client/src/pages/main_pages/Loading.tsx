@@ -1,8 +1,8 @@
 import { useEffect, useRef} from 'react';
-import axios from 'axios';
-import Spinner from './component/Spinner';
-import useAuth from '../context/useAuth';
+import Spinner from '../component/global_components/Spinner';
+import useAuth from '../../context/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../interceptor/interceptor';
 
 function Loading() {
     let hasRun = useRef<boolean>(false);
@@ -15,12 +15,12 @@ function Loading() {
             hasRun.current = true;
 
             const code = new URLSearchParams(location.search).get("code");
-            const googleData = await axios.get('/api/auth/get-google-details', {params: {code}});
+            const googleData = await api.get('/auth/get-google-details', {params: {code}});
             const user_id = googleData.data.data;            
             // Create refresh token and post it - and make a cookie of it.
-            await axios.post('/api/auth/create-refresh-token', {user_id});
+            await api.post('/auth/create-refresh-token', {user_id});
             // Create access token and put it in cookie.
-            await axios.post('/api/auth/create-access-token', {user_id});
+            await api.post('/auth/create-access-token', {user_id});
             setStatus('authenticated');
             navigate('/home');
         }

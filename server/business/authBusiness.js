@@ -40,7 +40,6 @@ export async function storeRefreshGoogle(user_id, google_token) {
 }
  
 export async function createRefreshTokenLogic() {
-    console.log("CREATE REFRESH TOKEN");
     let code = crypto.randomBytes(64).toString("hex");
 
     let expiresAt = new Date();
@@ -68,7 +67,7 @@ export async function rotateRefreshToken(refresh_token, user_id, expires_at) {
 
 export async function createAccessTokenBusiness(user_id) {
     const user = {user_id};
-    return jwt.sign(user, process.env.ACCESS_TOKEN_ENCRYPTION_KEY, {expiresIn: "5",});
+    return jwt.sign(user, process.env.ACCESS_TOKEN_ENCRYPTION_KEY, {expiresIn: "1m",});
 }
 
 export async function logoutBusiness(refresh_token) {
@@ -83,9 +82,10 @@ export async function getCalenderBusiness(access_token, time_zone) {
     try {
         const time_min = DateTime.now().setZone(time_zone).startOf("day").toUTC().toISO();
         const time_max = DateTime.now().setZone(time_zone).plus({days: 1}).startOf("day").toUTC().toISO();
-
+        console.log("ENTERS BUSINES");
         return getCalenderData(access_token, time_min, time_max);
     } catch (err) {
+        console.log("Fails in getCalender BUsiness")
         throw new Error(err.message());
     }
 }
