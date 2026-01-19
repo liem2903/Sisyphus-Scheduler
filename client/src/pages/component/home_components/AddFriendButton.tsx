@@ -1,10 +1,35 @@
 import { UserPlus } from 'lucide-react';
+import { useState } from 'react'; 
 
 function AddFriendButton() {
+    const [ popup, setPopup ] = useState(false);
     return <>
-        <div className="rounded-full w-1/4 flex justify-center items-center hover:bg-amber-50 hover:cursor-pointer">
-            <UserPlus size="15"/>
+        <div className="w-1/4 flex justify-center items-center relative" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
+            <div className="rounded-full border-2 w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50">
+                <UserPlus size="15"/>
+
+                {popup && 
+                <div className="absolute top-[1vh] w-[13.5vw] overflow-scroll z-100 no-scrollbar right-1 bg-[#F1EDFF] h-[30vh] pt-[1vh] flex-col flex items-center">
+                    <div className='flex justify-evenly items-center w-7/8'> <div className= 'h-[0.25vh] border-[0.1vh] w-[2vw]'> </div> <div className='text-black font-bold'> Add Friend </div>  <div className='h-[0.25vh] border-[0.1vh] w-[2vw]'> </div> </div>
+                    <div className='bg-violet-300 w-7/8 border-[0.1vh] border-violet-500 rounded-sm h-[13vh] flex text-center pt-[2vh] flex-col shadow-xs'> 
+                        <div className='text-xs text-violet-50'> To add someone to your friend list enter their friend code below </div>
+                        <div className="w-full justify-center pt-[1vh] h-1/2"> <input type="search" placeholder="0A0C D2E3" className='w-7/8 h-full border-2 border-violet-500 text-center'/> </div>
+                    </div>
+                    
+                    <div className='flex justify-evenly items-center w-7/8 mt-[1vh]'> <div className='h-[0.25vh] border-[0.1vh] w-[1.28vw]'> </div> <div className='text-black font-bold'> My Friend Code </div>  <div className='h-[0.25vh] border-[0.1vh] w-[1.28vw]'> </div> </div>
+                    <div className='bg-violet-300 w-7/8 border-[0.1vh] border-violet-500 rounded-sm h-[7vh] shadow-xs'> 
+                        <div className="text-xs pl-[1vw] pt-[0.5vh]"> 
+                            Friend Code: 
+                        </div> 
+                        <div>
+                            <div className='pl-[1vw] text-2xl text-violet-50'> 0000 0000 </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
         </div>
+         
     </>
 }
 

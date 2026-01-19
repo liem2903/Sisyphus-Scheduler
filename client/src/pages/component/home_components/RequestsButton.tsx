@@ -37,7 +37,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
 
     return <>
         <div className="w-1/4 flex justify-center items-center relative" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
-            <div className="border-2 rounded-full w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50 relative">
+            <div className="border-2 rounded-full w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50">
                 <Inbox size="15"/> 
                 <div className="absolute w-[0.75vw] h-[1.5vh] rounded-full bottom-[1.2vh] left-[0.7vw] bg-red-200 flex justify-center items-center text-xs"> {friendRequests.length} </div>
                 {popUp && 
@@ -51,7 +51,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                                 <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="15" color={crossHovered ? "red" : "black"}/> </div>
                                 <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="15" color={tickHovered ? "green" : "black"}/> </div> 
                             </div>    
-                         </div>) : <div className="font-bold h-full text-xs flex justify-center ml-[1vw]"> There are no pending friend requests </div>}
+                         </div>) : <div className="font-bold h-full text-xs flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
                 </div>}
             </div>
         </div>      
