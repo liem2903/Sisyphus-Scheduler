@@ -42,7 +42,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                 <div className="absolute w-[0.75vw] h-[1.5vh] rounded-full bottom-[1.2vh] left-[0.7vw] bg-red-200 flex justify-center items-center text-xs"> {friendRequests.length} </div>
                 {popUp && 
                 <div className="absolute top-[1.25vw] w-[10.5vw] overflow-scroll z-100 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
-                    {friendRequests.map((requests) => 
+                    {friendRequests.length != 0 ? friendRequests.map((requests) => 
                         <div className="border-2 bg-violet-300 w-6/7 flex items-center justify-evenly gap-x-[1vw]"> 
                             <div className="pr-[0.5vw]">
                                 {requests.requester_name}
@@ -51,7 +51,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                                 <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="15" color={crossHovered ? "red" : "black"}/> </div>
                                 <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="15" color={tickHovered ? "green" : "black"}/> </div> 
                             </div>    
-                         </div>)}
+                         </div>) : <div className="font-bold h-full text-xs flex justify-center ml-[1vw]"> There are no pending friend requests </div>}
                 </div>}
             </div>
         </div>      

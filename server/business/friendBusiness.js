@@ -2,9 +2,22 @@
 import { getFriendsData, postFriendRequestData, setFriendRequestData, getFriendRequestsData, deleteFriendRequestData, createFriend } from '../data_access/friendRepository.js'
 import { getUserName } from '../data_access/userRepository.js';
 
-export function getFriendsBusiness(user_id) {
-    try {
-        return getFriendsData(user_id)
+export async function getFriendsBusiness(user_id) {
+    try {        
+        const id = await getFriendsData(user_id);
+
+        const friendNames = await Promise.all(id.map(async (user) => {
+            let friends = await getUserName(user.friend_id);
+
+            return {
+                name: friends.name,
+                id: user.friend_id,
+            }
+        }));
+
+        console.log(friendNames);
+
+        return friendNames;
     } catch (err) {
         throw new Error("Error in data-base");
     }
@@ -20,10 +33,6 @@ export function postFriendRequestBusiness(user_id, send_id) {
 
 export function setFriendRequestBusiness(status, id, friend, current_user) {
     try {
-        console.log(status);
-        console.log(id);
-        console.log(friend);
-        console.log(current_user);
 
         setFriendRequestData(status, id);
 

@@ -5,3 +5,8 @@ export type friendRequest = {
     id: string,
     requester_name: string,
 }
+
+export type friends = {
+    name: string,
+    id: string,
+}

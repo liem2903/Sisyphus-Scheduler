@@ -4,7 +4,7 @@ dotenv.config();
 
 export async function getFriends(req, res) {
     try {
-        let user_id = req.userId;
+        let user_id = req.user.user_id;
         let friends = await getFriendsBusiness(user_id);
         res.status(200).json({status: true, data: friends})
     } catch (err) {

@@ -4,9 +4,10 @@ import pool from '../data.js';
 
 export async function getFriendsData(user_id) {
     try {
-        let data = pool.query('SELECT friend_id FROM public.friendships WHERE user_id = $1', [user_id]);
-        return data[0];
+        let data = await pool.query('SELECT friend_id FROM public.friendships WHERE user_id = $1', [user_id]);
+        return data.rows;
     } catch (err) {
+        console.log("ERROR??");
         console.log(err.message());
     }
 }

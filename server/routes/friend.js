@@ -8,8 +8,6 @@ router.get('/get-friends', authMiddleware, getFriends);
 // Get shared availabilities between you and a friend.
 // router.get('/get-mutual-availabilities', authMiddleware, googleAuthMiddleware, getMutualAvailabilities);
 router.get('/get-friend-requests', authMiddleware, getFriendRequests);
-
-
 // Post Friend Request --> Pending
 router.post('/post-friend-request', authMiddleware, postFriendRequest);
 // Decline Friend Request
