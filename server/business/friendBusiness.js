@@ -1,5 +1,5 @@
 
-import { getFriendsData, postFriendRequestData, setFriendRequestData, getFriendRequestsData, deleteFriendRequestData, createFriend } from '../data_access/friendRepository.js'
+import { getFriendsData, postFriendRequestData, setFriendRequestData, getFriendRequestsData, deleteFriendRequestData, createFriend, isFriendedData } from '../data_access/friendRepository.js'
 import { getUserName } from '../data_access/userRepository.js';
 
 export async function getFriendsBusiness(user_id) {
@@ -15,20 +15,20 @@ export async function getFriendsBusiness(user_id) {
             }
         }));
 
-        console.log(friendNames);
-
         return friendNames;
     } catch (err) {
         throw new Error("Error in data-base");
     }
 }
 
-export function postFriendRequestBusiness(user_id, code) {
-    try {
-        return postFriendRequestData(user_id, code);
-    } catch (err) {
-        throw new Error("Not a valid code");
+export async function postFriendRequestBusiness(user_id, code) {
+    let isFriended = await isFriendedData(user_id, code);
+
+    if (isFriended.exists) {
+        throw new Error(isFriended.message);
     }
+
+    return postFriendRequestData(user_id, code);
 }
 
 export function setFriendRequestBusiness(status, id, friend, current_user) {
@@ -38,6 +38,7 @@ export function setFriendRequestBusiness(status, id, friend, current_user) {
 
         if (status == "Accepted") {
             createFriend(friend, current_user);
+            createFriend(current_user, friend)
         }
     } catch (err) {
         throw new Error("Error in data-base");

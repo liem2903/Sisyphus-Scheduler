@@ -27,10 +27,12 @@ export async function postFriendRequest(req, res) {
         let user_id = req.user.user_id;
         let { code } = req.body;
 
-        postFriendRequestBusiness(user_id, code);
+        // Need to check that the friend request doesn't already exist and that the friend isn't already friended --> ADD THIS. THen add error flow down. learn about this then we good.   
+
+        await postFriendRequestBusiness(user_id, code);
         res.status(200).json({status: true})
     } catch (err) {
-        res.status(400).json({status: false})
+        res.status(400).json({status: false, error: err.message})
     }
 }
 
