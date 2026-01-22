@@ -63,10 +63,15 @@ export async function createFriend(friend_id, id) {
 export async function isFriendedData(user_id, code) {
     try {
         let friend_id = (await pool.query(`SELECT id FROM public.users WHERE friend_code = $1`, [code]));
-        console.log(friend_id.rows[0].id);
 
+         if (friend_id.rowCount == 0) {
+            return {
+                exists: true,
+                message: "Friend code does not exist."
+            };
+        } 
         // Checks if friend request exists as accepted or pending.
-        let checkRequest = await pool.query(`SELECT * FROM public.friend_requests WHERE (status = $1 OR status = $2) AND from_user = $3 AND to_user = $4`, ["Accepted", "Pending", user_id, friend_id.rows[0].id])
+        let checkRequest = await pool.query(`SELECT * FROM public.friend_requests WHERE (status = $1 OR status = $2) AND from_user = $3 AND to_user = $4`, ["Accepted", "Pending", user_id, friend_id.rows[0].id]);
 
         if (checkRequest.rowCount > 0) {
             return {
@@ -74,9 +79,9 @@ export async function isFriendedData(user_id, code) {
                 message: "Already sent (or already friends)."
             };
         } else {
-            return false;
+            return {exists: false};
         }
     } catch (err) {
-
+        console.log(err.message);
     }
 }
