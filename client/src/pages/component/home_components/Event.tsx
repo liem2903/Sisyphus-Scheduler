@@ -12,8 +12,7 @@ function Event ({startTime, action, duration, day}: Prop) {
                 <div className="flex flex-col items-center">
                     <div> {parseInt(startTime) ? startTime : "Today"} </div> 
                     {parseInt(startTime) ? (<div className="text-lg font-light"> {day} </div>) : ""}
-                </div>
-                 
+                </div>        
             </div>
             <div className="h-15 ml-5 flex flex-col justify-between">
                 <div className="font-bold text-xl"> {action} </div> 

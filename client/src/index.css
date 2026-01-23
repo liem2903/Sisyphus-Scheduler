@@ -10,6 +10,13 @@
   }
 }
 
+@layer utilities {
+  .hide-back {
+    backface-visibility: hidden;
+  }
+
+}
+
 * {
   user-select: none;
 }

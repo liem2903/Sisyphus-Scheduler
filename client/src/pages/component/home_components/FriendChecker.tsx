@@ -48,7 +48,7 @@ function FriendChecker() {
                     </div>
                 }
 
-                {loading ? <div></div> : friendlist.map((val) => <FriendBlock name={val.name} last_seen={"10 days ago"}/>)}
+                {loading ? <div></div> : friendlist.map((val) =>  <FriendBlock name={val.name} last_seen={"10 days ago"}/>)}
             </div>
         </div>
     </>
