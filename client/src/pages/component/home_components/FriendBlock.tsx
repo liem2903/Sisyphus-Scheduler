@@ -1,16 +1,16 @@
 // Changes colour based on how long ago.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FlipButton from './FlipButton';
 import { api } from '../../../interceptor/interceptor';
 
 type prop = {
-    name: string,
     last_seen: string,
     id: string,
     changed_name: string,
+    status: string,
 }
 
-function FriendBlock({name, last_seen, id, changed_name}: prop) {
+function FriendBlock({last_seen, id, changed_name, status}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -43,12 +43,12 @@ function FriendBlock({name, last_seen, id, changed_name}: prop) {
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver}/>
                         <div className="text-xl">
-                            {name}
+                            {placeHolderName}
                         </div>  
-                        <div className="bg-red-500 min-w-[1.25vw] min-h-[2.5vh] rounded-full border-red-200 border-2 absolute right-1 top-0.5"/> 
+                        <div className={["min-w-[1.25vw] min-h-[2.5vh] rounded-full absolute right-1 top-0.5", status === "Green" && "bg-green-400", status === "Orange" && "bg-orange-400", status === "Red" && "bg-red-400"].join(" ")}/> 
                     </div>
                     <div>
-                        Last Seen {last_seen} 
+                        Last Seen: {last_seen}
                     </div>
                 </div>  
 

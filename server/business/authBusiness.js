@@ -182,7 +182,7 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
                 }
             };
 
-            createEventData(access_token, body, prompt);
+            createEventData(access_token, body, prompt.trim());
         } else {
             // No time means I just make it a whole day thing.
             let date = `${year}-${month}-${day}`;
@@ -199,7 +199,7 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
                 }
             };
 
-            createEventData(access_token, body, prompt);
+            createEventData(access_token, body, prompt.trim());
         }
         return 
     } catch (err) {
@@ -209,7 +209,6 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
 
 export function getFriendCodeBusiness(user_id) {
     try {
-        console.log("IT WORKS");
         return getFriendCodeRepository(user_id);
     } catch (err) {
         throw new Error(err.message);

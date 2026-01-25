@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import pool from '../data.js';
+import axios from 'axios';
 
 export async function getFriendsData(user_id) {
     try {
@@ -117,5 +118,35 @@ export async function checkUniqueName(user_id, name) {
     } catch (err) {
         console.log(err.message);
         console.log(err.status);
+    }
+}
+
+export async function getLastSeen(name, access_token, time_max) {
+    try {
+        const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events");
+        url.searchParams.set("q", name.toLowerCase());
+        url.searchParams.set("timeMax", time_max);
+        // url.searchParams.set("singleEvents", true);
+        // url.searchParams.set("orderBy", startTime);
+         
+        let data = await axios.get(url.toString(), {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+        });
+
+        const event = data.data.items[data.data.items.length - 1];
+        const startStr = event?.start?.dateTime ?? event?.start?.date;
+        
+        if (!startStr) {
+            return {
+                status: false
+            } 
+        }
+
+        return {status: true, start: startStr} ?? {status: false};
+    } catch (err) {
+        console.log(err.response?.status);
+        console.log(err.response?.data);
     }
 }

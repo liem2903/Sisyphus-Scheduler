@@ -3,7 +3,7 @@ import { authMiddleware, googleAuthMiddleware } from '../middleware/middleware.j
 import { getFriends, postFriendRequest, declineFriendRequest, acceptFriendRequest, getFriendRequests, changeFriendName} from '../controllers/friendController.js';
 const router = express.Router()
 
-router.get('/get-friends', authMiddleware, getFriends);
+router.get('/get-friends', authMiddleware, googleAuthMiddleware, getFriends);
 // router.get('/get-mutuals', authMiddleware, getMutuals);
 // Get shared availabilities between you and a friend.
 // router.get('/get-mutual-availabilities', authMiddleware, googleAuthMiddleware, getMutualAvailabilities);

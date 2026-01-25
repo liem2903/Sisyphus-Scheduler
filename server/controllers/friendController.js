@@ -5,7 +5,10 @@ dotenv.config();
 export async function getFriends(req, res) {
     try {
         let user_id = req.user.user_id;
-        let friends = await getFriendsBusiness(user_id);
+        let google_id = req.access_token;     
+        let time_zone = req.time_zone;
+
+        let friends = await getFriendsBusiness(user_id, google_id, time_zone);
         res.status(200).json({status: true, data: friends})
     } catch (err) {
         res.status(400).json({status: false});
@@ -14,8 +17,9 @@ export async function getFriends(req, res) {
 
 export async function getFriendRequests(req, res) {
     try {
-        let user_id = req.user.user_id;             
-        let requests = await getFriendRequestsBusiness(user_id);
+        let user_id = req.user.user_id;        
+        let requests = await getFriendRequests(user_id);
+
         res.status(200).json({status: true, data: requests});
     } catch (err) {
         res.status(400).json({status: false})
@@ -59,7 +63,6 @@ export async function changeFriendName(req, res) {
     try {
         let user_id = req.user.user_id;
         const { id, name } = req.body;
-
         await changeFriendNameBusiness(user_id, id, name);
 
         res.status(200).json({status: true})

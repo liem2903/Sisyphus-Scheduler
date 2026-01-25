@@ -10,4 +10,6 @@ export type friends = {
     name: string,
     id: string,
     changed_name: string,
+    last_seen: string,
+    status: string,
 }
