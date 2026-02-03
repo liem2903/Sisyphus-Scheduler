@@ -34,7 +34,7 @@ function FriendChecker() {
     }, [])
 
     return <>
-        <div className="flex-1 flex justify-center">
+        <div className="flex justify-center w-[30vw]">
             <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 overflow-y-scroll no-scrollbar shadow h-[80vh] flex flex-col gap-5 pt-3">
                 {loading ? <Spinner/> : 
                     <div className="flex">
