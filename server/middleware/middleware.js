@@ -44,10 +44,12 @@ export async function googleAuthMiddleware(req, res, next) {
     const { expiry_time, time_zone } = await redis.get(`google:access:${user_id}`);
 
 
-    if (Date.now() > expiry_time) {
+    if (Date.now() >= expiry_time) {
         const refresh_token = await getRefreshToken(user_id);
     
         const { access_token, expires_in } = await refreshAccessToken(refresh_token);
+        console.log(`${access_token} hello`);
+
         const expiry_time = Date.now() + expires_in * 1000;
         if (access_token) {
             await redis.set(`google:access:${user_id}`, { access_token, expiry_time, time_zone })

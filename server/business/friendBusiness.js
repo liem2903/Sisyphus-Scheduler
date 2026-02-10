@@ -160,27 +160,19 @@ export async function changeFriendNameBusiness(user_id, id, name) {
 export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id) {
     try {
         // Have to think about what defines an available time --> I am probs gonna say two hours of free time.
-        console.log("1");
         isFriends(my_id, friend_id); 
 
          // Maybe can class into WHOLE DAY FREE vs like not whole day.
         const { expiry_time, time_zone } = await redis.get(`google:access:${friend_id}`);
-        console.log("2");
 
-        if (Date.now() > expiry_time) {
+        if (Date.now() >= expiry_time) {
             const refresh_token = await getRefreshToken(friend_id);  
             
             const { access_token, expires_in } = await refreshAccessToken(refresh_token);
             const expiry_time = Date.now() + expires_in * 1000;
-
-            console.log(`${access_token} this is my refreshed access token`);
             
             await redis.set(`google:access:${friend_id}`, { access_token, expiry_time, time_zone })
-            console.log("3.3");
-
         } 
-
-        console.log("4");
 
         const { access_token } = await redis.get(`google:access:${friend_id}`);
         

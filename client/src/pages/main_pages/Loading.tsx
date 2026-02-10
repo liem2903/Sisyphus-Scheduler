@@ -15,7 +15,7 @@ function Loading() {
             hasRun.current = true;
 
             const code = new URLSearchParams(location.search).get("code");
-            const googleData = await api.get('/auth/get-google-details', {params: {code}});
+            const googleData = await api.get('/auth/get-google-details', {params: {code}, withCredentials: true });
             const user_id = googleData.data.data;            
             // Create refresh token and post it - and make a cookie of it.
             await api.post('/auth/create-refresh-token', {user_id});

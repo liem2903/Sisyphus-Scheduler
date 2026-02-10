@@ -158,8 +158,7 @@ export async function refreshAccessToken(refresh_token) {
 
         const data = await res.json();
 
-        console.log(`This is my friend's access token: ${data.access_token}`);
-        console.log(`This is the refresh token: ${refresh_token}`);
+        console.log(data);
         
         return {
             access_token: data.access_token,

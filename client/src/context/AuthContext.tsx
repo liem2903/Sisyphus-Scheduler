@@ -18,7 +18,7 @@ export function AuthProvider({children}: {children: ReactNode}) {
             hasRun.current = true; 
                         
             try {
-                await api.get('/auth/me');
+                await api.get('/auth/me', { withCredentials: true });
                 setStatus("authenticated");
             } catch (err: any) {
                 if (err.response.status == 401) {        
