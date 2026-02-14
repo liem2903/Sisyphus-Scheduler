@@ -157,7 +157,7 @@ export async function changeFriendNameBusiness(user_id, id, name) {
     return changeFriendNameRepository(user_id, id, name.trim().toLowerCase());
 }
 
-export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id) {
+export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, start_date, end_date) {
     try {
         // Have to think about what defines an available time --> I am probs gonna say two hours of free time.
         isFriends(my_id, friend_id); 
@@ -175,9 +175,12 @@ export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id) 
         } 
 
         const { access_token } = await redis.get(`google:access:${friend_id}`);
+
+        console.log(start_date);
+        console.log(end_date);
         
-        let friends_busy = await getBusyPeriods(access_token, time_zone); 
-        let my_busy = await getBusyPeriods(my_google_id, time_zone);
+        let friends_busy = await getBusyPeriods(access_token, time_zone, start_date, end_date); 
+        let my_busy = await getBusyPeriods(my_google_id, time_zone, start_date, end_date);
 
         let available = [...friends_busy, ...my_busy];
 

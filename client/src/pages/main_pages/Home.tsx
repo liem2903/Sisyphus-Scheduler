@@ -21,6 +21,9 @@ function Home () {
     const [ reload, setReload ] = useState(false);
     const [ calenderView, openCalender ] = useState(false);
     const [ busyDates, setBusyDates ] = useState<busyDates[]>([]);
+    const [ startWeek, setStartWeek ] = useState("");
+    const [ endWeek, setEndWeek ] = useState("");
+    const [ calendarId, setCalendarId ] = useState("");
 
     useEffect(() => {
         const getAccess = async () => {
@@ -49,10 +52,23 @@ function Home () {
         getAccess();
     }, [reload])
 
+    useEffect(() => {
+        const set_time = async () => {
+            const time_zone = await api.get('/user/get-timezone', {withCredentials: true});
+            const weekStart = DateTime.now().setZone(time_zone.data.data.time_zone).startOf("week").toUTC().toISO();
+            const weekEnd = DateTime.now().setZone(time_zone.data.data.time_zone).endOf("week").toUTC().toISO();
+
+            setStartWeek(weekStart ?? "");
+            setEndWeek(weekEnd ?? "");
+        }
+
+        set_time();
+    }, [])
+
     return (
         <>  
             <Portal open={calenderView}> 
-                <Calender calenderView={calenderView} openCalender={openCalender} busyDates={busyDates}/>
+                <Calender calenderView={calenderView} openCalender={openCalender} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
             </Portal>
              
             <div className="flex bg-[#18142c]">
@@ -72,7 +88,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker openCalender={openCalender} setBusyDates={setBusyDates}/> 
+                <FriendChecker openCalender={openCalender} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId}/> 
             </div>
             
         </>

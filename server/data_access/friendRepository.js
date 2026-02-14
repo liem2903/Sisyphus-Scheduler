@@ -164,13 +164,13 @@ export async function isFriends(user_id, friend_id) {
     }
 }
 
-export async function getBusyPeriods(access_token, time_zone) {
+export async function getBusyPeriods(access_token, time_zone, start_date, end_date) {
     try {
         let url = new URL('https://www.googleapis.com/calendar/v3/freeBusy');
 
         const body = {
-            timeMin: DateTime.now().setZone(time_zone),
-            timeMax: DateTime.now().setZone(time_zone).plus({days: 90}), 
+            timeMin: start_date,
+            timeMax: end_date, 
             items: [{ id: "primary" }],
         };
 

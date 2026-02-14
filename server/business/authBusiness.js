@@ -30,9 +30,9 @@ export async function getUser(google_id) {
     return getUserData(google_id);
 }
 
-export async function createUser(id, email, name) {
+export async function createUser(id, email, name, time_zone) {
     let friend_code = crypto.randomBytes(6).toString("base64url").toUpperCase();
-    return createUserData(id, email, name, friend_code)
+    return createUserData(id, email, name, friend_code, time_zone)
 }
 
 export async function storeRefreshGoogle(user_id, google_token) {

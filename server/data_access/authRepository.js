@@ -59,10 +59,10 @@ export async function getUserData(google_id) {
     }
 }
 
-export async function createUserData(google_id, email, name, friend_code) {
+export async function createUserData(google_id, email, name, friend_code, time_zone) {
     try {
         const result = await pool.query(
-            `INSERT INTO public.users (google_id, email, name, friend_code) VALUES ($1, $2, $3, $4) RETURNING id`, [google_id, email, name, friend_code]
+            `INSERT INTO public.users (google_id, email, name, friend_code, time_zone) VALUES ($1, $2, $3, $4, $5) RETURNING id`, [google_id, email, name, friend_code, time_zone]
         );
 
         return result.rows[0];

@@ -1,5 +1,5 @@
 // Changes colour based on how long ago.
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FlipButton from './FlipButton';
 import { api } from '../../../interceptor/interceptor';
 import type { busyDates } from '../../../types/types';
@@ -10,7 +10,10 @@ type prop = {
     changed_name: string,
     status: string,
     openCalender: React.Dispatch<React.SetStateAction<boolean>>,
-    setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>
+    setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
+    startWeek: String,
+    endWeek: String,
+    setCalendarId: React.Dispatch<React.SetStateAction<string>>,
 }
 // Session:
 //  1. Fix spacing issue of friend block - where it decreases in size way too much.
@@ -18,7 +21,7 @@ type prop = {
 //      b. Can not FLIP if name is currently being changed.
 
 
-function FriendBlock({last_seen, id, changed_name, status, openCalender, setBusyDates}: prop) {
+function FriendBlock({last_seen, id, changed_name, status, openCalender, setBusyDates, startWeek, endWeek, setCalendarId}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -66,10 +69,8 @@ function FriendBlock({last_seen, id, changed_name, status, openCalender, setBusy
     }
 
     const handleOpenCalender = async () => {
-        // Use the friend id - call DB and get their google refresh token. Then using that call access token end point and get one.
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id}, withCredentials: true});
-
-        console.log(taken_slots.data);
+        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id, start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        setCalendarId(id);
 
         const events = taken_slots.data.data.map((b: busyDates) => ({
             start: b.start,
@@ -78,8 +79,6 @@ function FriendBlock({last_seen, id, changed_name, status, openCalender, setBusy
             backgroundColor: "rgba(255, 0, 0, 0.4)",
             overlap: false,
         }));
-
-        console.log(events);
 
         setBusyDates(events);
         openCalender(true);

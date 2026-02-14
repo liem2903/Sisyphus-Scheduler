@@ -90,10 +90,10 @@ export async function getAvailabilities(req, res) {
         let my_id = req.user.user_id;
         let my_google_id = req.access_token;    
         
-        let { friend_id } = req.query;
+        let { friend_id, start_date, end_date } = req.query;
         
         // Pass into big boy business logic
-        let data = await getAvailabilitiesBusiness(my_id, my_google_id, friend_id);        
+        let data = await getAvailabilitiesBusiness(my_id, my_google_id, friend_id, start_date, end_date);        
         
         res.status(200).json({status: true, data});
     } catch (err) {

@@ -29,12 +29,12 @@ export async function getGoogleDetails(req, res) {
         const { access_token, expires_in, refresh_token } = await getGoogleToken(code);
         const { id, email, name } = await getGoogleData(access_token);
         let user = await getUser(id);
+        let time_zone  = await getTimezoneBusiness(access_token);     
 
         if (!user) {
-            user = await createUser(id, email, name);
+            user = await createUser(id, email, name, time_zone);
         }      
         
-        let time_zone  = await getTimezoneBusiness(access_token);        
         let expiry_time = Date.now() + expires_in * 1000;
         redis.set(`google:access:${user.id}`, {access_token, expiry_time, time_zone});
 

@@ -9,10 +9,14 @@ import Spinner from "../global_components/Spinner";
 type Prop = {
     openCalender: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
+    startWeek: String,
+    endWeek: String,
+    setCalendarId:  React.Dispatch<React.SetStateAction<string>>,
 }
 
+// I need to pass 
 
-function FriendChecker({openCalender, setBusyDates}: Prop) {
+function FriendChecker({openCalender, setBusyDates, startWeek, endWeek, setCalendarId}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -54,7 +58,7 @@ function FriendChecker({openCalender, setBusyDates}: Prop) {
                     </div>
                 }
 
-                {loading ? <div></div> : friendlist.map((val) =>  <FriendBlock openCalender={openCalender} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates}/>)}
+                {loading ? <div></div> : friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalender={openCalender} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
             </div>
         </div>
     </>
