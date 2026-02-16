@@ -2,9 +2,10 @@ import { api } from "../../../interceptor/interceptor";
 import AddFriendButton from "./AddFriendButton";
 import FriendBlock from "./FriendBlock";
 import RequestsButton from "./RequestsButton";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { type friends, type friendRequest, type busyDates } from "../../../types/types";
 import Spinner from "../global_components/Spinner";
+import GroupButton from "./GroupButton";
 
 type Prop = {
     openCalender: React.Dispatch<React.SetStateAction<boolean>>,
@@ -12,11 +13,12 @@ type Prop = {
     startWeek: String,
     endWeek: String,
     setCalendarId:  React.Dispatch<React.SetStateAction<string>>,
+    openAddGroup: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 // I need to pass 
 
-function FriendChecker({openCalender, setBusyDates, startWeek, endWeek, setCalendarId}: Prop) {
+function FriendChecker({openCalender, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -44,7 +46,7 @@ function FriendChecker({openCalender, setBusyDates, startWeek, endWeek, setCalen
     }, [])
 
     return <>
-        <div className="flex justify-center w-[30vw]">
+        <div className="flex justify-center w-[30vw] relative">
             <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 overflow-y-scroll no-scrollbar shadow h-[80vh] flex flex-col gap-5 pt-3">
                 {loading ? <Spinner/> : 
                     <div className="flex">
@@ -55,6 +57,7 @@ function FriendChecker({openCalender, setBusyDates, startWeek, endWeek, setCalen
                             <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
                             <AddFriendButton/>
                         </div>
+                        <GroupButton openAddGroup={openAddGroup}/>
                     </div>
                 }
 
