@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import FlipButton from './FlipButton';
 import { api } from '../../../interceptor/interceptor';
 import type { busyDates } from '../../../types/types';
-import { User, UserRound } from 'lucide-react';
+import { GroupIcon, UsersRound } from 'lucide-react';
 
 type prop = {
     last_seen: string,
-    id: string,
+    id: string[],
     changed_name: string,
     status: string,
-    openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
+    openGroupCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
     startWeek: String,
     endWeek: String,
-    setCalendarId: React.Dispatch<React.SetStateAction<string>>,
+    setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
 }
 
 
-function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusyDates, startWeek, endWeek, setCalendarId}: prop) {
+function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -28,7 +28,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
     const [ lastSeenState, changeLastSeen ] = useState(last_seen);
     const [ statusState, changeStatus ] = useState(status);
 
-    const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>, id: string) => {
+    const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>, id: string[]) => {
         if (e.key === "Enter") {
             e.preventDefault();
 
@@ -66,7 +66,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
 
     const handleOpenCalendar = async () => {
         let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id, start_date: startWeek, end_date: endWeek}, withCredentials: true});
-        setCalendarId(id);
+        setGroupCalendarId(id);
 
         const events = taken_slots.data.data.map((b: busyDates) => ({
             start: b.start,
@@ -77,7 +77,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
         }));
 
         setBusyDates(events);
-        openCalendar(true);
+        openGroupCalendar(true);
     }
 
     return <>
@@ -89,7 +89,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
                         <div className="text-[clamp(0.1rem,1vw,2rem)]">
                             {placeHolderName}
                         </div>  
-                        <button onClick={() => handleOpenCalendar()} className={["w-[1.25vw] h-[2.5vh] rounded-full absolute right-1 top-0.5 hover:cursor-pointer flex justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UserRound size="15"/> </button> 
+                        <button onClick={() => handleOpenCalendar()} className={["w-[1.25vw] h-[2.5vh] rounded-full absolute right-1 top-0.5 hover:cursor-pointer flex justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}><UsersRound size="15"/> </button> 
                     </div>
                     <div className="flex gap-[0.5vw] text-[clamp(0.1rem,1vw,2rem)]">
                         Last Seen: <div className='font-semibold'> {lastSeenState} </div>  
@@ -115,4 +115,4 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
     </>
 }
 
-export default FriendBlock;
+export default GroupBlock;

@@ -1,6 +1,17 @@
 import express from 'express'
 import { authMiddleware, googleAuthMiddleware } from '../middleware/middleware.js';
-import { getFriends, postFriendRequest, declineFriendRequest, acceptFriendRequest, getFriendRequests, changeFriendName, getLastSeenControl, getAvailabilities} from '../controllers/friendController.js';
+import {
+    getFriends,
+    postFriendRequest, 
+    declineFriendRequest, 
+    acceptFriendRequest, 
+    getFriendRequests, 
+    changeFriendName, 
+    getLastSeenControl, 
+    getAvailabilities, 
+    getFriendFromName, 
+    createFriendGroup
+} from '../controllers/friendController.js';
 const router = express.Router()
 
 router.get('/get-friends', authMiddleware, googleAuthMiddleware, getFriends);
@@ -17,6 +28,7 @@ router.patch('/accept-friend-request', authMiddleware, acceptFriendRequest);
 router.patch('/change-friend-name', authMiddleware, changeFriendName);
 router.get('/get-last-seen', authMiddleware, googleAuthMiddleware, getLastSeenControl);
 router.get('/get-availabilities', authMiddleware, googleAuthMiddleware, getAvailabilities);
-
+router.get('/get-friend-from-name', authMiddleware, getFriendFromName);
+router.post('/create-group', authMiddleware, createFriendGroup);
 
 export default router;

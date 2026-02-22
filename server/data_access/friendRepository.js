@@ -192,3 +192,41 @@ export async function getBusyPeriods(access_token, time_zone, start_date, end_da
         console.log(err.message)
     }
 }
+
+export async function getFriendFromNameData(my_id, name) {
+    try {
+        const data = await pool.query('SELECT friend_name, friend_id FROM public.friendships WHERE user_id = $1 AND friend_name ILIKE $2', [my_id, `${name}%`]);
+        console.log("HELLO");
+        return data.rows;
+    } catch (err) {
+        console.log("INSTANT ERROR");
+        console.log(err.message);
+    }
+}
+
+export async function getExactFriendFromName(my_id, name) {
+    try {
+        const data = await pool.query('SELECT friend_name, friend_id FROM public.friendships WHERE user_id = $1 AND friend_name ILIKE $2', [my_id, `${name}`]);
+
+        if (data.rowCount == 0) return {status: false}
+        else return {status: true, data: data.rows}
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
+export async function checkGroupId(groupId) {
+    const data = await pool.query(`SELECT * FROM public.group WHERE group_id = $1`, [groupId]);
+
+
+    if (data.rowCount == 0) return true;
+    else return false;
+}
+
+export async function createFriendGroupData(groupName, name, friendId, myId, groupId) {
+    try {
+        await pool.query(`INSERT INTO public.group (group_name, friend_name, friend_id, group_owner, group_id) VALUES ($1, $2, $3, $4, $5)`, [groupName, name, friendId, myId, groupId])
+    } catch (err) {
+        console.log(err.message);
+    }
+ }

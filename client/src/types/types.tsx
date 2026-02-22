@@ -21,5 +21,24 @@ export type busyDates = {
     overlap: boolean,
 }
 
+export type groupFriends = {
+    friend_name: string,
+    friend_id: string
+}
 
+export type groupIds = {
+    group_id: string
+}
+
+export type groupInfo = {
+    group_name: string,
+    user_ids: string[],
+}
+
+export type usedGroupInfo = {
+    group_name: string,
+    user_ids: string[],
+    last_seen: string,
+    status: string,
+}
  

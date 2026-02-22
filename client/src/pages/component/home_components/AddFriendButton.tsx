@@ -14,7 +14,7 @@ function AddFriendButton() {
     useEffect(() => {
         const getUserFriendCode = async () => {
             setLoading(true);
-            let code = await api.get(`user/get-friend-code`, {withCredentials: true});
+            let code = await api.get(`/user/get-friend-code`, {withCredentials: true});
             getFriendCode(code.data.data.friend_code);
             setLoading(false);
         }
@@ -27,7 +27,7 @@ function AddFriendButton() {
             e.preventDefault();
 
             try {
-                await api.post(`friend/post-friend-request`, {code: friendCode}, {withCredentials: true});
+                await api.post(`/friend/post-friend-request`, {code: friendCode}, {withCredentials: true});
             } catch (err: any) {
                 setErrorMessage(err.response.data.error);
                 setError(true);

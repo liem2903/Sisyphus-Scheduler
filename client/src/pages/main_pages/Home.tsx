@@ -5,10 +5,11 @@ import { api } from "../../interceptor/interceptor";
 import Spinner from "../component/global_components/Spinner";
 import Events from "./Events";
 import FriendChecker from "../component/home_components/FriendChecker";
-import Calender from "../component/home_components/Calender";
+import Calendar from "../component/home_components/Calendar";
 import Portal from "../component/global_components/Portal";
 import type { busyDates } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
+import GroupCalendar from "../component/home_components/GroupCalendar";
 
 type Event = {
     eventName: string,
@@ -20,21 +21,23 @@ function Home () {
     const [ events, setEvents ] = useState<Event[]>([]);
     const [ loading, setLoad ] = useState(false);
     const [ reload, setReload ] = useState(false);
-    const [ calenderView, openCalender ] = useState(false);
+    const [ calendarView, openCalendar ] = useState(false);
+    const [ groupCalendarView, openGroupCalendar ] = useState(false);
     const [ groupView, openAddGroup ] = useState(false);
     const [ busyDates, setBusyDates ] = useState<busyDates[]>([]);
     const [ startWeek, setStartWeek ] = useState("");
     const [ endWeek, setEndWeek ] = useState("");
     const [ calendarId, setCalendarId ] = useState("");
+    const [ groupCalendarIds, setGroupCalendarIds ] = useState<string[]>([]);
 
     useEffect(() => {
         const getAccess = async () => {
             setLoad(true);
-            let res = await api.get('/auth/getCalender', {withCredentials: true});
-            let calenderData = res.data.data;
+            let res = await api.get('/auth/getCalendar', {withCredentials: true});
+            let CalendarData = res.data.data;
             let resEvents: Event[] = []
             
-            calenderData.map((data: any) => {
+            CalendarData.map((data: any) => {
                 let startDate = DateTime.fromISO(data.start.dateTime);
                 let endDate = DateTime.fromISO(data.end.dateTime);
 
@@ -69,8 +72,12 @@ function Home () {
 
     return (
         <>  
-            <Portal open={calenderView}> 
-                <Calender calenderView={calenderView} openCalender={openCalender} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
+            <Portal open={calendarView}> 
+                <Calendar calendarView={calendarView} openCalendar={openCalendar} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
+            </Portal>
+
+            <Portal open={groupCalendarView}> 
+                <GroupCalendar groupCalendarView={groupCalendarView} openGroupCalendar={openGroupCalendar} busyDates={busyDates} groupCalendarId={groupCalendarIds} startWeek={startWeek} endWeek={endWeek}/>
             </Portal>
 
             <Portal open={groupView}>
@@ -94,7 +101,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker openCalender={openCalender} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} openAddGroup={openAddGroup}/> 
+                <FriendChecker openCalendar={openCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup}/> 
             </div>
             
         </>

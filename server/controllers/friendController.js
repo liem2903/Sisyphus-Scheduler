@@ -1,5 +1,15 @@
 import dotenv from 'dotenv';
-import { getFriendsBusiness, postFriendRequestBusiness, setFriendRequestBusiness, getFriendRequestsBusiness, changeFriendNameBusiness, getLastSeenBusiness, getAvailabilitiesBusiness } from '../business/friendBusiness.js';
+import { 
+    getFriendsBusiness,
+    postFriendRequestBusiness,
+    setFriendRequestBusiness,
+    getFriendRequestsBusiness,
+    changeFriendNameBusiness,
+    getLastSeenBusiness,
+    getAvailabilitiesBusiness,
+    getFriendFromNameBusiness,
+    createFriendGroupBusiness
+} from '../business/friendBusiness.js';
 dotenv.config();
 
 export async function getFriends(req, res) {
@@ -96,6 +106,31 @@ export async function getAvailabilities(req, res) {
         let data = await getAvailabilitiesBusiness(my_id, my_google_id, friend_id, start_date, end_date);        
         
         res.status(200).json({status: true, data});
+    } catch (err) {
+        res.status(400).json({status: false, error: err.message})
+    }
+}
+
+export async function getFriendFromName(req, res) {
+    try {   
+        let my_id = req.user.user_id;
+        let { name, exact } = req.query;
+        const actualExact = exact === "true";          
+
+        let friends = await getFriendFromNameBusiness(my_id, name, actualExact);
+        res.status(200).json({status: true, friends: friends});
+    } catch (err) {
+        res.status(400).json({status: false, error: err.message});
+    }
+}
+
+export async function createFriendGroup(req, res) {
+    try {
+        let my_id = req.user.user_id;
+        let { groupName, friend } = req.body;
+        createFriendGroupBusiness(groupName, friend, my_id);
+
+        res.status(200).json({status: true})
     } catch (err) {
         res.status(400).json({status: false, error: err.message})
     }

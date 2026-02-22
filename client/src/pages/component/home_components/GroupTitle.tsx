@@ -1,10 +1,14 @@
-import { useState } from 'react';
+type Prop = {
+    setFocused: React.Dispatch<React.SetStateAction<boolean>>,
+    focused: boolean,
+    setExtend: React.Dispatch<React.SetStateAction<boolean>>,
+    groupName: string,
+    setGroupName: React.Dispatch<React.SetStateAction<string>>,
+}
 
-function GroupTitle() {
-    const [ groupName, setGroupName ] = useState("");
-
+function GroupTitle({setFocused, focused, setExtend, groupName, setGroupName}: Prop) {
     return <>
-        <input type="text" value={groupName} onChange={(e) => setGroupName(e.currentTarget.value)} placeholder="Group Name" className="h-[5vh] w-[35vw] focus:outline-0 mt-5 flex text-center z-1000 bg-white text-black shadow-2xl"/>
+        <input type="text" onFocus={() => {setFocused(false); setExtend(false)}} value={groupName} onChange={(e) => setGroupName(e.currentTarget.value)} placeholder="Name Group" className={["h-[5vh] w-full focus:outline-0 flex text-center z-1000 text-black flex-1", focused ? "" : "font-bold"].join(" ")}/>
     </>
 }
 

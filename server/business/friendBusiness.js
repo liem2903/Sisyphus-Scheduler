@@ -1,5 +1,22 @@
 
-import { getFriendsData, postFriendRequestData, setFriendRequestData, getFriendRequestsData, createFriend, isFriendedData, changeFriendNameRepository, getChangedUserName, checkUniqueName, getLastSeen, isFriends, getBusyPeriods } from '../data_access/friendRepository.js'
+import {
+    getFriendsData,
+    postFriendRequestData,
+    setFriendRequestData,
+    getFriendRequestsData,
+    createFriend,
+    isFriendedData,
+    changeFriendNameRepository,
+    getChangedUserName,
+    checkUniqueName,
+    getLastSeen,
+    isFriends,
+    getBusyPeriods,
+    getFriendFromNameData,
+    getExactFriendFromName,
+    checkGroupId,
+    createFriendGroupData
+} from '../data_access/friendRepository.js'
 import { getUserName } from '../data_access/userRepository.js';
 import { getRefreshToken, refreshAccessToken } from '../data_access/authRepository.js';
 import { DateTime } from 'luxon';
@@ -22,10 +39,7 @@ export async function getFriendsBusiness(user_id, google_id, time_zone) {
 
 export async function getLastSeenBusiness(change_friend_name, google_id, time_zone) {
     let time_max = DateTime.now().setZone(time_zone).toISO();
-    let last_seen = await getLastSeen(change_friend_name, google_id, time_max);
-
-    console.log(last_seen);
-    
+    let last_seen = await getLastSeen(change_friend_name, google_id, time_max);    
     let regex = /([0-9]{4})-([0-9]{2})-([0-9]{2})/
 
     if (!last_seen.status) {
@@ -132,7 +146,7 @@ export async function getFriendRequestsBusiness(user_id) {
     try {
         let friendRequests = await getFriendRequestsData(user_id);
         let final_requests = await Promise.all(friendRequests.map( async (value) => {
-        let userName = (await getUserName(value.from_user)).name;
+            let userName = (await getUserName(value.from_user)).name;
 
             return {
                 from_user: value.from_user,
@@ -187,5 +201,38 @@ export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, 
         return available;
     } catch (err) {
         return
+    }
+}
+
+export async function getFriendFromNameBusiness(my_id, name, exact) {   
+    console.log(exact);
+
+    if (!exact) {
+        return await getFriendFromNameData(my_id, name);
+    } else {
+        let data = await getExactFriendFromName(my_id, name);
+
+        if (data.status) return data.data;
+        else throw new Error("User does not exist")
+    }  
+}
+
+export async function createFriendGroupBusiness(groupName, friends, myId) {    
+    try {
+        // Generate random group id. Use this in the thingie.
+        const groupId = crypto.randomUUID();
+
+        while (!await checkGroupId(groupId)) {
+            groupId = crypto.randomUUID();
+        }
+
+        Promise.all(friends.map((friend) => {
+            let name = friend.friend_name
+            let friendId = friend.friend_id
+
+            createFriendGroupData(groupName, name, friendId, myId, groupId);
+        }));        
+    } catch (err) {
+        console.log(err.message);
     }
 }

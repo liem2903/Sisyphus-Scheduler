@@ -9,7 +9,7 @@ router.post('/create-access-token', createAccessToken);
 router.get('/refresh', refreshMiddleware, refresh);
 router.get('/me', authMiddleware, checkUser);
 router.get('/refresh/logout', logout);
-router.get('/getCalender', authMiddleware, googleAuthMiddleware, getCalender);
+router.get('/getCalendar', authMiddleware, googleAuthMiddleware, getCalender);
 router.post('/create-event', authMiddleware, googleAuthMiddleware, createEvent);
 
 export default router;

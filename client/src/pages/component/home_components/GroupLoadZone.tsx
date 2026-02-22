@@ -1,0 +1,45 @@
+import { api } from "../../../interceptor/interceptor";
+import type { groupFriends } from "../../../types/types";
+import { useState, useEffect } from 'react';
+
+type Prop = {
+    friend: groupFriends[],
+    groupName: string,
+    openAddGroup: React.Dispatch<React.SetStateAction<boolean>>,
+}
+
+// I have to add myself to the friend as well.
+
+function GroupLoadZone({friend, groupName, openAddGroup}: Prop) {
+    const [ button, disableButton ] = useState(true);
+
+    const handleClick = async () => {
+        try {
+            api.post('/friend/create-group', {groupName, friend}, {withCredentials: true});
+            openAddGroup(false);
+        } catch (err: any) {
+            console.log(err.response.data.error)
+        }
+     }
+
+    useEffect(() => {
+        if (friend.length < 2 || groupName == "") disableButton(true); 
+        else disableButton(false);
+    }, [friend, groupName]);
+
+    return <>
+        <div className="w-[35vw] h-[50vh] fixed top-[45vh]">
+            <div className= {["h-[20vh] bg-gray-200 w-full relative overflow-y-scroll no-scrollbar", friend.length == 0 ? "justify-center flex pt-[1vh]" : "grid grid-cols-3 content-start pl-[1vw] pr-[1vw] pt-[1vh] pb-[1vh] gap-x-[2vw] gap-y-[2vh]"].join(" ")}> 
+                {friend.length == 0 && <div className="font-bold"> Add Member to Begin </div>}
+                {friend.map((groupMember) => <div className="bg-gray-400 h-[3vh] flex justify-center items-center shadow-2xl"> {groupMember.friend_name} </div>)}
+            </div>
+
+            <div className="sticky top-0 bg-gray-200 w-full h-[5vh] z-1002 flex justify-center items-end pr-[1vw] pb-[0.25vh] pt-[0.25vh]"> 
+                <button disabled={button} onClick={() => handleClick()} className={["w-[20vw] h-[5vh] rounded-xl flex justify-center items-center bg-violet-600 shadow-2xl backdrop-blur-2xlf font-bold", button ? "opacity-50" : "hover:cursor-pointer hover:bg-violet-800"].join(" ")}> Create Group </button>
+            </div>
+
+        </div>
+    </>
+}
+
+export default GroupLoadZone;

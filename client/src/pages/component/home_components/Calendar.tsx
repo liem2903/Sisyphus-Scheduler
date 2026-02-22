@@ -8,15 +8,15 @@ import type { busyDates } from '../../../types/types'
 import { api } from '../../../interceptor/interceptor';
 
 type Prop = {
-    calenderView: boolean
-    openCalender: React.Dispatch<React.SetStateAction<boolean>>,
+    calendarView: boolean
+    openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     busyDates: busyDates[],
-    calendarId: String,
+    calendarId: String | String[],
     startWeek: string,
     endWeek: string,
 }
 
-export function Calender({calenderView, openCalender, busyDates, calendarId, startWeek, endWeek}: Prop) {
+export function calendar({calendarView, openCalendar, busyDates, calendarId, startWeek, endWeek}: Prop) {
     const [ begin, setBeginWeek ] = useState("");
     const [ end, setEndWeek ] = useState("");
     const [ dates, setDates ] = useState<busyDates[]>([]);
@@ -77,8 +77,8 @@ export function Calender({calenderView, openCalender, busyDates, calendarId, sta
     }
 
     return <>
-        {calenderView && <div className="flex justify-center items-center inset-0 absolute">
-            <div className="z-999 bg-black/50 absolute inset-0" onClick={() => openCalender(false)}> </div>
+        {calendarView && <div className="flex justify-center items-center inset-0 absolute">
+            <div className="z-999 bg-black/50 absolute inset-0" onClick={() => openCalendar(false)}> </div>
             <div className="w-[55vw] h-[40vw] z-1000 bg-violet-400 absolute">
                 <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleBack()}, myNext: {icon: 'chevron-right', click: () => handleNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
             </div>
@@ -86,4 +86,4 @@ export function Calender({calenderView, openCalender, busyDates, calendarId, sta
     </>
 }
 
-export default Calender
+export default calendar
