@@ -67,7 +67,7 @@ export async function rotateRefreshToken(refresh_token, user_id, expires_at) {
 
 export async function createAccessTokenBusiness(user_id) {
     const user = {user_id};
-    return jwt.sign(user, process.env.ACCESS_TOKEN_ENCRYPTION_KEY, {expiresIn: "1m",});
+    return jwt.sign(user, process.env.ACCESS_TOKEN_ENCRYPTION_KEY, {expiresIn: "15m",});
 }
 
 export async function logoutBusiness(refresh_token) {

@@ -1,3 +1,5 @@
+import type { DateTime } from "luxon"
+
 export type friendRequest = {
     from_user: string,
     to_user: string,
@@ -19,6 +21,12 @@ export type busyDates = {
     end: string,
     display: string,
     overlap: boolean,
+    backgroundColor: string
+}
+
+export type resDates = {
+    start: DateTime,
+    end: DateTime,
 }
 
 export type groupFriends = {

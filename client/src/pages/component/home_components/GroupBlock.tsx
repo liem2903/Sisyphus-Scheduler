@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FlipButton from './FlipButton';
 import { api } from '../../../interceptor/interceptor';
 import type { busyDates } from '../../../types/types';
-import { GroupIcon, UsersRound } from 'lucide-react';
+import { UsersRound } from 'lucide-react';
 
 type prop = {
     last_seen: string,
@@ -34,7 +34,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
 
             try {
                 lockFlip(true);
-
+                // need to change this after. changing names - need to use guorp name
                 await api.patch('friend/change-friend-name', {id: id, name: newName}, {withCredentials: true});
                 setPlaceholderName(newName);
                 setNewName("");
@@ -65,18 +65,21 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
     }
 
     const handleOpenCalendar = async () => {
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id, start_date: startWeek, end_date: endWeek}, withCredentials: true});
-        setGroupCalendarId(id);
-
-        const events = taken_slots.data.data.map((b: busyDates) => ({
-            start: b.start,
-            end: b.end,
-            display: "background",
-            backgroundColor: "rgba(255, 0, 0, 0.4)",
-            overlap: false,
-        }));
-
+        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(id), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+            b.map((c: busyDates) => (
+                {
+                    start: c.start, 
+                    end: c.end,
+                    display: "background",
+                    backgroundColor: "rgba(255, 0, 0, 0.4)",
+                    overlap: false,
+                }
+            ))
+        ));
+        
         setBusyDates(events);
+        setGroupCalendarId(id);
         openGroupCalendar(true);
     }
 

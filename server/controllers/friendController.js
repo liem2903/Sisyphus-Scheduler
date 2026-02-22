@@ -8,7 +8,8 @@ import {
     getLastSeenBusiness,
     getAvailabilitiesBusiness,
     getFriendFromNameBusiness,
-    createFriendGroupBusiness
+    createFriendGroupBusiness,
+    getGroupAvailabilitiesBusiness
 } from '../business/friendBusiness.js';
 dotenv.config();
 
@@ -108,6 +109,25 @@ export async function getAvailabilities(req, res) {
         res.status(200).json({status: true, data});
     } catch (err) {
         res.status(400).json({status: false, error: err.message})
+    }
+}
+
+export async function getGroupAvailabilities(req, res) {
+    try {
+        let my_id = req.user.user_id;
+        let my_google_id = req.access_token;
+        let own_time_zone = req.time_zone;
+
+        let { friend_ids, start_date, end_date } = req.query;
+        let actual_friend_ids = JSON.parse(friend_ids);
+
+        let data = await getGroupAvailabilitiesBusiness(my_id, my_google_id, actual_friend_ids, start_date, end_date, own_time_zone);
+        
+        console.log(data);
+        
+        res.status(200).json({status: true, data});
+    } catch (err) {
+        res.status(400).json({status: false, error: err.message});
     }
 }
 

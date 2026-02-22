@@ -189,9 +189,6 @@ export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, 
         } 
 
         const { access_token } = await redis.get(`google:access:${friend_id}`);
-
-        console.log(start_date);
-        console.log(end_date);
         
         let friends_busy = await getBusyPeriods(access_token, time_zone, start_date, end_date); 
         let my_busy = await getBusyPeriods(my_google_id, time_zone, start_date, end_date);
@@ -200,6 +197,42 @@ export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, 
 
         return available;
     } catch (err) {
+        throw new Error("They are not friends");
+    }
+}
+
+export async function getGroupAvailabilitiesBusiness(my_id, my_google_id, friend_ids, start_date, end_date, own_time_zone) {
+    try {   
+        let my_busy = await getBusyPeriods(my_google_id, own_time_zone, start_date, end_date);
+
+        console.log(my_busy);
+
+        let friends_busy = await Promise.all(friend_ids.map(async (friend_id) => {
+            isFriends(my_id, friend_id);
+
+            const { expiry_time, time_zone } = await redis.get(`google:access:${friend_id}`);
+
+            if (Date.now() >= expiry_time) {
+                const refresh_token = await getRefreshToken(friend_id);  
+                
+                const { access_token, expires_in } = await refreshAccessToken(refresh_token);
+                const expiry_time = Date.now() + expires_in * 1000;
+                
+                await redis.set(`google:access:${friend_id}`, { access_token, expiry_time, time_zone });
+            } 
+
+            const { access_token } = await redis.get(`google:access:${friend_id}`);
+            let data = await getBusyPeriods(access_token, time_zone, start_date, end_date); 
+
+            return [...data];
+        }));
+
+        console.log(friends_busy);
+
+        let available = [...friends_busy, my_busy];
+        return available;
+    } catch (err) {
+        console.log(err.message);
         return
     }
 }

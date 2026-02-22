@@ -38,17 +38,20 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
         let new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
-        setEndWeek(new_end)
+        setEndWeek(new_end);
 
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: groupCalendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
-                
-        const events = taken_slots.data.data.map((b: busyDates) => ({
-            start: b.start,
-            end: b.end,
-            display: "background",
-            backgroundColor: "rgba(255, 0, 0, 0.4)",
-            overlap: false,
-        }));
+        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+            b.map((c: busyDates) => (
+                {
+                    start: c.start, 
+                    end: c.end,
+                    display: "background",
+                    backgroundColor: "rgba(255, 0, 0, 0.4)",
+                    overlap: false,
+                }
+            ))
+        ));
 
         setDates(events);
 
@@ -62,15 +65,18 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
         setBeginWeek(new_start);
         setEndWeek(new_end)
 
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: groupCalendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
-                
-        const events = taken_slots.data.data.map((b: busyDates) => ({
-            start: b.start,
-            end: b.end,
-            display: "background",
-            backgroundColor: "rgba(255, 0, 0, 0.4)",
-            overlap: false,
-        }));
+        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+            b.map((c: busyDates) => (
+                {
+                    start: c.start, 
+                    end: c.end,
+                    display: "background",
+                    backgroundColor: "rgba(255, 0, 0, 0.4)",
+                    overlap: false,
+                }
+            ))
+        ));
 
         setDates(events);
         calendarRef.current?.getApi().next();

@@ -10,7 +10,8 @@ import {
     getLastSeenControl, 
     getAvailabilities, 
     getFriendFromName, 
-    createFriendGroup
+    createFriendGroup,
+    getGroupAvailabilities
 } from '../controllers/friendController.js';
 const router = express.Router()
 
@@ -28,6 +29,7 @@ router.patch('/accept-friend-request', authMiddleware, acceptFriendRequest);
 router.patch('/change-friend-name', authMiddleware, changeFriendName);
 router.get('/get-last-seen', authMiddleware, googleAuthMiddleware, getLastSeenControl);
 router.get('/get-availabilities', authMiddleware, googleAuthMiddleware, getAvailabilities);
+router.get('/get-group-availabilities', authMiddleware, googleAuthMiddleware, getGroupAvailabilities);
 router.get('/get-friend-from-name', authMiddleware, getFriendFromName);
 router.post('/create-group', authMiddleware, createFriendGroup);
 
