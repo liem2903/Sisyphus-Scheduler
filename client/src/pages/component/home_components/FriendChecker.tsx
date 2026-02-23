@@ -10,6 +10,7 @@ import GroupBlock from "./GroupBlock";
 
 type Prop = {
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
+    openGroupCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
     startWeek: String,
     endWeek: String,
@@ -20,7 +21,7 @@ type Prop = {
 
 // I need to pass 
 
-function FriendChecker({openCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId}: Prop) {
+function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -67,6 +68,7 @@ function FriendChecker({openCalendar, setBusyDates, startWeek, endWeek, setCalen
                     user_ids: group_data.user_ids,
                     last_seen: new_seen,
                     status: duration.status,
+                    id: group_id.group_id,
                 };
             }));
 
@@ -96,7 +98,12 @@ function FriendChecker({openCalendar, setBusyDates, startWeek, endWeek, setCalen
                 }
 
                 {loading ? <div></div> : friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-                {loading ? <div></div> : groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}></GroupBlock>)}
+
+                <div className="flex justify-end font-bold underline w-3/5 shadow-2xl"> 
+                    Groups 
+                </div>
+
+                {loading ? <div></div> : groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
             </div>
         </div>
     </>

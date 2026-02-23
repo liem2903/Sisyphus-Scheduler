@@ -48,5 +48,6 @@ export type usedGroupInfo = {
     user_ids: string[],
     last_seen: string,
     status: string,
+    id: string,
 }
  

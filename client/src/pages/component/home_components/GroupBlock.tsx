@@ -14,10 +14,11 @@ type prop = {
     startWeek: String,
     endWeek: String,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
+    groupId: String,
 }
 
 
-function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId}: prop) {
+function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId, groupId}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -28,20 +29,16 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
     const [ lastSeenState, changeLastSeen ] = useState(last_seen);
     const [ statusState, changeStatus ] = useState(status);
 
-    const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>, id: string[]) => {
+    const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             e.preventDefault();
 
             try {
                 lockFlip(true);
                 // need to change this after. changing names - need to use guorp name
-                await api.patch('friend/change-friend-name', {id: id, name: newName}, {withCredentials: true});
+                await api.patch('/group/change-group-name', {id: groupId, name: newName}, {withCredentials: true});
                 setPlaceholderName(newName);
-                setNewName("");
-                setErrorMessage("");
-                showSuccessfulChange(true);
-                setSuccessMessage("Successfully changed name");
-
+                
                 let duration = await api.get(`/friend/get-last-seen`, {params: { name: newName }, withCredentials: true});
                 let new_seen = ""
                 
@@ -52,6 +49,11 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                 } else {
                     new_seen = `${duration.data.data.last_seen} day ago`;
                 }
+
+                setNewName("");
+                setErrorMessage("");
+                showSuccessfulChange(true);
+                setSuccessMessage("Successfully changed name");
 
                 changeLastSeen(new_seen);
                 changeStatus(duration.data.data.status);
@@ -89,8 +91,8 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                 <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back">   
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
-                        <div className="text-[clamp(0.1rem,1vw,2rem)]">
-                            {placeHolderName}
+                        <div className="flex flex-col">
+                            <div className="text-[clamp(0.1rem,1vw,2rem)]"> {placeHolderName} </div>
                         </div>  
                         <button onClick={() => handleOpenCalendar()} className={["w-[1.25vw] h-[2.5vh] rounded-full absolute right-1 top-0.5 hover:cursor-pointer flex justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}><UsersRound size="15"/> </button> 
                     </div>
@@ -107,7 +109,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                                 Change name: 
                             </div>
                             <div className='flex flex-col justify-center items-center'> 
-                                <input type="text" placeholder={placeHolderName} value={newName} onClick={() => {showSuccessfulChange(false); setErrorMessage(""); setSuccessMessage("")}} onChange={(e) => {setNewName(e.target.value)}} onKeyDown={(e) => handleEnter(e, id)} className={[['w-[9vw] border-2 mt-[0.5vh] text-center, focus:outline-0', successfulChange ? "border-green-500" : ""].join(" "), errorMessage.length > 0 ? "border-red-500" : ""].join(" ")}/> 
+                                <input type="text" placeholder={placeHolderName} value={newName} onClick={() => {showSuccessfulChange(false); setErrorMessage(""); setSuccessMessage("")}} onChange={(e) => {setNewName(e.target.value)}} onKeyDown={(e) => handleEnter(e)} className={[['w-[9vw] border-2 mt-[0.5vh] text-center, focus:outline-0', successfulChange ? "border-green-500" : ""].join(" "), errorMessage.length > 0 ? "border-red-500" : ""].join(" ")}/> 
                                 <div className={['text-center font-bold text-xs pt-[0.5vh]', successfulChange ? "text-green-500" : "text-red-500"].join(" ")}> {successfulChange ? successMessage : errorMessage} </div>
                             </div>
                         </div>

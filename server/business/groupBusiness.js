@@ -1,4 +1,4 @@
-import { getGroupIdsData, getGroupDataId, getGroupNameData } from '../data_access/groupRepository.js'; 
+import { getGroupIdsData, getGroupDataId, getGroupNameData, changeGroupNameData } from '../data_access/groupRepository.js'; 
 
 export async function getGroupIdsBusiness(user_id) {
     try {
@@ -23,6 +23,14 @@ export async function getGroupBusiness(group_id) {
             user_ids
         }
      } catch (err) {
+        console.log(err.message);
+    }
+}
+
+export async function changeGroupNameBusiness(id, newName) {
+    try {
+        return changeGroupNameData(id, newName);
+    } catch (err) {
         console.log(err.message);
     }
 }

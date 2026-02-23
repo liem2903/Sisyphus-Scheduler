@@ -62,17 +62,22 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
         setBeginWeek(new_start);
         setEndWeek(new_end)
 
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
+        console.log("HELLO");
+        console.log(calendarView);
+        console.log(calendarId);
+        console.log("_________");
+        
+        // let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
                 
-        const events = taken_slots.data.data.map((b: busyDates) => ({
-            start: b.start,
-            end: b.end,
-            display: "background",
-            backgroundColor: "rgba(255, 0, 0, 0.4)",
-            overlap: false,
-        }));
+        // const events = taken_slots.data.data.map((b: busyDates) => ({
+        //     start: b.start,
+        //     end: b.end,
+        //     display: "background",
+        //     backgroundColor: "rgba(255, 0, 0, 0.4)",
+        //     overlap: false,
+        // }));
 
-        setDates(events);
+        // setDates(events);
         calendarRef.current?.getApi().next();
     }
 

@@ -22,25 +22,24 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
     const [ dates, setDates ] = useState<busyDates[]>([]);
 
     useEffect(() => {
-    const get_dates = async () => {
-        setBeginWeek(startWeek);
-        setEndWeek(endWeek);
-        setDates(busyDates);
-    }
-
+        const get_dates = async () => {
+            setBeginWeek(startWeek);
+            setEndWeek(endWeek);
+            setDates(busyDates);
+        }
     get_dates();
 }, [])
 
     const calendarRef = useRef<FullCalendar | null>(null);
 
-    const handleBack = async () => {
+    const handleGroupBack = async () => {
         let new_start = DateTime.fromISO(begin).minus({days: 7}).toISO() ?? ""; 
         let new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end);
 
-        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
         let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
             b.map((c: busyDates) => (
                 {
@@ -58,14 +57,14 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
         calendarRef.current?.getApi().prev();
     }
 
-    const handleNext = async () => {
+    const handleGroupNext = async () => {
         let new_start = DateTime.fromISO(begin).plus({days: 7}).toISO() ?? ""; 
         let new_end = DateTime.fromISO(end).plus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end)
 
-        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
         let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
             b.map((c: busyDates) => (
                 {
@@ -86,7 +85,7 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
         {groupCalendarView && <div className="flex justify-center items-center inset-0 absolute">
             <div className="z-999 bg-black/50 absolute inset-0" onClick={() => openGroupCalendar(false)}> </div>
             <div className="w-[55vw] h-[40vw] z-1000 bg-violet-400 absolute">
-                <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleBack()}, myNext: {icon: 'chevron-right', click: () => handleNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
+                <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleGroupBack()}, myNext: {icon: 'chevron-right', click: () => handleGroupNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
             </div>
         </div>}
     </>
