@@ -82,8 +82,8 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
     }, [])
 
     return <>
-        <div className="flex justify-center w-[30vw] relative">
-            <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 overflow-y-scroll no-scrollbar shadow h-[80vh] flex flex-col gap-5 pt-3">
+        <div className="flex justify-center w-[30vw]">
+            <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 overflow-y-scroll no-scrollbar shadow h-[80vh] flex flex-col gap-5 pt-3 relative">
                 {loading ? <Spinner/> : 
                     <div className="flex">
                         <div className="flex justify-end font-bold underline w-3/5"> 
@@ -93,7 +93,9 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                             <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
                             <AddFriendButton/>
                         </div>
-                        <GroupButton openAddGroup={openAddGroup}/>
+                        <div className="w-full absolute pb-[1vh] bottom-0 flex flex-row-reverse pr-[0.5vw] items-center">
+                            <GroupButton openAddGroup={openAddGroup}/>
+                        </div>
                     </div>
                 }
 
