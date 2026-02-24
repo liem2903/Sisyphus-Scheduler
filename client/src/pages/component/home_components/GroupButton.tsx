@@ -14,7 +14,7 @@ function GroupButton({openAddGroup}: prop) {
     }
 
     return <>
-        <div className="rounded-full bg-violet-600 w-1/8 h-[4vh] flex justify-center items-center hover:bg-violet-900 hover:cursor-pointer z-1004" onClick={() => handleClick()}>
+        <div className="rounded-full bg-violet-500 w-2/8 h-7/8 flex justify-center items-center hover:bg-violet-600 transition duration-75 hover:cursor-pointer" onClick={() => handleClick()}>
             <LayersPlus/>
         </div>
     </>

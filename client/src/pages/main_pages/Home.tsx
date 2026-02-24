@@ -10,6 +10,7 @@ import Portal from "../component/global_components/Portal";
 import type { busyDates } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
 import GroupCalendar from "../component/home_components/GroupCalendar";
+import AddFriend from "../component/home_components/AddFriend";
 
 type Event = {
     eventName: string,
@@ -24,6 +25,7 @@ function Home () {
     const [ calendarView, openCalendar ] = useState(false);
     const [ groupCalendarView, openGroupCalendar ] = useState(false);
     const [ groupView, openAddGroup ] = useState(false);
+    const [ addFriendsView, openAddFriends ] = useState(false);
     const [ busyDates, setBusyDates ] = useState<busyDates[]>([]);
     const [ startWeek, setStartWeek ] = useState("");
     const [ endWeek, setEndWeek ] = useState("");
@@ -83,6 +85,10 @@ function Home () {
             <Portal open={groupView}>
                 <CreateGroup openAddGroup={openAddGroup}/>
             </Portal>
+
+            <Portal open={addFriendsView}>
+                <AddFriend openAddFriends={openAddFriends}/>
+            </Portal>
              
             <div className="flex bg-[#18142c]">
                 <div className="flex flex-col w-fit"> 
@@ -101,7 +107,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup}/> 
+                <FriendChecker openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
             </div>
             
         </>

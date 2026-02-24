@@ -36,12 +36,12 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
     }   
 
     return <>
-        <div className="w-1/4 flex justify-center items-center relative" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
-            <div className="border-2 rounded-full w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50">
+        <div className="w-2/4 flex justify-center items-center" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
+            <div className="border-2 rounded-full w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50 relative">
                 <Inbox size="15"/> 
-                <div className="absolute w-[0.75vw] h-[1.5vh] rounded-full bottom-[1.2vh] left-[0.7vw] bg-red-200 flex justify-center items-center text-xs"> {friendRequests.length} </div>
+                <div className="absolute w-[0.75vw] h-[1.5vh] rounded-full bottom-[1.2vh] left-[1.5vw] bg-red-200 flex justify-center items-center text-xs"> {friendRequests.length} </div>
                 {popUp && 
-                <div className="absolute top-[1.25vw] w-[10.5vw] overflow-scroll z-100 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
+                <div className="absolute top-[1.25vw] w-[10.5vw] overflow-scroll z-1005 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
                     {friendRequests.length != 0 ? friendRequests.map((requests) => 
                         <div className="border-2 bg-violet-300 w-6/7 flex items-center justify-evenly gap-x-[1vw]"> 
                             <div className="pr-[0.5vw]">

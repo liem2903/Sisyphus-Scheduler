@@ -17,11 +17,12 @@ type Prop = {
     setCalendarId:  React.Dispatch<React.SetStateAction<string>>,
     openAddGroup: React.Dispatch<React.SetStateAction<boolean>>,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
+    openAddFriends: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 // I need to pass 
 
-function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId}: Prop) {
+function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -83,29 +84,28 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
 
     return <>
         <div className="flex justify-center w-[30vw]">
-            <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 overflow-y-scroll no-scrollbar shadow h-[80vh] flex flex-col gap-5 pt-3 relative">
-                {loading ? <Spinner/> : 
-                    <div className="flex">
-                        <div className="flex justify-end font-bold underline w-3/5"> 
-                            Friends 
+            <div className="border-2 border-violet-600 w-4/5 mt-10 bg-violet-300 shadow overflow-clip h-[80vh] flex flex-col">
+                {loading ? <div/> :       
+                    <div>
+                        <div className="flex-col gap-5 flex overflow-y-scroll no-scrollbar h-[73vh] mt-[1vh]">
+                            <div className="flex sticky top-0 z-1006 bg-violet-300"> 
+                                <div className="flex justify-end font-bold underline w-3/5">
+                                    Friends 
+                                </div>    
+                                <div className="flex flex-1 justify-end pr-[1vw]">
+                                    <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
+                                </div>
+                            </div>
+                            {friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                            {groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                         </div>
-                        <div className="flex-1 flex justify-center gap-x-2"> 
-                            <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
-                            <AddFriendButton/>
-                        </div>
-                        <div className="w-full absolute pb-[1vh] bottom-0 flex flex-row-reverse pr-[0.5vw] items-center">
-                            <GroupButton openAddGroup={openAddGroup}/>
+                        
+                        <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] shadow-2xl gap-x-[0.5vw]">
+                            <GroupButton openAddGroup={openAddGroup}/> 
+                            <AddFriendButton openAddFriends={openAddFriends}/>
                         </div>
                     </div>
                 }
-
-                {loading ? <div></div> : friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-
-                <div className="flex justify-end font-bold underline w-3/5 shadow-2xl"> 
-                    Groups 
-                </div>
-
-                {loading ? <div></div> : groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
             </div>
         </div>
     </>

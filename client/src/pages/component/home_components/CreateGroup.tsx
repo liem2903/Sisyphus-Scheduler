@@ -15,9 +15,9 @@ function CreateGroup({openAddGroup}: prop) {
     const [ groupName, setGroupName ] = useState("");
 
     return <>
-        <div className="flex justify-center items-center inset-0 absolute">
-           <div className="z-999 bg-black/50 absolute inset-0" onClick={() => openAddGroup(false)}> </div>
-           <div className="w-[55vw] h-[20vw] z-1000 bg-violet-400 absolute flex items-center flex-col gap-[3vh]" onClick={() => setExtend(false)}>
+        <div className="flex justify-center items-center inset-0 absolute z-1008">
+           <div className="bg-black/50 absolute inset-0" onClick={() => openAddGroup(false)}> </div>
+           <div className="w-[55vw] h-[20vw] z-1008 bg-violet-400 absolute flex items-center flex-col gap-[3vh]" onClick={() => setExtend(false)}>
                 <div className={["flex w-[38vw] mt-10 rounded-full z-999 max-h-[5vh]", focused ? "bg-white/30 shadow-2xl" : "bg-white"].join(" ")}>
                     <AddToGroup setFocused={setFocused} focused={focused} extend={extend} setExtend={setExtend} addFriend={addFriend} friend={friend}/>
                     <GroupTitle setFocused={setFocused} focused={focused} setExtend={setExtend} groupName={groupName} setGroupName={setGroupName}/>
