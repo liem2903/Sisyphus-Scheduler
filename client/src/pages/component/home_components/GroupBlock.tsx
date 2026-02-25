@@ -88,7 +88,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
     return <>
         <div className='perspective-[1000px]'>
             <div className={flipped? "rotate-y-180 relative ml-5 w-4/5 h-[10vh] transform-3d duration-500": "ml-5 w-4/5 h-[10vh] relative transform-3d duration-500"}> 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back">   
+                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back hover:bg-gray-300 transition duration-500">   
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col">
@@ -101,7 +101,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                     </div>
                 </div>  
 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back"> 
+                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back hover:bg-gray-300 transition duration-500"> 
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">
