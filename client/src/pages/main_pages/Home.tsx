@@ -95,11 +95,11 @@ function Home () {
                     <Events reload={reload} setReload={setReload}/>
                     {
                         loading == true ? <Spinner/> : events.length == 0 ?
-                            <div className="w-[78vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center text-2xl">
+                            <div className="w-[75vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center text-2xl">
                             No events on today 
                             </div> : 
                             <div className="flex flex-col w-full"> 
-                                <div className="content-start grid grid-cols-1 w-[77vw] h-[65vh] pl-20 mt-12 gap-y-[3vh] bg-violet-300  border-2 border-violet-600 ml-19 pt-5 overflow-y-scroll no-scrollbar">
+                                <div className="content-start grid grid-cols-1 w-[75vw] h-[65vh] pl-[4vw] mt-[3vw] gap-y-[3vh] bg-violet-300 border-2 border-violet-600 ml-[3vw] pt-5 overflow-y-scroll no-scrollbar">
                                     {events.map((e) => (<div> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration} day="Today"/> 
                                     </div>))} 
                                    
