@@ -48,8 +48,8 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                                 {requests.requester_name}
                             </div>
                             <div className="flex gap-[0.1vw] pl-[0.4vw]">
-                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="15" color={crossHovered ? "red" : "black"}/> </div>
-                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="15" color={tickHovered ? "green" : "black"}/> </div> 
+                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="[1vw]" color={crossHovered ? "red" : "black"}/> </div>
+                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="[1vw]" color={tickHovered ? "green" : "black"}/> </div> 
                             </div>    
                          </div>) : <div className="italic text-[clamp(0.5rem,1vw,2rem)] flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
                 </div>}
