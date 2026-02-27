@@ -89,7 +89,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                     <div>
                         <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh] mt-[1vh]">
                             <div className="flex sticky top-0 z-1006 bg-violet-300"> 
-                                <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.25rem,1vw,5rem)]">
+                                <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)]">
                                     Friends 
                                 </div>    
                                 <div className="flex flex-1 justify-end pr-[1vw]">

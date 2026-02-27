@@ -36,10 +36,10 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
     }   
 
     return <>
-        <div className="w-2/4 flex justify-center items-center" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
-            <div className="border-2 rounded-full w-1/1 h-1/1 flex justify-center items-center hover:bg-amber-50 relative">
-                <Inbox size="15"/> 
-                <div className="absolute w-[0.75vw] h-[1.5vh] rounded-full bottom-[1.2vh] left-[1.5vw] bg-red-200 flex justify-center items-center text-xs"> {friendRequests.length} </div>
+        <div className="w-[clamp(1rem,1.5vw,5rem)] flex justify-center items-center" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
+            <div className="border-2 rounded-full w-1/1 aspect-square flex justify-center items-center hover:bg-amber-50 relative leading-none">
+                <Inbox size={"clamp(1rem,1.5vw,100rem)"}/> 
+                <div className="hidden absolute w-[0.75vw] rounded-full bottom-[1.2vh] left-[1vw] bg-red-200 md:flex md:justify-center md:items-center text-[clamp(0.5rem,1vw,100rem)]"> {friendRequests.length} </div>
                 {popUp && 
                 <div className="absolute top-[1.25vw] w-[10.5vw] overflow-scroll z-1005 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
                     {friendRequests.length != 0 ? friendRequests.map((requests) => 
@@ -51,7 +51,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                                 <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="15" color={crossHovered ? "red" : "black"}/> </div>
                                 <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="15" color={tickHovered ? "green" : "black"}/> </div> 
                             </div>    
-                         </div>) : <div className="font-bold h-full text-xs flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
+                         </div>) : <div className="italic text-[clamp(0.5rem,1vw,2rem)] flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
                 </div>}
             </div>
         </div>      

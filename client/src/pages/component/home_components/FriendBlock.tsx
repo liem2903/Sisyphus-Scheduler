@@ -82,29 +82,30 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
 
     return <>
         <div className='perspective-[1000px]'>
-            <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] h-[10vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] h-[10vh] relative transform-3d duration-150"}> 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back hover:bg-violet-400 transition duration-500">   
+            <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"}> 
+                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back hover:bg-violet-400 transform duration-500">   
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="text-[clamp(0.5rem,1vw,2rem)]">
                             {placeHolderName}
                         </div>  
-                        <button onClick={() => handleOpenCalendar()} className={["w-[1.25vw] h-[2.5vh] rounded-full absolute right-1 top-0.5 hover:cursor-pointer flex justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UserRound size="15"/> </button> 
+                        <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UserRound size="[10vw]"/> </button> 
                     </div>
                     <div className="flex gap-[0.5vw] text-[clamp(0.5rem,1vw,2rem)]">
                         <div className='hidden xl:block'> Last Seen: </div> <div className='font-semibold'> {lastSeenState} </div>  
                     </div>
+
                 </div>  
 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back hover:bg-violet-400 transition duration-500"> 
+                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back hover:bg-violet-400 transform duration-500"> 
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">
-                            <div className="mt-[0.5vh] text-shadow-2xs text-[clamp(0.1rem,1vw,2rem)]"> 
+                            <div className="mt-[0.5vh] text-[clamp(0.1rem,1vw,2rem)]"> 
                                 Change name: 
                             </div>
                             <div className='flex flex-col justify-center items-center'> 
-                                <input type="text" placeholder={placeHolderName} value={newName} onClick={() => {showSuccessfulChange(false); setErrorMessage(""); setSuccessMessage("")}} onChange={(e) => {setNewName(e.target.value)}} onKeyDown={(e) => handleEnter(e, id)} className={[['w-[9vw] border-2 mt-[0.5vh] text-center, focus:outline-0', successfulChange ? "border-green-500" : ""].join(" "), errorMessage.length > 0 ? "border-red-500" : ""].join(" ")}/> 
+                                <input type="text" placeholder={placeHolderName} value={newName} onClick={() => {showSuccessfulChange(false); setErrorMessage(""); setSuccessMessage("")}} onChange={(e) => {setNewName(e.target.value)}} onKeyDown={(e) => handleEnter(e, id)} className={[['w-[9vw] border-2 mt-[0.5vh] text-center, focus:outline-0 text-[1vw]', successfulChange ? "border-green-500" : ""].join(" "), errorMessage.length > 0 ? "border-red-500" : ""].join(" ")}/> 
                                 <div className={['text-center font-bold text-xs pt-[0.5vh]', successfulChange ? "text-green-500" : "text-red-500"].join(" ")}> {successfulChange ? successMessage : errorMessage} </div>
                             </div>
                         </div>
