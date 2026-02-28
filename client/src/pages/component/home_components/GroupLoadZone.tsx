@@ -28,10 +28,10 @@ function GroupLoadZone({friend, groupName, openAddGroup}: Prop) {
     }, [friend, groupName]);
 
     return <>
-        <div className="w-[35vw] h-[50vh] fixed top-[45vh]">
+        <div className="w-[clamp(20rem,35vw,100rem)] fixed aspect-3/2 top-[45vh]">
             <div className= {["h-[20vh] bg-gray-200 w-full relative overflow-y-scroll no-scrollbar", friend.length == 0 ? "justify-center flex pt-[1vh]" : "grid grid-cols-3 content-start pl-[1vw] pr-[1vw] pt-[1vh] pb-[1vh] gap-x-[2vw] gap-y-[2vh]"].join(" ")}> 
-                {friend.length == 0 && <div className="font-bold"> Add Member to Begin </div>}
-                {friend.map((groupMember) => <div className="bg-gray-400 h-[3vh] flex justify-center items-center shadow-2xl"> {groupMember.friend_name} </div>)}
+                {friend.length == 0 && <div className="italic text-black/30"> Add Member to Begin </div>}
+                {friend.map((groupMember) => <div className="bg-gray-400 pt-[1vh] pb-[1vh] rounded-md flex justify-center items-center"> {groupMember.friend_name} </div>)}
             </div>
 
             <div className="sticky top-0 bg-gray-200 w-full h-[5vh] z-1002 flex justify-center items-end pr-[1vw] pb-[0.25vh] pt-[0.25vh]"> 
