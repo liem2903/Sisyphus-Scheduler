@@ -10,7 +10,7 @@ function AddFriendButton({openAddFriends}: Prop) {
     }
 
     return <>
-        <div className="rounded-full bg-violet-500 w-2/9 h-7/8 flex justify-center items-center hover:bg-violet-600 hover:cursor-pointer" onClick={() => handleClick()}>
+        <div className="rounded-full bg-violet-500 w-2/9 h-7/8 flex justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 hover:cursor-pointer" onClick={() => handleClick()}>
             <UserPlus/>
         </div>                                                             
     </>
