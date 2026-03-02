@@ -95,7 +95,7 @@ function Home () {
                     <Events reload={reload} setReload={setReload}/>
                     {
                         loading == true ? <Spinner/> : events.length == 0 ?
-                            <div className="w-[75vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center text-2xl">
+                            <div className="w-[75vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center italic text-[clamp(1rem,1.5vw,100rem)]">
                             No events on today 
                             </div> : 
                             <div className="flex flex-col w-full"> 
