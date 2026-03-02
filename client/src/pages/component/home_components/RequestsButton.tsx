@@ -41,15 +41,15 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                 <Inbox size={"clamp(1rem,1.5vw,100rem)"}/> 
                 <div className="hidden absolute w-[0.75vw] rounded-full bottom-[1.2vh] left-[1vw] bg-red-200 md:flex md:justify-center md:items-center text-[clamp(0.5rem,1vw,100rem)]"> {friendRequests.length} </div>
                 {popUp && 
-                <div className="absolute top-[1.25vw] w-[10.5vw] overflow-scroll z-1005 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
+                <div className="absolute top-[1.25vw] w-[12vw] overflow-scroll z-1005 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center">
                     {friendRequests.length != 0 ? friendRequests.map((requests) => 
                         <div className="border-2 bg-violet-300 w-6/7 flex items-center justify-evenly gap-x-[1vw]"> 
-                            <div className="pr-[0.5vw]">
+                            <div className="pr-[0.5vw] text-[clamp(0.5rem,1vw,1rem)]">
                                 {requests.requester_name}
                             </div>
                             <div className="flex gap-[0.1vw] pl-[0.4vw]">
-                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="[1vw]" color={crossHovered ? "red" : "black"}/> </div>
-                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="[1vw]" color={tickHovered ? "green" : "black"}/> </div> 
+                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="clamp(0.5rem,1vw,1rem)" color={crossHovered ? "red" : "black"}/> </div>
+                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="clamp(0.5rem,1vw,1rem)" color={tickHovered ? "green" : "black"}/> </div> 
                             </div>    
                          </div>) : <div className="italic text-[clamp(0.5rem,1vw,2rem)] flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
                 </div>}

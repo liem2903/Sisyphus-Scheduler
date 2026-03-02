@@ -84,7 +84,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
 
     return <>
         <div className="flex justify-center flex-1 ml-[2vw] mr-[2vw]">
-            <div className="border-2 border-violet-600 mt-[5vh] bg-violet-300 shadow overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)]">
+            <div className="border-2 mt-[5vh] bg-violet-300 overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)]">
                 {loading ? <div/> :       
                     <div>
                         <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh] mt-[1vh]">
@@ -100,7 +100,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                             {groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                         </div>
                         
-                        <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] shadow-2xl gap-x-[0.5vw]">
+                        <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] gap-x-[0.5vw]">
                             <GroupButton openAddGroup={openAddGroup}/> 
                             <AddFriendButton openAddFriends={openAddFriends}/>
                         </div>
