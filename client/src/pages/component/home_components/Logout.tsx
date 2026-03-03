@@ -11,7 +11,7 @@ function Logout () {
     }
     
     return (
-        <button className="text-lg mr-18 text-black hover:cursor-pointer hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 mt-3 pr-3 pl-3 pb-2 pt-2 bg-violet-500 font-normal" onClick={handleClick}> 
+        <button className="text-lg mr-18 text-black hover:cursor-pointer hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 mt-3 pr-3 pl-3 pb-2 pt-2 bg-violet-400 font-normal" onClick={handleClick}> 
             Logout 
         </button>
     )

@@ -70,12 +70,12 @@ function AddFriend({openAddFriends}: Prop) {
                             </div> 
                             <div className='flex'>
                                 <div className='pl-[1vw] text-[clamp(0.5rem,1.5vw,2rem)] text-violet-50 hover:cursor-text' ref={textFocus}> {ownFriendCode} </div>
-                                <button className="w-[clamp(1rem,3vw,3rem)] aspect-4/3 rounded-full flex justify-center items-center absolute right-[0.75vw] bottom-[1vh] hover:cursor-pointer z-20 bg-violet-400 hover:bg-violet-500 transition duration-250" onClick={copy}> <Clipboard size="2vw"/> </button>
-                                <div className={['w-[7vw] bg-violet-500 rounded-full flex justify-center items-center absolute right-0 bottom-1 z-10 text-black transition duration-150 opacity-0 text-[clamp(0.5rem,2vw,1rem)]', successfulCopy ? "opacity-100 transform translate-y-[-2.5vw]"  : ""].join(" ")}> Copied! </div>
+                                <button className="w-[clamp(1rem,3vw,3rem)] aspect-4/3 rounded-full flex justify-center items-center absolute right-[0.75vw] bottom-[1vh] hover:cursor-pointer z-20 bg-violet-400 hover:bg-violet-400 transition duration-250" onClick={copy}> <Clipboard size="2vw"/> </button>
+                                <div className={['w-[7vw] bg-violet-400 rounded-full flex justify-center items-center absolute right-0 bottom-1 z-10 text-black transition duration-150 opacity-0 text-[clamp(0.5rem,2vw,1rem)]', successfulCopy ? "opacity-100 transform translate-y-[-2.5vw]"  : ""].join(" ")}> Copied! </div>
                             </div>
                         </div>
 
-                        <div className='bg-violet-300 w-7/8 border-violet-500 pb-[1vh] pt-[1vh] flex text-center flex-col mt-[3vh] rounded-md hover:bg-violet-400 transition duration-500'> 
+                        <div className='bg-violet-300 w-7/8 border-violet-400 pb-[1vh] pt-[1vh] flex text-center flex-col mt-[3vh] rounded-md hover:bg-violet-400 transition duration-500'> 
                             <div className="w-full justify-center h-1/2 max-h-6 min-w-20 "> <input type="search" placeholder="Type friend's code here" className='w-7/8 h-full rounded-full border-violet-500 text-center focus:outline-0 text-[clamp(0.5rem,1vw,2rem)]' value={friendCode} onClick={() => {setError(false); setErrorMessage("")}} onChange={(e) => typeFriendCode(e.target.value)} onKeyDown={handleKeyDown}/> </div>
                             {error && <div className='text-red-500 font-extrabold text-[0.65vw] underline'> {errorMessage} </div>}
                         </div>
