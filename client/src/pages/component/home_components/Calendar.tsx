@@ -1,6 +1,8 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid' 
 import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from "@fullcalendar/list";
+
 import { useRef, useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 
@@ -79,7 +81,7 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
     return <>
         {calendarView && <div className="flex justify-center items-center inset-0 absolute">
             <div className="z-1007 bg-black/50 absolute inset-0" onClick={() => openCalendar(false)}> </div>
-            <div className="w-[55vw] h-[40vw] z-1008 bg-violet-400 absolute">
+            <div className="w-[clamp(25rem,55vw,100rem)] aspect-3/2 z-1008 bg-violet-400 absolute">
                 <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleBack()}, myNext: {icon: 'chevron-right', click: () => handleNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
             </div>
         </div>}

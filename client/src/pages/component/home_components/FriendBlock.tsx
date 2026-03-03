@@ -27,6 +27,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
     const [ cantFlip, lockFlip ] = useState(false);
     const [ lastSeenState, changeLastSeen ] = useState(last_seen);
     const [ statusState, changeStatus ] = useState(status);
+    const [ hovered, setHover ] = useState(false);
 
     const handleEnter = async (e: React.KeyboardEvent<HTMLInputElement>, id: string) => {
         if (e.key === "Enter") {
@@ -82,8 +83,8 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
 
     return <>
         <div className='perspective-[1000px]'>
-            <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] transform-3d duration-150 shadow-sm": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150 shadow-sm"}> 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back hover:bg-violet-400 transform duration-500">   
+            <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150 shadow-sm"}> 
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-0 hide-back hover:bg-violet-400 transform duration-500 shadow-sm", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="text-[clamp(0.5rem,1vw,2rem)]">
@@ -97,7 +98,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
 
                 </div>  
 
-                <div className="absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back hover:bg-violet-400 transform duration-500 shadow-sm"> 
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border-2 border-violet-400 rotate-y-180 hide-back hover:bg-violet-400 transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">

@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Prop = {
     startTime: string,
     action: string,
@@ -6,8 +8,9 @@ type Prop = {
 }
 
 function Event ({startTime, action, duration, day}: Prop) {
+    let [ hovered, setHover ] = useState(false);
     return ( 
-        <div className="flex items-center rounded-4xl w-10/12 h-30 bg-violet-200 border-violet-300  border-2 pl-2 hover:cursor-pointer shadow-xl">
+        <div className={["flex items-center rounded-4xl w-10/12 h-30 bg-violet-200 border-violet-300  border-2 pl-2 hover:cursor-pointer shadow-xl transition duration-500", hovered ? "scale-105" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
             <div className="flex justify-center items-center w-28 h-20 bg-[#F1EDFF] rounded-lg font-bold text-2xl">
                 <div className="flex flex-col items-center text-[clamp(1rem,1.25vw,2rem)]">
                     <div> {parseInt(startTime) ? startTime : "Today"} </div> 
