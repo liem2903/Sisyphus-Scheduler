@@ -30,7 +30,7 @@ function SearchBar({query, setQuery, setReload, clickButton, setValue, value, re
         }
 
     return (
-        <input type="text" placeholder="Add your new event" className="bg-violet-300 w-[76vw] h-[10vh] rounded-[4vw] pl-[clamp(1rem,2vw,100rem)] pt-1 pb-1 border-2 focus:outline-0" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => handleClick(e)}/>
+        <input type="text" placeholder="Add your new event" className="bg-violet-300 w-[76vw] h-[10vh] rounded-[4vw] pl-[clamp(1rem,2vw,100rem)] pt-1 pb-1 border focus:outline-0 border-violet-400" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => handleClick(e)}/>
     )
 }
 
