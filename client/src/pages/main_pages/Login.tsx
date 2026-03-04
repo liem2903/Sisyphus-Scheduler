@@ -18,10 +18,10 @@ function Login () {
         <div>
             {status == "loading" ? <Spinner/> : 
                         
-            <div className="flex flex-col justify-evenly items-center w-full h-screen">
+            <div className="flex flex-col justify-evenly items-center w-full h-screen bg-linear-to-b from-violet-950 to-[#181528]">
                 <div className="flex flex-col items-center gap-3">
-                <div> <h1 className="font-sans text-[clamp(1rem,10vw,3.5rem)] font-semibold text-violet-500"> Welcome To Sisyphus </h1> </div> 
-                <div> <h2 className="font-sans text-1xl text-violet-500"> Your Scheduling Assistant </h2> </div> 
+                <div> <h1 className="font-sans text-[clamp(1rem,10vw,3.5rem)] bg-linear-to-r from-violet-300 via-violet-400 to-violet-500 font-semibold bg-clip-text text-transparent bg-size-[400%] animate-colour-wave"> Welcome To Sisyphus </h1> </div> 
+                <div> <h2 className="font-sans text-1xl text-violet-500 italic"> Your Scheduling Assistant </h2> </div> 
             </div>
                 <GoogleButton/> 
             </div>

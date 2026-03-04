@@ -90,16 +90,16 @@ function Home () {
                 <AddFriend openAddFriends={openAddFriends}/>
             </Portal>
              
-            <div className="flex bg-[#18142c]">
-                <div className="flex flex-col w-fit"> 
+            <div className="flex bg-linear-to-b from-[#181528] to-violet-950 h-screen">
+                <div className="flex flex-col w-fit overflow-y-auto h-full"> 
                     <Events reload={reload} setReload={setReload}/>
                     {
                         loading == true ? <Spinner/> : events.length == 0 ?
-                            <div className="w-[75vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center italic text-[clamp(1rem,1.5vw,100rem)]">
+                            <div className="w-[76vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center italic text-[clamp(1rem,1.5vw,100rem)]">
                             No events on today 
                             </div> : 
-                            <div className="flex flex-col w-full"> 
-                                <div className="content-start grid grid-cols-1 w-[75vw] h-[65vh] pl-[4vw] mt-[3vw] gap-y-[3vh] bg-violet-300 border-2 ml-[3vw] pt-5 overflow-y-scroll no-scrollbar rounded-[1vw]">
+                            <div className="flex flex-col w-full pt-[3vw]"> 
+                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] pl-[4vw] gap-y-[3vh] bg-linear-to-b from-violet-400 to-violet-300 border ml-[3vw] pt-5 overflow-y-scroll no-scrollbar rounded-[1vw]">
                                     {events.map((e) => (<div> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration} day="Today"/> 
                                     </div>))}
                                 </div>
@@ -108,7 +108,6 @@ function Home () {
                 </div>
                 <FriendChecker openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
             </div>
-            
         </>
      )
 }

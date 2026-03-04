@@ -19,8 +19,10 @@ function ProtectedRoute() {
     } else {
         return (
             <>
-                <Header/>
-                <Outlet/>        
+                <div className="h-screen overflow-hidden flex flex-col">
+                    <Header/>
+                    <Outlet/>  
+                </div> 
             </>
         )
     }

@@ -102,7 +102,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                     </div>
                 </div>  
 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border border-violet-400 rotate-y-180 hide-back hover:bg-violet-400 transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F1EDFF] border border-gray-300 rotate-y-180 hide-back hover:bg-gray-300 transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">

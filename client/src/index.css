@@ -25,6 +25,19 @@
   --font-google: "Roboto", ui-sans-serif, system-ui, sans-serif;
 }
 
+@layer utilities {
+  @keyframes colourWave {
+    0% { background-position: 0% 50%;}
+    50% { background-position: 100% 50%;}
+    100% { background-position: 0% 50%;}
+  }
+}
+
+.animate-colour-wave {
+  animation: colourWave 6s linear infinite;
+}
+
+body { margin: 0; }
 
 @layer components {
   .gsi-material-button {
