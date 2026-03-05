@@ -43,7 +43,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
                  
                 <div className={["absolute top-[1.25vw] w-[12vw] overflow-scroll z-1005 no-scrollbar right-1 bg-[#F1EDFF] h-[20vh] pt-[1vh] flex-col flex items-center transition duration-250", popUp ? "opacity-100 translate-y-[0.25vh]" : "opacity-0 translate-y-0 pointer-events-none"].join(" ")}>
                     {friendRequests.length != 0 ? friendRequests.map((requests) => 
-                        <div className="border-2 bg-violet-300 w-6/7 flex items-center justify-evenly gap-x-[1vw]"> 
+                        <div className="border border-violet-400/20 bg-violet-300 w-6/7 flex items-center justify-evenly gap-x-[1vw]"> 
                             <div className="pr-[0.5vw] text-[clamp(0.5rem,1vw,1rem)]">
                                 {requests.requester_name}
                             </div>

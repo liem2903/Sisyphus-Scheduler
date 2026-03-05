@@ -196,7 +196,6 @@ export async function getBusyPeriods(access_token, time_zone, start_date, end_da
 export async function getFriendFromNameData(my_id, name) {
     try {
         const data = await pool.query('SELECT friend_name, friend_id FROM public.friendships WHERE user_id = $1 AND friend_name ILIKE $2', [my_id, `${name}%`]);
-        console.log("HELLO");
         return data.rows;
     } catch (err) {
         console.log("INSTANT ERROR");

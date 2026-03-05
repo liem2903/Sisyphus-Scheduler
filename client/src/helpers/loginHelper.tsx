@@ -4,7 +4,7 @@ const REDIRECT_URI = "http://localhost:5173/loading"
 
 export function Google() {
     // Tells google what to return --> ID, Email and Profile.  
-    const scope = encodeURIComponent('openid email profile https://www.googleapis.com/auth/calendar');
+    const scope = encodeURIComponent('openid email profile' + ' ' + 'https://www.googleapis.com/auth/calendar' + ' ' + 'https://www.googleapis.com/auth/calendar.freebusy');
 
     const authUrl = 
         "https://accounts.google.com/o/oauth2/v2/auth" + 
