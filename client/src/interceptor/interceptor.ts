@@ -16,10 +16,8 @@ api.interceptors.response.use(
     (response) => response,
     async (error) => {
         const original_request = error.config;
-        console.log("INTERCEPT CALLED HERE");
 
         if (error.response.data.error !== 'Expired token') {
-            console.log("SO DIFFERNET ERROR");
             return Promise.reject(error);
         }
 
@@ -30,23 +28,19 @@ api.interceptors.response.use(
         if (isRefreshing) {
             return new Promise((resolve, reject) => {
                 waiters.push({resolve, reject});
-            })
+            }).then(() => api(original_request)).catch((err) => Promise.reject(err));
         }
 
         original_request._retry = true;
         isRefreshing = true;
 
         try {
-            console.log("I AM ATTEMPTING A REFRESH AT THIS POINT");
-            await axios.get('/api/auth/refresh', { withCredentials: true });
-            console.log("REFRESH WAS RUN SUCCESSFULLY");
+            await api.get('/auth/refresh');
 
             waiters.forEach(w => w.resolve());
             waiters = [];
-            console.log("I AM NOW RECALLING THE ORIGINAL REQUERST");
             return api(original_request);
         } catch (err) {
-            console.log("THIS SHIT IS WRONG");
             return Promise.reject(error);
         } finally {
             isRefreshing = false;

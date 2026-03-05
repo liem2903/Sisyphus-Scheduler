@@ -18,14 +18,14 @@ export function AuthProvider({children}: {children: ReactNode}) {
             hasRun.current = true; 
                         
             try {
-                await api.get('/auth/me', { withCredentials: true });
+                await api.get('/auth/me');
                 setStatus("authenticated");
             } catch (err: any) {
                 if (err.response.status == 401) {        
-                    console.log("FAILS SO HERE'S THE ERROR IN AUTH CONTEXT");
-                    console.log(err.response);
                     setStatus("unauthenticated");
-                }              
+                }   
+                
+                console.error("Error checking user authentication:", err);
             }
         }
 

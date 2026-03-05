@@ -99,6 +99,7 @@ export async function checkRefreshToken(refresh_token) {
             `SELECT user_id FROM public.refresh_tokens WHERE refresh_token = $1`, [refresh_token]
         )
         
+        console.log(data.rows[0]);
 
         return data.rows[0].user_id;
     } catch (err) {

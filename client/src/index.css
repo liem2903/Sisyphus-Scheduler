@@ -34,7 +34,7 @@
 }
 
 .animate-colour-wave {
-  animation: colourWave 6s linear infinite;
+  animation: colourWave 4s linear infinite;
 }
 
 body { margin: 0; }

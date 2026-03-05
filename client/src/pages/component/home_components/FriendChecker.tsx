@@ -84,7 +84,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
 
     return <>
         <div className="flex justify-center flex-1 ml-[2vw] mr-[2vw] pt-[5vh]">
-            <div className="border-2 bg-linear-to-b from-violet-300 to-violet-400 overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw]">
+            <div className="border border-white/10 bg-linear-to-b from-violet-300 to-violet-400 overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw]">
                 {loading ? <div/> :       
                     <div>
                         <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh] pt-[1vh]">

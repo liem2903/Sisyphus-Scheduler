@@ -90,7 +90,7 @@ function Home () {
                 <AddFriend openAddFriends={openAddFriends}/>
             </Portal>
              
-            <div className="flex bg-linear-to-b from-[#181528] to-violet-950 h-screen">
+            <div className="flex bg-linear-to-b from-[#1a0e05] to-[#0a0806] h-screen">
                 <div className="flex flex-col w-fit overflow-y-auto h-full"> 
                     <Events reload={reload} setReload={setReload}/>
                     {
