@@ -50,4 +50,8 @@ export type usedGroupInfo = {
     status: string,
     id: string,
 }
+
+export type AllDayEvents = {
+    eventName: string
+}
  

@@ -7,10 +7,12 @@ import Events from "./Events";
 import FriendChecker from "../component/home_components/FriendChecker";
 import Calendar from "../component/home_components/Calendar";
 import Portal from "../component/global_components/Portal";
-import type { busyDates } from "../../types/types";
+import type { AllDayEvents, busyDates } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
 import GroupCalendar from "../component/home_components/GroupCalendar";
 import AddFriend from "../component/home_components/AddFriend";
+import AllDayEvent from "../component/home_components/AllDayEvent";
+const hours = ["1:00AM", "2:00 AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM","1:00PM","2:00PM","3:00PM","4:00PM","5:00PM","6:00PM","7:00PM","8:00PM","9:00PM","10:00PM","11:00PM","12:00AM"];
 
 type Event = {
     eventName: string,
@@ -20,6 +22,7 @@ type Event = {
 // Fix the view point issues. Consistent across - learn about this. 
 function Home () {
     const [ events, setEvents ] = useState<Event[]>([]);
+    const [ allDayEvents, setAllDayEvents ] = useState<AllDayEvents[]>([]);
     const [ loading, setLoad ] = useState(false);
     const [ reload, setReload ] = useState(false);
     const [ calendarView, openCalendar ] = useState(false);
@@ -38,20 +41,29 @@ function Home () {
             let res = await api.get('/auth/getCalendar', {withCredentials: true});
             let CalendarData = res.data.data;
             let resEvents: Event[] = []
+            let allDayEvents: AllDayEvents[] = []
             
             CalendarData.map((data: any) => {
                 let startDate = DateTime.fromISO(data.start.dateTime);
                 let endDate = DateTime.fromISO(data.end.dateTime);
 
-                let event = {
+                startDate.minute
+
+                let newEvent = {
                     eventName: data.summary,
                     timeStart: startDate.toFormat("h:mma"),
-                    duration: `${endDate.diff(startDate, 'hours').hours}`
+                    duration: `${endDate.diff(startDate, 'hours').hours}`,
+                    
                 }
 
-                resEvents.push(event);
+                if (!parseInt(newEvent.duration)) {
+                    allDayEvents.push({eventName: data.summary})
+                } else {
+                    resEvents.push(newEvent);
+                }
             })
-
+            
+            setAllDayEvents(allDayEvents);
             setEvents(resEvents);
             setLoad(false);
         }
@@ -72,6 +84,13 @@ function Home () {
         set_time();
     }, [])
 
+    const filterTime = (d: Event, e: string) => {
+        const timeStart = DateTime.fromFormat(e, "h:mma");
+        const timeEnd = timeStart.plus({hours: 1})
+        
+        return timeStart <= DateTime.fromFormat(d.timeStart, "h:mma") && timeEnd > DateTime.fromFormat(d.timeStart, "h:mma"); 
+    }
+
     return (
         <>  
             <Portal open={calendarView}> 
@@ -90,18 +109,26 @@ function Home () {
                 <AddFriend openAddFriends={openAddFriends}/>
             </Portal>
              
-            <div className="flex bg-linear-to-b from-[#1a0e05] to-[#0a0806] h-screen">
+            <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
                 <div className="flex flex-col w-fit overflow-y-auto h-full"> 
                     <Events reload={reload} setReload={setReload}/>
                     {
-                        loading == true ? <Spinner/> : events.length == 0 ?
-                            <div className="w-[76vw] text-violet-500 font-bold h-[65vh] flex justify-center items-center italic text-[clamp(1rem,1.5vw,100rem)]">
-                            No events on today 
-                            </div> : 
+                        loading == true ? <Spinner/> : 
                             <div className="flex flex-col w-full pt-[3vw]"> 
-                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] pl-[4vw] gap-y-[3vh] bg-linear-to-b from-violet-400 to-violet-300 border ml-[3vw] pt-5 overflow-y-scroll no-scrollbar rounded-[1vw]">
-                                    {events.map((e) => (<div> <Event startTime={e.timeStart.toLowerCase()} action={e.eventName} duration={e.duration} day="Today"/> 
-                                    </div>))}
+                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E]  border border-[#4A7C59] ml-[3vw] rounded-[1vw]">
+                                    <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
+                                        <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
+                                        <div className="flex-1 flex-col">
+                                            {allDayEvents.map((event) => <AllDayEvent eventName={event.eventName}/>)}
+                                        </div>
+                                    </div>
+                                    <div className=" overflow-y-scroll no-scrollbar"> 
+                                        {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
+                                            <div className={["pt-[3vh] pb-[1vh] pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
+                                                <div className="mr-[2vw]"> {e} </div> <div className="flex"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart}/>)} </div>
+                                            </div>
+                                        </div>))}
+                                    </div>
                                 </div>
                             </div>
                     }

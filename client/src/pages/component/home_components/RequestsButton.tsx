@@ -36,7 +36,7 @@ function RequestsButton ({friendRequests, setRequests}: prop) {
     }   
 
     return <>
-        <div className="w-[clamp(1rem,1.5vw,5rem)] flex justify-center items-center" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
+        <div className="w-[clamp(1rem,1.5vw,5rem)] flex justify-center items-center text-[#4A7C59]" onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)}>
             <div className="rounded-full w-1/1 aspect-square flex justify-center items-center hover:bg-amber-50 relative leading-none">
                 <Inbox size={"clamp(1rem,1.5vw,100rem)"}/> 
                 <div className="hidden absolute w-[0.75vw] rounded-full bottom-[1.2vh] left-[1vw] bg-red-200 md:flex md:justify-center md:items-center text-[clamp(0.5rem,1vw,100rem)]"> {friendRequests.length} </div>
