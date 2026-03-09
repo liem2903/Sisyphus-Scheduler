@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { type friends, type friendRequest, type busyDates, type groupIds, type groupInfo, type usedGroupInfo } from "../../../types/types";
 import GroupButton from "./GroupButton";
 import GroupBlock from "./GroupBlock";
+import FriendCheckerSkeleton from "../skeleton_components/FriendCheckerSkeleton";
 
 type Prop = {
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -82,31 +83,31 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
     }, [])
 
     return <>
+        {loading ? <FriendCheckerSkeleton/> :
         <div className="flex justify-center flex-1 ml-[2vw] mr-[2vw] pt-[5vh] text-[#572e15]">
-            <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw]">
-                {loading ? <div/> :       
-                    <div>
-                        <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh] pt-[1vh]">
-                            <div className="flex sticky top-0 z-1006 bg-[#3B1F0E]"> 
-                                <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
-                                    Friends 
-                                </div>    
-                                <div className="flex flex-1 justify-end pr-[1vw]">
-                                    <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
-                                </div>
+            <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[80vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw]">                   
+                <div>
+                    <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh] pt-[1vh]">
+                        <div className="flex sticky top-0 z-1006 bg-[#3B1F0E]"> 
+                            <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
+                                Friends 
+                            </div>    
+                            <div className="flex flex-1 justify-end pr-[1vw]">
+                                <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
                             </div>
-                            {friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-                            {groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                         </div>
-                        
-                        <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] gap-x-[0.5vw]">
-                            <GroupButton openAddGroup={openAddGroup}/> 
-                            <AddFriendButton openAddFriends={openAddFriends}/>
-                        </div>
+                        {friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                        {groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                     </div>
-                }
+                    
+                    <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] gap-x-[0.5vw]">
+                        <GroupButton openAddGroup={openAddGroup}/> 
+                        <AddFriendButton openAddFriends={openAddFriends}/>
+                    </div>
+                </div>
+                
             </div>
-        </div>
+        </div> }
     </>
 }
 
