@@ -134,8 +134,10 @@ export async function setFriendRequestBusiness(status, id, friend, current_user)
             let friend_name = await getUserName(friend); 
             let user_name = await getUserName(current_user);
 
-            createFriend(friend, current_user, friend_name.name);
-            createFriend(current_user, friend, user_name.name)
+            await createFriend(friend, current_user, friend_name.name);
+            await createFriend(current_user, friend, user_name.name);
+
+            return {friend_name: friend_name.name};
         }
     } catch (err) {
         console.log("ERROR IN DATABASE");

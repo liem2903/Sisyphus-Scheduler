@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { type friends, type friendRequest, type busyDates, type groupIds, type groupInfo, type usedGroupInfo } from "../../../types/types";
 import GroupButton from "./GroupButton";
 import GroupBlock from "./GroupBlock";
-import FriendCheckerSkeleton from "../skeleton_components/FriendCheckerSkeleton";
+import FriendCheckerSkeleton from "../skeleton_components/friend_skeleton/FriendCheckerSkeleton";
 
 type Prop = {
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,8 +19,6 @@ type Prop = {
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
     openAddFriends: React.Dispatch<React.SetStateAction<boolean>>,
 }
-
-// I need to pass 
 
 function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
@@ -74,12 +72,11 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
             }));
 
             setGroups(groups);
-            setLoading(false);
         }
-        
-        getNotifications();
-        getFriends();
-        getGroups();
+                
+        Promise.all([getNotifications(), getFriends(), getGroups()]).then(() => {
+            setLoading(false);
+        });
     }, [])
 
     return <>
@@ -93,7 +90,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                                 Friends 
                             </div>    
                             <div className="flex flex-1 justify-end pr-[1vw]">
-                                <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests}/>
+                                <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
                             </div>
                         </div>
                         {friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}

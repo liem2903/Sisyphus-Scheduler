@@ -2,29 +2,23 @@ import Event from "../component/home_components/Event";
 import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { api } from "../../interceptor/interceptor";
-import Spinner from "../component/global_components/Spinner";
 import Events from "./Events";
 import FriendChecker from "../component/home_components/FriendChecker";
 import Calendar from "../component/home_components/Calendar";
 import Portal from "../component/global_components/Portal";
-import type { AllDayEvents, busyDates } from "../../types/types";
+import type { AllDayEvents, busyDates, EventType } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
 import GroupCalendar from "../component/home_components/GroupCalendar";
 import AddFriend from "../component/home_components/AddFriend";
 import AllDayEvent from "../component/home_components/AllDayEvent";
+import DailyCalendarSkeleton from "../component/skeleton_components/actual_calendar/DailyCalendarSkeleton";
 const hours = ["1:00AM", "2:00 AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM","1:00PM","2:00PM","3:00PM","4:00PM","5:00PM","6:00PM","7:00PM","8:00PM","9:00PM","10:00PM","11:00PM","12:00AM"];
 
-type Event = {
-    eventName: string,
-    timeStart: string,
-    duration: string
-}
 // Fix the view point issues. Consistent across - learn about this. 
 function Home () {
-    const [ events, setEvents ] = useState<Event[]>([]);
+    const [ events, setEvents ] = useState<EventType[]>([]);
     const [ allDayEvents, setAllDayEvents ] = useState<AllDayEvents[]>([]);
     const [ loading, setLoad ] = useState(false);
-    const [ reload, setReload ] = useState(false);
     const [ calendarView, openCalendar ] = useState(false);
     const [ groupCalendarView, openGroupCalendar ] = useState(false);
     const [ groupView, openAddGroup ] = useState(false);
@@ -40,7 +34,7 @@ function Home () {
             setLoad(true);
             let res = await api.get('/auth/getCalendar', {withCredentials: true});
             let CalendarData = res.data.data;
-            let resEvents: Event[] = []
+            let resEvents: EventType[] = []
             let allDayEvents: AllDayEvents[] = []
             
             CalendarData.map((data: any) => {
@@ -49,11 +43,10 @@ function Home () {
 
                 startDate.minute
 
-                let newEvent = {
+                let newEvent: EventType = {
                     eventName: data.summary,
                     timeStart: startDate.toFormat("h:mma"),
-                    duration: `${endDate.diff(startDate, 'hours').hours}`,
-                    
+                    duration: `${endDate.diff(startDate, 'hours').hours}`,                    
                 }
 
                 if (!parseInt(newEvent.duration)) {
@@ -69,7 +62,7 @@ function Home () {
         }
 
         getAccess();
-    }, [reload])
+    }, [])
 
     useEffect(() => {
         const set_time = async () => {
@@ -84,7 +77,7 @@ function Home () {
         set_time();
     }, [])
 
-    const filterTime = (d: Event, e: string) => {
+    const filterTime = (d: EventType, e: string) => {
         const timeStart = DateTime.fromFormat(e, "h:mma");
         const timeEnd = timeStart.plus({hours: 1})
         
@@ -111,9 +104,9 @@ function Home () {
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
                 <div className="flex flex-col w-fit overflow-y-auto h-full"> 
-                    <Events reload={reload} setReload={setReload}/>
+                    <Events setAllDayEvents={setAllDayEvents} setEvents={setEvents}/>
                     {
-                        loading == true ? <Spinner/> : 
+                        loading == true ? <DailyCalendarSkeleton /> : 
                             <div className="flex flex-col w-full pt-[3vw]"> 
                                 <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E]  border border-[#4A7C59] ml-[3vw] rounded-[1vw]">
                                     <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
@@ -125,7 +118,7 @@ function Home () {
                                     <div className=" overflow-y-scroll no-scrollbar"> 
                                         {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
                                             <div className={["pt-[3vh] pb-[1vh] pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
-                                                <div className="mr-[2vw]"> {e} </div> <div className="flex"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart}/>)} </div>
+                                                <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart}/>)} </div>
                                             </div>
                                         </div>))}
                                     </div>

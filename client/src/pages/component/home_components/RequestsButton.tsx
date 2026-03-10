@@ -1,8 +1,9 @@
-import type {friendRequest} from '../../../types/types'
+import type {friendRequest, friends} from '../../../types/types'
 
 type prop = {
     friendRequests: friendRequest[],
-    setRequests: React.Dispatch<React.SetStateAction<friendRequest[]>>
+    setRequests: React.Dispatch<React.SetStateAction<friendRequest[]>>,
+    setFriendList: React.Dispatch<React.SetStateAction<friends[]>>,
 }
 
 import { Inbox, Check, X } from "lucide-react";
@@ -10,19 +11,22 @@ import React, { useState } from 'react';
 import { api } from '../../../interceptor/interceptor';
 
 // I want to be able to hover over my button and then my requests will pop up. I can accept and decline requests accordingly - but once my mouse LEAVES the div then the pop up disappears. No overlap.
-function RequestsButton ({friendRequests, setRequests}: prop) { 
+function RequestsButton ({friendRequests, setRequests, setFriendList}: prop) { 
     const [ popUp, setPopup ] = useState(false);
     const [ tickHovered, onTickHover ] = useState(false);
     const [ crossHovered, onCrossHover ] = useState(false);
 
     const handleAccept = async (req: friendRequest) => {
-        api.patch('/friend/accept-friend-request', {id: req.id, from_user: req.from_user},  {withCredentials: true});
+        await api.patch('/friend/accept-friend-request', {id: req.id, from_user: req.from_user},  {withCredentials: true});
 
         const tempReqList = friendRequests.filter((value) => {
             value.id == req.id;
         })
 
         setRequests(tempReqList);
+        
+        const list = await api.get('/friend/get-friends', {withCredentials: true});
+        setFriendList(list.data.data); 
     }   
 
     const handleDecline = async (req: friendRequest) => {

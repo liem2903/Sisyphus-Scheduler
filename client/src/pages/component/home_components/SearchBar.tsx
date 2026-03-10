@@ -2,15 +2,17 @@ type Props = {
     query: string,
     setQuery: React.Dispatch<React.SetStateAction<string>>,
     setValue:  React.Dispatch<React.SetStateAction<string>>,
-    setReload: React.Dispatch<React.SetStateAction<boolean>>,
     clickButton: React.Dispatch<React.SetStateAction<boolean>>,
     value: string,
-    reload: boolean
+    setAllDayEvents: React.Dispatch<React.SetStateAction<AllDayEvents[]>>,
+    setEvents: React.Dispatch<React.SetStateAction<EventType[]>>
 }
 
+import type { AllDayEvents, EventType } from "../../../types/types";
 import { api } from "../../../interceptor/interceptor";
+import { DateTime } from "luxon";
 
-function SearchBar({query, setQuery, setReload, clickButton, setValue, value, reload}: Props) {
+function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEvents, setEvents}: Props) {
     const handleClick = async (e: React.KeyboardEvent<HTMLInputElement>) => {
             if (e.key == "Enter") {
                 if (value == "") {
@@ -23,10 +25,36 @@ function SearchBar({query, setQuery, setReload, clickButton, setValue, value, re
             }                      
         }
     
-        const endActions = () => {
+        const endActions = async () => {
             setValue("");
-            clickButton(false);
-            setReload(!reload);
+            clickButton(false);            
+            
+            let res = await api.get('/auth/getCalendar', {withCredentials: true});
+            let CalendarData = res.data.data;
+            let resEvents: EventType[] = []
+            let allDayEvents: AllDayEvents[] = []
+            
+            CalendarData.map((data: any) => {
+                let startDate = DateTime.fromISO(data.start.dateTime);
+                let endDate = DateTime.fromISO(data.end.dateTime);
+    
+                startDate.minute
+    
+                let newEvent: EventType = {
+                    eventName: data.summary,
+                    timeStart: startDate.toFormat("h:mma"),
+                    duration: `${endDate.diff(startDate, 'hours').hours}`,                    
+                }
+    
+                if (!parseInt(newEvent.duration)) {
+                    allDayEvents.push({eventName: data.summary})
+                } else {
+                    resEvents.push(newEvent);
+                }
+            })
+            
+            setAllDayEvents(allDayEvents);
+            setEvents(resEvents);
         }
 
     return (
