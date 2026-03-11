@@ -29,7 +29,9 @@ function Loading() {
        }, [])
 
     return(
-        <Spinner/>
+        <div>
+            <Spinner/>
+        </div>
     )
 }
 

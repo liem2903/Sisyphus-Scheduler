@@ -98,7 +98,7 @@ function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusy
 
                 </div>  
 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] border border-[#7D9E8C] rotate-y-180 hide-back hover:bg-[#7D9E8C] transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] border border-[#7D9E8C] rotate-y-180 hide-back transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">
