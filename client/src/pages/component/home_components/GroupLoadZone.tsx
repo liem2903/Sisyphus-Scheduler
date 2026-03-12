@@ -34,8 +34,8 @@ function GroupLoadZone({friend, groupName, openAddGroup}: Prop) {
                 {friend.map((groupMember) => <div className="bg-gray-400 pt-[1vh] pb-[1vh] rounded-md flex justify-center items-center"> {groupMember.friend_name} </div>)}
             </div>
 
-            <div className="sticky top-0 bg-gray-200 w-full h-[5vh] z-1002 flex justify-center items-end pr-[1vw] pb-[0.25vh] pt-[0.25vh]"> 
-                <button disabled={button} onClick={() => handleClick()} className={["w-[20vw] h-[5vh] rounded-xl flex justify-center items-center bg-violet-600 shadow-2xl backdrop-blur-2xlf font-bold", button ? "opacity-50" : "hover:cursor-pointer hover:bg-violet-800"].join(" ")}> Create Group </button>
+            <div className="sticky top-0 bg-gray-200 w-full d h-[5vh] z-1002 flex justify-center items-end pr-[1vw] pb-[0.25vh] pt-[0.25vh]"> 
+                <button disabled={button} onClick={() => handleClick()} className={["w-[20vw] h-[5vh] rounded-xl flex justify-center items-center bg-[#4A7C59] shadow-2xl backdrop-blur-2xlf font-bold", button ? "opacity-50" : "hover:cursor-pointer hover:bg-violet-800"].join(" ")}> Create Group </button>
             </div>
 
         </div>
