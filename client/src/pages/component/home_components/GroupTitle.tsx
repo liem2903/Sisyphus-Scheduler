@@ -8,7 +8,7 @@ type Prop = {
 
 function GroupTitle({setFocused, focused, setExtend, groupName, setGroupName}: Prop) {
     return <>
-        <input type="text" onFocus={() => {setFocused(false); setExtend(false)}} value={groupName} onChange={(e) => setGroupName(e.currentTarget.value)} placeholder="Name Group" className={["h-[5vh] w-full focus:outline-0 flex text-center z-1000 text-black rounded-[1vw] focus:outline-none", focused ? "" : "font-bold bg-white"].join(" ")}/>
+        <input type="text" onFocus={() => {setFocused(false); setExtend(false)}} value={groupName} onChange={(e) => setGroupName(e.currentTarget.value)} placeholder="Name Group" className={["h-[5vh] w-full focus:outline-0 flex text-center z-1000 text-black rounded-[1vw] focus:outline-none ", focused ? "" : "font-bold bg-[#F5ECD7] shadow-[0_4px_25px_0_rgba(0,0,0,0.5)]"].join(" ")}/>
     </>
 }
 
