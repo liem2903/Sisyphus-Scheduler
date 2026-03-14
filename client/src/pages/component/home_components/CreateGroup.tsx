@@ -22,7 +22,7 @@ function CreateGroup({openAddGroup}: prop) {
                     <AddToGroup setFocused={setFocused} focused={focused} extend={extend} setExtend={setExtend} addFriend={addFriend} friend={friend}/>
                     <GroupTitle setFocused={setFocused} focused={focused} setExtend={setExtend} groupName={groupName} setGroupName={setGroupName}/>
                 </div>
-                 <GroupLoadZone friend={friend} groupName={groupName} openAddGroup={openAddGroup}/>
+                 <GroupLoadZone addFriend={addFriend} friend={friend} groupName={groupName} openAddGroup={openAddGroup}/>
             </div>
         </div>
     </>

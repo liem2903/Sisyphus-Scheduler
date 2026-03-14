@@ -20,6 +20,7 @@ function AddToGroup({setFocused, focused, setExtend, extend, addFriend, friend}:
 
     const timer = useRef<number | undefined>(undefined);
     const input = useRef<HTMLInputElement | null>(null);
+    const selectingFromInput = useRef<boolean>(false);
 
     const handleType = (name: string) => {
         clearTimeout(timer.current);
@@ -69,8 +70,13 @@ function AddToGroup({setFocused, focused, setExtend, extend, addFriend, friend}:
     }
 
     useEffect(() => {
+        if (selectingFromInput.current) {
+            selectingFromInput.current = false;
+            return;
+        }
+
         if (friendName.length > 0) {
-            setExtend(true);
+            setExtend(true);            
         } else {
             setExtend(false);
             setSuggestions([]);
@@ -82,7 +88,7 @@ function AddToGroup({setFocused, focused, setExtend, extend, addFriend, friend}:
         <div>
             <div className={["w-[clamp(13rem,25vw,100rem)] h-[5vh] flex flex-col rounded-[1vw]", extend ? "h-[25vh] overflow-y-scroll no-scrollbar" : "overflow-y-hidden", focused ? "bg-[#F5ECD7] shadow-[0_4px_25px_0_rgba(0,0,0,0.5)]": ""].join(" ")}>
             <input ref={input} type="text" onClick={() => setErrorMessage("")} onFocus={() => {setFocused(true); setErrorMessage("")}} onKeyDown={(e) => {setErrorMessage(""); handleKeyDown(e, e.currentTarget.value)}} value={friendName} placeholder='Add Friend' onChange={(e) => {setfriendName(e.currentTarget.value); handleType(e.currentTarget.value)}} className={["focus:outline-none rounded-full h-[5vh] w-full flex-none text-center text-black text-[clamp(0.8rem,0.8vw,50rem)]", focused ? "font-bold" : ""].join(" ")}/>
-                {friendSuggestions.length > 0 && friendSuggestions.map((suggestions, index) => <div className={["text-black pl-[1vw] w-full h-[3vh] rounded-r-full hover:cursor-pointer hover:bg-gray-400/30 flex items-center gap-[0.5vw]", index == 0 ? "bg-gray-400/30" : ""].join(" ")} onClick={() => {setfriendName(suggestions.friend_name); setExtend(false); setChosenFriend(suggestions); input.current?.focus()}}> <Search size="15"/> <div className='pb-[0.25vh]'> {suggestions.friend_name} </div> </div>)}
+                {friendSuggestions.length > 0 && friendSuggestions.map((suggestions, index) => <div className={["text-black pl-[1vw] w-full h-[3vh] rounded-r-full hover:cursor-pointer hover:bg-gray-400/30 flex items-center gap-[0.5vw]", index == 0 ? "bg-gray-400/30" : ""].join(" ")} onClick={() => {selectingFromInput.current = true; setfriendName(suggestions.friend_name); setExtend(false); setChosenFriend(suggestions); input.current?.focus()}}> <Search size="15"/> <div className='pb-[0.25vh]'> {suggestions.friend_name} </div> </div>)}
                 {friendSuggestions.length == 0 && extend && <div className="text-black pl-[1vw] w-full h-[3vh] rounded-r-full hover:cursor-pointer hover:bg-gray-400/30 flex items-center gap-[0.5vw] bg-gray-400/30" onClick={() => {setExtend(false); input.current?.focus()}}> <Search size="15"/> {friendName} </div>}
             </div>
             
