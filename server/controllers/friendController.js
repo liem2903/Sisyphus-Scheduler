@@ -122,7 +122,7 @@ export async function getGroupAvailabilities(req, res) {
         let actual_friend_ids = JSON.parse(friend_ids);
 
         let data = await getGroupAvailabilitiesBusiness(my_id, my_google_id, actual_friend_ids, start_date, end_date, own_time_zone);
-       
+
         
         res.status(200).json({status: true, data});
     } catch (err) {

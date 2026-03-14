@@ -182,7 +182,7 @@ export async function getBusyPeriods(access_token, time_zone, start_date, end_da
 
         let new_dates = data.data.calendars.primary.busy;
         let actual_dates = []
-
+       
         for (const { start, end } of new_dates) {
            actual_dates.push({start: DateTime.fromISO(start).setZone(time_zone), end: DateTime.fromISO(end).setZone(time_zone)});
         }

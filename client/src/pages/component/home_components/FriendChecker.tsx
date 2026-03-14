@@ -33,6 +33,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
             const requests = await api.get('/friend/get-friend-requests', {withCredentials: true});
             let data: friendRequest[] = requests.data.data;
             let friendRequests: friendRequest[] = []
+            console.log(data);
             
             data.map(req => friendRequests.push(req));
             setFriendRequests(friendRequests);
