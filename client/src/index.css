@@ -150,3 +150,12 @@ body { margin: 0; }
   }
 
 }
+
+/* Today's date shading */
+.fc-day-today {
+  background-color: #4A7C59 !important;
+}
+
+.fc-scroller::-webkit-scrollbar {
+  display: none;
+}

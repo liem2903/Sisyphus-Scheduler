@@ -89,7 +89,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
     return <>
         <div className='perspective-[1000px]'>
             <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] border border-[#4A7C59] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"}> 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-sm", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col">
@@ -102,7 +102,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                     </div>
                 </div>  
 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back border border-[#4A7C59] transform duration-500", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back border border-[#4A7C59] transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">

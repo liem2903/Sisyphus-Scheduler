@@ -58,7 +58,9 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
         }
 
     return (
-        <input type="text" placeholder="Add your new event" className="bg-[#3B1F0E] w-[76vw] h-[10vh] rounded-[4vw] pl-[clamp(1rem,2vw,100rem)] pt-1 pb-1 focus:outline-0 text-[#FFF8F0] border border-[#4A7C59]" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => handleClick(e)}/>
+        <div className="bg-[#3B1F0E] w-[76vw] h-[10vh] rounded-[4vw] pl-[clamp(1rem,2vw,100rem)] pt-1 pb-1 focus:outline-0 text-[#FFF8F0] border border-[#4A7C59] flex items-center shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">
+            <input type="text" placeholder="Add your new event" className="text-[#FFF8F0] focus:outline-0 w-[clamp(10rem,65vw,65rem)] min-w-0 truncate text-[clamp(0.8rem,1.2vw,10rem)]" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => handleClick(e)}/>
+        </div>
     )
 }
 

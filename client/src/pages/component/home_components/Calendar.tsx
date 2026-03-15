@@ -81,7 +81,7 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
     return <>
         {calendarView && <div className="flex justify-center items-center inset-0 absolute">
             <div className="z-1007 bg-black/50 absolute inset-0" onClick={() => openCalendar(false)}> </div>
-            <div className="w-[clamp(25rem,55vw,100rem)] aspect-3/2 z-1008 bg-violet-400 absolute">
+            <div className="w-[clamp(25rem,55vw,100rem)] aspect-3/2 z-1008 bg-[#3B1F0E] text-[#F5ECD7] absolute rounded-lg shadow-[inset_0_4px_25px_0_rgba(0,0,0,0.2)]">
                 <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleBack()}, myNext: {icon: 'chevron-right', click: () => handleNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
             </div>
         </div>}

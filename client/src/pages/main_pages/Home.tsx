@@ -108,7 +108,7 @@ function Home () {
                     {
                         loading == true ? <DailyCalendarSkeleton /> : 
                             <div className="flex flex-col w-full pt-[3vw]"> 
-                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E]  border border-[#4A7C59] ml-[3vw] rounded-[1vw]">
+                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
                                     <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
                                         <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
                                         <div className="flex-1 flex-col">

@@ -84,7 +84,7 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
     return <>
         {groupCalendarView && <div className="flex justify-center items-center inset-0 absolute">
             <div className="z-1007 bg-black/50 absolute inset-0" onClick={() => openGroupCalendar(false)}> </div>
-            <div className="w-[55vw] h-[40vw] z-1008 bg-violet-400 absolute">
+            <div className="w-[55vw] h-[40vw] z-1008 bg-[#3B1F0E] text-[#F5ECD7] absolute">
                 <FullCalendar headerToolbar={{left: "", center: "", right: "myPrev,myNext"}} firstDay={1} customButtons={{myPrev: {icon: 'chevron-left', click: () => handleGroupBack()}, myNext: {icon: 'chevron-right', click: () => handleGroupNext()}}} ref={calendarRef} height="100%" plugins={[ dayGridPlugin, timeGridPlugin ]} initialView="timeGridWeek" events={dates}/>
             </div>
         </div>}
