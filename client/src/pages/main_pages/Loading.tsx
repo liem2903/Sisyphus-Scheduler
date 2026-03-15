@@ -29,7 +29,7 @@ function Loading() {
        }, [])
 
     return(
-        <div className='flex justify-center items-center'>
+        <div className='flex justify-center items-center w-screen h-screen bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4]'>
             <Spinner/>
         </div>
     )
