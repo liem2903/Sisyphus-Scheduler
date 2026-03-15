@@ -12,11 +12,14 @@ import {
      createEventData
  } from "../data_access/authRepository.js";
 
+import Anthropic from '@anthropic-ai/sdk' 
 import { DateTime } from 'luxon';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 dotenv.config();
+
+const client = new Anthropic();
 
 export function getGoogleToken(code) {
     return getGoogleTokenData(code);
@@ -99,108 +102,53 @@ export async function getTimezoneBusiness(access_token) {
 
 export async function createEventBusiness(access_token, prompt, time_zone) {
     try {
-        const dateRegex = /(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9])(-(3[0-1]|2[0-9]|1[0-9]|0?[1-9])[\/]?(1[0-2]|0?[1-9])[\/]?((?:20)?[2-9][0-9]))?/i;
-        const date = prompt.toLowerCase().trim().match(dateRegex);
-
-        let year = DateTime.now().setZone(time_zone).year;
-        let month = DateTime.now().setZone(time_zone).month;
-        let day = DateTime.now().setZone(time_zone).day;
-        let daySpan = 1;
-        [day, month, year] = formatDate(day, month, year);
-
-        if (date) {
-            [day, month, year] = formatDate(date[1], date[2], date[3]);
-
-            if (date[4]) {
-                let [ endDay, endMonth, endYear ] = formatDate(date[5], date[6], date[7]);
-
-                const tempStart = DateTime.fromObject({day, month, year}, {timeZone: time_zone});
-                const tempEnd = DateTime.fromObject({day: endDay, month: endMonth, year: endYear}, {timeZone: time_zone});
-                daySpan = tempEnd.diff(tempStart, 'days').as('days') + 1;
-            }
- 
-            prompt = prompt.toLowerCase().replace(dateRegex, "").trim().replace("  ", " ");
-        } else {
-            const tmrRegex = /(tmr+|tomorrow+|tomorow+|tmrw|2mr)/i
-            const tomorrow = prompt.toLowerCase().trim().match(tmrRegex);
-
-        // Get date somehow.
-            if (tomorrow) {
-                day = DateTime.now().plus({days: 1}).day;
-
-                [day, month, year] = formatDate(day, month, year)
-                prompt = prompt.toLowerCase().replace(tmrRegex, "").trim().replace("  ", " ");
-            }
-        }
-
-        // Add time regex - make it so that it's good.
-        const timeRegex = /(1[0-2]|0?[1-9]):?([0-5][0-9])?(pm|am)?-(1[0-2]|0?[1-9]):?([0-5][0-9])?(pm|am)?/i
-        const timeStart = prompt.trim().match(timeRegex);
-        
-        if (timeStart) { 
-            let hourStart = timeStart[1];
-            let minStart = timeStart[2] ? timeStart[2]: "00";
-            let hourEnd = timeStart[4];
-            let minEnd = timeStart[5] ? timeStart[5]: "00";
-
-            // So if I see that timeStart has a pm - I add 12 hours to it UNLESS it's a 12 then I leave it.
-            if (timeStart[3] == "pm" && parseInt(hourStart) != 12) {
-                hourStart = (setMeredian(parseInt(hourStart))).toString();
-                
-                if (!timeStart[6] && parseInt(hourEnd) + parseInt(minEnd) < parseInt(timeStart[1]) + parseInt(minStart) < 12) {
-                    hourEnd = setMeredian(parseInt(hourEnd)).toString();
+        const response = await client.messages.create({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 500,
+            messages: [
+                {
+                    role: 'user',
+                    content: `Today is ${DateTime.now().setZone(time_zone).toISO()}. Today is a ${DateTime.now().setZone(time_zone).weekdayLong}. Extract the date and time from this prompt: ${prompt}. Format the date as YYYY-MM-DD and the time as 24 hour time - giving me the start and end time. If there is a time do not give me an end date and set it to null. If there is no end time, just give the start time and make the end time 2 hours from it. If there is no time, just give the date as start date and end date where end date is one day after and set the times to null. If there is no date, just give me the time and assume the date is today. If there is a range of dates, give me both the start and end date. Make sure to also give me the prompt without the date and time in it. If the response is not a valid one for example start date is after end date- then set error to be an error message that details what was wrong with the prompt. Return your response in this json format, no extra text and no markdown: "prompt: (the prompt without the date and time), start_date: (the date), end_date (end date) start_time: (the start time), end_time: (the end time), err: (error message)".`
                 }
-            }
-            // If I see that time end has a pm I add 12 hours to it unless its a 12.
-            if (timeStart[6] == "pm" && hourEnd != "12") {
-                if (!timeStart[3] && parseInt(hourStart) + parseInt(minStart) < parseInt(hourEnd) + parseInt(minEnd)) {
-                    hourStart = (setMeredian(parseInt(hourStart))).toString();
-                }
+            ]            
+        })
 
-                hourEnd = setMeredian(parseInt(hourEnd)).toString();
-                // If time start doens't have any meredian and it's not equal to 12 I add 12
-            }
+        const text = response.content[0].text;
+        const event = JSON.parse(text);
+        let body = {} 
+      
+        if (event.start_time) {
+            const start = DateTime.fromISO(`${event.start_date}T${event.start_time}`, { zone: time_zone });
+            const end = DateTime.fromISO(`${event.start_date}T${event.end_time}`, { zone: time_zone });
 
-            prompt = prompt.toLowerCase().replace(timeRegex, "").trim().replace("  ", " ");
-            let start = DateTime.fromObject({day, year, month, hour: hourStart, minute: minStart}, {zone: time_zone});
-
-            if (daySpan > 1) {
-                day = (parseInt(day) + daySpan).toString();
-            }
-             let end = DateTime.fromObject({day, year, month, hour: hourEnd, minute: minEnd}, {zone: time_zone});
-
-            let body = {
-                summary: prompt,
+            body = {
+                summary: event.prompt,
                 start: {
                     dateTime: start.toISO(),
                     timeZone: start.zoneName
-                }, 
+                },
                 end: {
                     dateTime: end.toISO(),
-                    timeZone: start.zoneName
+                    timeZone: end.zoneName
                 }
-            };
-
-            createEventData(access_token, body, prompt.trim());
+            }
         } else {
-            // No time means I just make it a whole day thing.
-            let date = `${year}-${month}-${day}`;
-            let start = DateTime.fromISO(date).toISODate();
-            let end = DateTime.fromISO(date).plus({days: daySpan}).toISODate(); 
-
-            let body = {
-                summary: prompt,
+            let start = DateTime.fromISO(event.start_date).toISODate();
+            let end = DateTime.fromISO(event.end_date).toISODate(); 
+            
+            body = {
+                summary: event.prompt,
                 start: {
                     date: start,
-                }, 
+                },
                 end: {
                     date: end,
                 }
-            };
-
-            createEventData(access_token, body, prompt.trim());
+            }
         }
-        return 
+
+        createEventData(access_token, body);      
+        return; 
     } catch (err) {
         throw new Error(err.message);
     }
@@ -213,33 +161,3 @@ export function getFriendCodeBusiness(user_id) {
         throw new Error(err.message);
     }
 }
-
-function setMeredian(time) {
-    return time + 12; 
-}
-
-function formatDate(day, month, year) {
-    day = formatMonthAndDay(day);
-    month = formatMonthAndDay(month);
-    year = formatYear(year);
-
-    return [day, month, year];
-}
-
-function formatMonthAndDay(time) {
-    if (time.toString().length == 1) {
-        return `0${time}`;
-    } 
-
-    return time;
-}
-
-function formatYear(year) {
-    if (year.toString().length == 2) {
-        year = `20${year}`;
-    }
-
-    return year;
-}
-
- 
