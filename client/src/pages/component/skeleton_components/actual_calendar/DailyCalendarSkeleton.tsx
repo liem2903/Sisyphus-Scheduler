@@ -2,7 +2,6 @@ import AllDayEventSkeleton from "./AllDayEventSkeleton";
 import EventSkeleton from "./EventSkeleton";
 
 export default function DailyCalendarSkeleton() {
-
     const hours = Array.from({length: 24}, (_, i) => `${i}:00`);
     const allDayEvents = [{eventName: "Event 3"}];
     return <>
@@ -16,7 +15,7 @@ export default function DailyCalendarSkeleton() {
                 </div>
                 <div className="overflow-y-scroll no-scrollbar"> 
                     {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
-                        <div className={["pt-[3vh] pb-[1vh] pl-[2vw] flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
+                        <div className={["pt-[3vh] pb-[1vh] pl-[2vw] flex", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
                             <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1"> {index == 2 || index == 4 || index == 6 ? <EventSkeleton /> : null} </div>
                         </div>
                     </div>))}

@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { getGoogleDetails, createRefreshToken, createAccessToken, refresh, checkUser, logout, getCalender, createEvent } from '../controllers/authController.js';
+import { getGoogleDetails, createRefreshToken, createAccessToken, refresh, checkUser, logout, getCalender, createEvent, deleteEvent } from '../controllers/authController.js';
 const router = express.Router();
 import { authMiddleware, refreshMiddleware, googleAuthMiddleware } from '../middleware/middleware.js';
 
@@ -11,6 +11,6 @@ router.get('/me', authMiddleware, checkUser);
 router.get('/refresh/logout', logout);
 router.get('/getCalendar', authMiddleware, googleAuthMiddleware, getCalender);
 router.post('/create-event', authMiddleware, googleAuthMiddleware, createEvent);
-
+router.delete('/delete-event/:deletedEvent', authMiddleware, googleAuthMiddleware, deleteEvent);
 export default router;
 

@@ -221,3 +221,19 @@ export async function createEventData(access_token, body) {
         console.log(err.message);
     }
 }
+
+export async function deleteFriendRepository(access_token, deletedEvent) {
+    try {
+        const url = `https://www.googleapis.com/calendar/v3/calendars/primary/events/${deletedEvent}`;
+        
+        await axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+        });
+    } catch (err) {
+        console.log(err.response?.status);
+        console.log(err.response?.data); 
+        console.log(err.message);
+    }
+}

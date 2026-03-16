@@ -6,6 +6,7 @@
     "tailwindcss": "^4.1.17"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "jsonwebtoken": "^9.0.3",
     "jwt-decode": "^4.0.0",
     "jwtoken": "^0.0.0",

@@ -15,7 +15,7 @@ function ProtectedRoute() {
     }, [status, navigate])
 
     if (status == 'loading') {
-        return <Spinner/> 
+        return  <div className="flex items-center justify-center h-screen"> <Spinner/> </div>
     } else {
         return (
             <>

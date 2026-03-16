@@ -58,5 +58,6 @@ export type AllDayEvents = {
 export type EventType = {
     eventName: string,
     timeStart: string,
-    duration: string
+    duration: string,
+    id: string,
 }

@@ -19,9 +19,10 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
                     clickButton(false);
                     return
                 }
-    
+
+                clickButton(true);
                 await api.post('/auth/create-event', {value});
-                setTimeout(endActions, 2000);
+                await endActions();
             }                      
         }
     
@@ -43,7 +44,8 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
                 let newEvent: EventType = {
                     eventName: data.summary,
                     timeStart: startDate.toFormat("h:mma"),
-                    duration: `${endDate.diff(startDate, 'hours').hours}`,                    
+                    duration: `${endDate.diff(startDate, 'hours').hours}`, 
+                    id: data.id,                   
                 }
     
                 if (!parseInt(newEvent.duration)) {
@@ -52,7 +54,7 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
                     resEvents.push(newEvent);
                 }
             })
-            
+           
             setAllDayEvents(allDayEvents);
             setEvents(resEvents);
         }

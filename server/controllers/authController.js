@@ -12,6 +12,7 @@ import {
      getCalenderBusiness,
      getTimezoneBusiness,
      createEventBusiness,
+     deleteEventBusiness,
     } from "../business/authBusiness.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -182,7 +183,21 @@ export async function createEvent(req, res) {
         let access_token = req.access_token;
         let time_zone = req.time_zone;
         let { value: eventText } = req.body;
-        createEventBusiness(access_token, eventText, time_zone);
+        await createEventBusiness(access_token, eventText, time_zone);
+        return res.status(200).json({success: true});
+
+    } catch (err) {
+        return res.status(400).json({success: false});
+    }
+}
+
+export async function deleteEvent(req, res) {
+    try {
+        let { deletedEvent } = req.params;
+        let access_token = req.access_token;
+
+        console.log("HELLO");
+        await deleteEventBusiness(access_token, deletedEvent);
         return res.status(200).json({success: true});
 
     } catch (err) {
