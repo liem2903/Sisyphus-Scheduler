@@ -49,7 +49,7 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
                 }
     
                 if (!parseInt(newEvent.duration)) {
-                    allDayEvents.push({eventName: data.summary})
+                    allDayEvents.push({eventName: data.summary, id: data.id})
                 } else {
                     resEvents.push(newEvent);
                 }

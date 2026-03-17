@@ -52,7 +52,8 @@ export type usedGroupInfo = {
 }
 
 export type AllDayEvents = {
-    eventName: string
+    eventName: string,
+    id: string,
 }
  
 export type EventType = {

@@ -1,19 +1,24 @@
 import type { SetStateAction } from "react"
 import { api } from "../../../interceptor/interceptor"
-import type { EventType } from "../../../types/types";
+import type { AllDayEvents, EventType } from "../../../types/types";
 
 type Prop = {
     deletePopup: React.Dispatch<SetStateAction<boolean>>,
     deletedEvent: string,
     setEvents: React.Dispatch<SetStateAction<EventType[]>>,
     events: EventType[],
+    isAllDay: boolean,
+    setAllDayEvents: React.Dispatch<SetStateAction<AllDayEvents[]>>,
+    allDayEvents: AllDayEvents[],
 }
 
-export default function DeletePopup({deletePopup, deletedEvent, setEvents, events}: Prop) {  
+export default function DeletePopup({deletePopup, deletedEvent, setEvents, events, isAllDay, allDayEvents, setAllDayEvents}: Prop) {  
     const handleClick = async () => {
         await api.delete(`auth/delete-event/${deletedEvent}`);
 
-        setEvents(events.filter(event => event.id !== deletedEvent));        
+        if (!isAllDay) setEvents(events.filter(event => event.id !== deletedEvent));        
+        else setAllDayEvents(allDayEvents.filter(event => event.id !== deletedEvent));
+
         deletePopup(false);
     }
 

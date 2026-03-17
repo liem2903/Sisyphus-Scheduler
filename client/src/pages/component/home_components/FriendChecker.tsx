@@ -7,6 +7,7 @@ import { type friends, type friendRequest, type busyDates, type groupIds, type g
 import GroupButton from "./GroupButton";
 import GroupBlock from "./GroupBlock";
 import FriendCheckerSkeleton from "../skeleton_components/friend_skeleton/FriendCheckerSkeleton";
+import UnfriendButton from "./UnfriendButton";
 
 type Prop = {
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -100,6 +101,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                     <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] gap-x-[0.5vw]">
                         <GroupButton openAddGroup={openAddGroup}/> 
                         <AddFriendButton openAddFriends={openAddFriends}/>
+                        <UnfriendButton/>
                     </div>
                 </div>
                 

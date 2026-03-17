@@ -195,8 +195,6 @@ export async function deleteEvent(req, res) {
     try {
         let { deletedEvent } = req.params;
         let access_token = req.access_token;
-
-        console.log("HELLO");
         await deleteEventBusiness(access_token, deletedEvent);
         return res.status(200).json({success: true});
 

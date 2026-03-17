@@ -32,6 +32,7 @@ function Home () {
     const [popup, deletePopup ] = useState(false);
     const [ deletedEvent, setDeletedEvent ] = useState("");
     const [ friendCode, getFriendCode ] = useState("");
+    const [ isAllDay, setAllDay ] = useState(false);
 
     useEffect(() => {
         const getUserFriendCode = async () => {
@@ -62,10 +63,10 @@ function Home () {
                     timeStart: startDate.toFormat("h:mma"),
                     duration: `${endDate.diff(startDate, 'hours').hours}`,       
                     id: data.id,             
-                }
+                }       
 
                 if (!parseInt(newEvent.duration)) {
-                    allDayEvents.push({eventName: data.summary})
+                    allDayEvents.push({eventName: data.summary, id: data.id})
                 } else {
                     resEvents.push(newEvent);
                 }
@@ -118,7 +119,7 @@ function Home () {
             </Portal>
 
             <Portal open={popup}>
-                <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents}/>
+                <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents} isAllDay={isAllDay} setAllDayEvents={setAllDayEvents} allDayEvents={allDayEvents}/>
             </Portal>
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
@@ -131,13 +132,13 @@ function Home () {
                                     <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
                                         <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
                                         <div className="flex-1 flex-col  max-h-[10vh] overflow-y-scroll no-scrollbar">
-                                            {allDayEvents.map((event) => <AllDayEvent eventName={event.eventName}/>)}
+                                            {allDayEvents.map((event) => <AllDayEvent eventName={event.eventName} eventId={event.id} deletePopup={deletePopup} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)}
                                         </div>
                                     </div>
                                     <div className=" overflow-y-scroll no-scrollbar"> 
                                         {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
                                             <div className={["pt-[3vh] pb-[1vh] pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
-                                                <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1 flex-col gap-[1vh]"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart} deletePopup={deletePopup} id={event.id} setDeletedEvent={setDeletedEvent} />)} </div>
+                                                <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1 flex-col gap-[1vh]"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart} deletePopup={deletePopup} id={event.id} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)} </div>
                                             </div>
                                         </div>))}
                                     </div>
