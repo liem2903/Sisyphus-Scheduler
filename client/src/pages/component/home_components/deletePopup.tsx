@@ -1,14 +1,19 @@
 import type { SetStateAction } from "react"
 import { api } from "../../../interceptor/interceptor"
+import type { EventType } from "../../../types/types";
 
 type Prop = {
     deletePopup: React.Dispatch<SetStateAction<boolean>>,
     deletedEvent: string,
+    setEvents: React.Dispatch<SetStateAction<EventType[]>>,
+    events: EventType[],
 }
 
-export default function DeletePopup({deletePopup, deletedEvent}: Prop) {  
+export default function DeletePopup({deletePopup, deletedEvent, setEvents, events}: Prop) {  
     const handleClick = async () => {
         await api.delete(`auth/delete-event/${deletedEvent}`);
+
+        setEvents(events.filter(event => event.id !== deletedEvent));        
         deletePopup(false);
     }
 

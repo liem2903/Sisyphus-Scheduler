@@ -118,7 +118,7 @@ function Home () {
             </Portal>
 
             <Portal open={popup}>
-                <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent}/>
+                <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents}/>
             </Portal>
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
