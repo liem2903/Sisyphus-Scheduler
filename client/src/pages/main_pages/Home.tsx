@@ -31,6 +31,16 @@ function Home () {
     const [ groupCalendarIds, setGroupCalendarIds ] = useState<string[]>([]);
     const [popup, deletePopup ] = useState(false);
     const [ deletedEvent, setDeletedEvent ] = useState("");
+    const [ friendCode, getFriendCode ] = useState("");
+
+    useEffect(() => {
+        const getUserFriendCode = async () => {
+            let code = await api.get(`/user/get-friend-code`, {withCredentials: true});
+            getFriendCode(code.data.data.friend_code);
+        }
+
+        getUserFriendCode();
+    }, [])
 
 
     useEffect(() => {
@@ -104,7 +114,7 @@ function Home () {
             </Portal>
 
             <Portal open={addFriendsView}>
-                <AddFriend openAddFriends={openAddFriends}/>
+                <AddFriend openAddFriends={openAddFriends} code={friendCode}/>
             </Portal>
 
             <Portal open={popup}>
