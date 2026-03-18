@@ -88,11 +88,12 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
 
     return <>
         <div className='perspective-[1000px]'>
-            <div className={[flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] border border-[#4A7C59] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"].join(" ")}>                                                
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer" : '', trash && !hovered ? 'border-2 border-dotted border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
+            <div className={[flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"].join(" ")}>                                                
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer hover:animate-pulse" : '', trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
                     { trash && hovered ? <div className='text-[clamp(0.5rem,1vw,2rem)] text-center font-bold text-white italic'> Delete group </div> :
                         <div> 
-                            <div className="flex justify-center items-center">                                <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
+                            <div className="flex justify-center items-center"> 
+                                <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                                 <div className="flex flex-col">
                                     <div className="text-[clamp(0.5rem,1vw,2rem)]"> {placeHolderName} </div>
                                 </div>  
@@ -106,7 +107,8 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                     }
                 </div>  
 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back border border-[#4A7C59] transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer  hover:animate-pulse" : "", trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                    {trash && hovered ? <div className='text-[clamp(0.5rem,1vw,2rem)] text-center font-bold text-white italic'> Delete group </div> : 
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
                         <div className="flex flex-col justify-center items-center">
@@ -119,6 +121,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                             </div>
                         </div>
                     </div>
+                    }
                 </div>
             </div>
         </div>

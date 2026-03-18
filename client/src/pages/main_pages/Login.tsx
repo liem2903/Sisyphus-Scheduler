@@ -16,7 +16,7 @@ function Login () {
 
     return (
         <div>
-            {status == "loading" ? <Spinner/> : 
+            {status == "loading" ? <div className='w-screen h-screen bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] flex justify-center'> <Spinner/> </div> : 
                         
             <div className="flex flex-col justify-evenly items-center w-full h-screen bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4]">
                 <div className="flex flex-col items-center gap-3">
