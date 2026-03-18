@@ -19,9 +19,11 @@ type Prop = {
     openAddGroup: React.Dispatch<React.SetStateAction<boolean>>,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
     openAddFriends: React.Dispatch<React.SetStateAction<boolean>>,
+    openUnfriend: React.Dispatch<React.SetStateAction<boolean>>,
+    setUnfriendId: React.Dispatch<React.SetStateAction<string>>,
 }
 
-function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends}: Prop) {
+function FriendChecker({setUnfriendId, openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends, openUnfriend}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -95,7 +97,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                                 <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
                             </div>
                         </div>
-                        {friendlist.map((val) =>  <FriendBlock trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                        {friendlist.map((val) =>  <FriendBlock setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
                         {groups.map((group) => <GroupBlock trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                     </div>     
 

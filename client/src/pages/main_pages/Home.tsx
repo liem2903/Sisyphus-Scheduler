@@ -12,7 +12,8 @@ import GroupCalendar from "../component/home_components/GroupCalendar";
 import AddFriend from "../component/home_components/AddFriend";
 import AllDayEvent from "../component/home_components/AllDayEvent";
 import DailyCalendarSkeleton from "../component/skeleton_components/actual_calendar/DailyCalendarSkeleton";
-import DeletePopup from "../component/home_components/deletePopup";
+import DeletePopup from "../component/home_components/DeletePopup";
+import UnaddFriend from "../component/home_components/UnaddFriend";
 const hours = ["1:00AM", "2:00AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM","1:00PM","2:00PM","3:00PM","4:00PM","5:00PM","6:00PM","7:00PM","8:00PM","9:00PM","10:00PM","11:00PM","12:00AM"];
 
 // Fix the view point issues. Consistent across - learn about this. 
@@ -33,6 +34,8 @@ function Home () {
     const [ deletedEvent, setDeletedEvent ] = useState("");
     const [ friendCode, getFriendCode ] = useState("");
     const [ isAllDay, setAllDay ] = useState(false);
+    const [ unfriend, openUnfriend] = useState(false);
+    const [ unfriendId, setUnfriendId] = useState("");
 
     useEffect(() => {
         const getUserFriendCode = async () => {
@@ -121,6 +124,10 @@ function Home () {
             <Portal open={popup}>
                 <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents} isAllDay={isAllDay} setAllDayEvents={setAllDayEvents} allDayEvents={allDayEvents}/>
             </Portal>
+
+            <Portal open={unfriend}>
+                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId}/>
+            </Portal>
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
                 <div className="flex flex-col w-fit overflow-y-auto h-full"> 
@@ -146,7 +153,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
+                <FriendChecker setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
             </div>
         </>
      )
