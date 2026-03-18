@@ -74,9 +74,9 @@ export async function createAccessTokenBusiness(user_id) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_ENCRYPTION_KEY, {expiresIn: "15m",});
 }
 
-export async function logoutBusiness(refresh_token) {
+export async function logoutBusiness(user_id) {
     try {
-        return logoutData(refresh_token);
+        return logoutData(user_id);
     } catch (err) {
         throw new Error(err.message());
     }

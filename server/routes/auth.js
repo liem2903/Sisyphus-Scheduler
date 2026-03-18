@@ -8,7 +8,7 @@ router.post('/create-refresh-token', createRefreshToken);
 router.post('/create-access-token', createAccessToken);
 router.get('/refresh', refreshMiddleware, refresh);
 router.get('/me', authMiddleware, checkUser);
-router.get('/refresh/logout', logout);
+router.get('/refresh/logout', authMiddleware, logout);
 router.get('/getCalendar', authMiddleware, googleAuthMiddleware, getCalender);
 router.post('/create-event', authMiddleware, googleAuthMiddleware, createEvent);
 router.delete('/delete-event/:deletedEvent', authMiddleware, googleAuthMiddleware, deleteEvent);

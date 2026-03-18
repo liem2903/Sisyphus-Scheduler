@@ -113,16 +113,17 @@ export async function rotateRefreshTokenData(refresh_token, user_id, expires_at)
             `UPDATE public.refresh_tokens SET refresh_token = $1, expires_at = $2 WHERE user_id = $3`, [refresh_token, expires_at, user_id]
         )
 
-
     } catch (err) {
         console.log(err.message);
     }
 }
 
-export async function logoutData(refresh_token) {
+
+// DELETE THE TOEKN WITH USER ID NOT THE REFRESH ONE CAUSE THAT SHIT MIGHT BUG OUT SOMETIMES.
+export async function logoutData(user_id) {
     try {                
         await pool.query(
-            `DELETE FROM public.refresh_tokens WHERE refresh_token = $1`, [refresh_token]
+            `DELETE FROM public.refresh_tokens WHERE user_id = $1`, [user_id]
         )
     } catch (err) {
         console.log(err.message);

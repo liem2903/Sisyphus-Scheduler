@@ -137,10 +137,12 @@ export async function checkUser(req, res) {
 
 export async function logout(req, res) {
     try {
-        let refresh_token = req.cookies.refresh_token
+        let refresh_token = req.cookies.refresh_token;
+        let user_id = req.user.user_id;
+
         console.log(`LOGGING OUT... refresh_token is currently: ${refresh_token}`);
 
-        await logoutBusiness(refresh_token);
+        await logoutBusiness(user_id);
 
         console.log(`This refresh token has been removed`);
 
