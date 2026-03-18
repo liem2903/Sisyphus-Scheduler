@@ -15,10 +15,10 @@ type prop = {
     endWeek: String,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
     groupId: String,
+    trash: boolean,
 }
 
-
-function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId, groupId}: prop) {
+function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId, groupId, trash}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -88,18 +88,22 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
 
     return <>
         <div className='perspective-[1000px]'>
-            <div className={flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] border border-[#4A7C59] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"}> 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
-                    <div className="flex justify-center items-center"> 
-                        <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
-                        <div className="flex flex-col">
-                            <div className="text-[clamp(0.5rem,1vw,2rem)]"> {placeHolderName} </div>
-                        </div>  
-                        <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UsersRound size="[10vw]"/> </button>
-                    </div>
-                   <div className="flex gap-[0.5vw] text-[clamp(0.5rem,1vw,2rem)]">
-                        <div className='hidden xl:block'> Last Seen: </div> <div className='font-semibold'> {lastSeenState} </div>  
-                    </div>
+            <div className={[flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] border border-[#4A7C59] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"].join(" ")}>                                                
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer" : '', trash && !hovered ? 'border-2 border-dotted border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
+                    { trash && hovered ? <div className='text-[clamp(0.5rem,1vw,2rem)] text-center font-bold text-white italic'> Delete group </div> :
+                        <div> 
+                            <div className="flex justify-center items-center">                                <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
+                                <div className="flex flex-col">
+                                    <div className="text-[clamp(0.5rem,1vw,2rem)]"> {placeHolderName} </div>
+                                </div>  
+                                <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UsersRound size="[10vw]"/> </button>
+                            </div>
+
+                            <div className="flex gap-[0.5vw] text-[clamp(0.5rem,1vw,2rem)]">
+                                <div className='hidden xl:block'> Last Seen: </div> <div className='font-semibold'> {lastSeenState} </div>  
+                            </div>                        
+                        </div>
+                    }
                 </div>  
 
                 <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back border border-[#4A7C59] transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered ? "scale-110" : ""].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>

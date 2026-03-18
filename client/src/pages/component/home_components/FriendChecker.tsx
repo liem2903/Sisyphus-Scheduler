@@ -26,6 +26,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ groups, setGroups ] = useState<usedGroupInfo[]>([]);
+    const [ trash, setTrashMode ] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -84,7 +85,7 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
         {loading ? <FriendCheckerSkeleton/> :
         <div className="flex justify-center flex-1 ml-[2vw] mr-[2vw] pt-[5vh] text-[#572e15]">
             <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[81vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw] shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">                   
-                <div>
+                <div className="h-full flex flex-col">
                     <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh]">
                         <div className="flex sticky top-0 z-1006  bg-[#3B1F0E] pt-[1vh]"> 
                             <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
@@ -94,17 +95,16 @@ function FriendChecker({openCalendar, openGroupCalendar, setBusyDates, startWeek
                                 <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
                             </div>
                         </div>
-                        {friendlist.map((val) =>  <FriendBlock setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-                        {groups.map((group) => <GroupBlock setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
-                    </div>
-                    
-                    <div className="flex justify-end pr-[0.5vw] items-center h-[5vh] gap-x-[0.5vw]">
+                        {friendlist.map((val) =>  <FriendBlock trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                        {groups.map((group) => <GroupBlock trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
+                    </div>     
+
+                    <div className="flex justify-end pr-[2vw] items-center gap-x-[0.5vw] flex-1">
                         <GroupButton openAddGroup={openAddGroup}/> 
                         <AddFriendButton openAddFriends={openAddFriends}/>
-                        <UnfriendButton/>
-                    </div>
-                </div>
-                
+                        <UnfriendButton setTrashMode={setTrashMode} trash={trash}/>
+                    </div>               
+                </div>                      
             </div>
         </div> }
     </>

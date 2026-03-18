@@ -14,10 +14,11 @@ type prop = {
     startWeek: String,
     endWeek: String,
     setCalendarId: React.Dispatch<React.SetStateAction<string>>,
+    trash: boolean
 }
 
 
-function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusyDates, startWeek, endWeek, setCalendarId}: prop) {
+function FriendBlock({last_seen, id, changed_name, status, openCalendar, setBusyDates, startWeek, endWeek, setCalendarId, trash}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
