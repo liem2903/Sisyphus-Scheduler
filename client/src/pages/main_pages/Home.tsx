@@ -6,7 +6,7 @@ import Events from "./Events";
 import FriendChecker from "../component/home_components/FriendChecker";
 import Calendar from "../component/home_components/Calendar";
 import Portal from "../component/global_components/Portal";
-import type { AllDayEvents, busyDates, EventType } from "../../types/types";
+import type { AllDayEvents, busyDates, EventType, friends } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
 import GroupCalendar from "../component/home_components/GroupCalendar";
 import AddFriend from "../component/home_components/AddFriend";
