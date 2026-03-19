@@ -11,7 +11,8 @@ import {
     getAvailabilities, 
     getFriendFromName, 
     createFriendGroup,
-    getGroupAvailabilities
+    getGroupAvailabilities,
+    unfriend
 } from '../controllers/friendController.js';
 const router = express.Router()
 
@@ -32,5 +33,6 @@ router.get('/get-availabilities', authMiddleware, googleAuthMiddleware, getAvail
 router.get('/get-group-availabilities', authMiddleware, googleAuthMiddleware, getGroupAvailabilities);
 router.get('/get-friend-from-name', authMiddleware, getFriendFromName);
 router.post('/create-group', authMiddleware, createFriendGroup);
+router.delete('/unfriend-id/:unfriendId', authMiddleware, unfriend);
 
 export default router;

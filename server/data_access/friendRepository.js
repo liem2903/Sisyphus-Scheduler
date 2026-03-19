@@ -228,4 +228,14 @@ export async function createFriendGroupData(groupName, name, friendId, myId, gro
     } catch (err) {
         console.log(err.message);
     }
+}
+
+ export async function unfriendRepository(id, friend_id) {
+    try {
+        await pool.query('DELETE from public.friendships WHERE user_id = $1 AND friend_id = $2', [id, friend_id]);
+        await pool.query('DELETE from public.friend_requests WHERE (from_user = $1 AND to_user = $2) OR (from_user = $2 AND to_user = $1)', [id, friend_id]);
+    } catch (err) {
+        console.error(err.stack);
+        throw new Error(err.message);
+    }
  }

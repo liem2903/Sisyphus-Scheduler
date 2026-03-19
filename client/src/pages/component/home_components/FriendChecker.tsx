@@ -21,11 +21,12 @@ type Prop = {
     openAddFriends: React.Dispatch<React.SetStateAction<boolean>>,
     openUnfriend: React.Dispatch<React.SetStateAction<boolean>>,
     setUnfriendId: React.Dispatch<React.SetStateAction<string>>,
+    friendlist: friends[],
+    setFriendList: React.Dispatch<React.SetStateAction<friends[]>>,
 }
 
-function FriendChecker({setUnfriendId, openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends, openUnfriend}: Prop) {
+function FriendChecker({friendlist, setFriendList, setUnfriendId, openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends, openUnfriend}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
-    const [ friendlist, setFriendList ] = useState<friends[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ groups, setGroups ] = useState<usedGroupInfo[]>([]);
     const [ trash, setTrashMode ] = useState(false);
@@ -89,7 +90,7 @@ function FriendChecker({setUnfriendId, openCalendar, openGroupCalendar, setBusyD
             <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[81vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw] shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">                   
                 <div className="h-full flex flex-col">
                     <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh]">
-                        <div className={["flex sticky top-0 z-1006  bg-[#3B1F0E] pt-[1vh]", trash ? "bg-[#3B1F0E]/80" : ""].join(" ")}> 
+                        <div className={["flex sticky top-0 z-1006  bg-[#3B1F0E] pt-[1vh]", trash ? "bg-[#3B1F0E]" : ""].join(" ")}> 
                             <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
                                 Friends 
                             </div>    

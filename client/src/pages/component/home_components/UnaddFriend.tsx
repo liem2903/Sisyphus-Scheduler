@@ -1,14 +1,20 @@
 import type { SetStateAction } from "react"
 import type React from "react"
+import { api } from "../../../interceptor/interceptor"
+import type { friends } from "../../../types/types"
 
 type Prop = {
     openUnfriend: React.Dispatch<SetStateAction<boolean>>,
     unfriendId: string,
+    setFriendList: React.Dispatch<SetStateAction<friends[]>>,
+    friendlist: friends[],
 }
 
-export default function UnaddFriend({openUnfriend, unfriendId}: Prop) {
-    const handleClick = () => {
-        
+export default function UnaddFriend({openUnfriend, unfriendId, setFriendList, friendlist}: Prop) {
+    const handleClick = async () => {
+        await api.delete(`/friend/unfriend-id/${unfriendId}`);
+        setFriendList(friendlist.filter((unfriended) => unfriended.id != unfriendId));
+        openUnfriend(false);
     }
 
     return <>   

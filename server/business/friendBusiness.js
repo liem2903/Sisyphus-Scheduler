@@ -15,7 +15,8 @@ import {
     getFriendFromNameData,
     getExactFriendFromName,
     checkGroupId,
-    createFriendGroupData
+    createFriendGroupData,
+    unfriendRepository
 } from '../data_access/friendRepository.js'
 import { getUserName } from '../data_access/userRepository.js';
 import { getRefreshToken, refreshAccessToken } from '../data_access/authRepository.js';
@@ -266,5 +267,13 @@ export async function createFriendGroupBusiness(groupName, friends, myId) {
         }));        
     } catch (err) {
         console.log(err.message);
+    }
+}
+
+export async function unfriendBusiness(id, unfriend_id) {
+    try {
+        return await unfriendRepository(id, unfriend_id);
+    } catch (err) {
+        return err;
     }
 }

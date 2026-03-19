@@ -9,7 +9,8 @@ import {
     getAvailabilitiesBusiness,
     getFriendFromNameBusiness,
     createFriendGroupBusiness,
-    getGroupAvailabilitiesBusiness
+    getGroupAvailabilitiesBusiness,
+    unfriendBusiness
 } from '../business/friendBusiness.js';
 dotenv.config();
 
@@ -152,5 +153,18 @@ export async function createFriendGroup(req, res) {
         res.status(200).json({status: true})
     } catch (err) {
         res.status(400).json({status: false, error: err.message})
+    }
+}
+
+export async function unfriend(req, res) {
+    try {
+        let id = req.user.user_id;
+        let { unfriendId }= req.params;
+
+        await unfriendBusiness(id, unfriendId);
+        
+        res.status(200).json({status: true});
+    } catch (err) {
+        res.status(400).json({status: false, err: err.message});
     }
 }

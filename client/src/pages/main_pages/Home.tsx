@@ -36,6 +36,8 @@ function Home () {
     const [ isAllDay, setAllDay ] = useState(false);
     const [ unfriend, openUnfriend] = useState(false);
     const [ unfriendId, setUnfriendId] = useState("");
+    const [ friendlist, setFriendList ] = useState<friends[]>([]);
+    
 
     useEffect(() => {
         const getUserFriendCode = async () => {
@@ -126,7 +128,7 @@ function Home () {
             </Portal>
 
             <Portal open={unfriend}>
-                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId}/>
+                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId} setFriendList={setFriendList} friendlist={friendlist}/>
             </Portal>
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
@@ -153,7 +155,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
+                <FriendChecker setFriendList={setFriendList} friendlist={friendlist} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
             </div>
         </>
      )
