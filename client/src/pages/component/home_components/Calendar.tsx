@@ -13,7 +13,7 @@ type Prop = {
     calendarView: boolean
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     busyDates: busyDates[],
-    calendarId: String | String[],
+    calendarId: string | string[],
     startWeek: string,
     endWeek: string,
 }
@@ -36,13 +36,13 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
     const calendarRef = useRef<FullCalendar | null>(null);
 
     const handleBack = async () => {
-        let new_start = DateTime.fromISO(begin).minus({days: 7}).toISO() ?? ""; 
-        let new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
+        const new_start = DateTime.fromISO(begin).minus({days: 7}).toISO() ?? ""; 
+        const new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end)
 
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
+        const taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
                 
         const events = taken_slots.data.data.map((b: busyDates) => ({
             start: b.start,
@@ -58,13 +58,13 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
     }
 
     const handleNext = async () => {
-        let new_start = DateTime.fromISO(begin).plus({days: 7}).toISO() ?? ""; 
-        let new_end = DateTime.fromISO(end).plus({days: 7}).toISO() ?? "";
+        const new_start = DateTime.fromISO(begin).plus({days: 7}).toISO() ?? ""; 
+        const new_end = DateTime.fromISO(end).plus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end)
         
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
+        const taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: calendarId, start_date: new_start, end_date: new_end}, withCredentials: true});
                 
         const events = taken_slots.data.data.map((b: busyDates) => ({
             start: b.start,

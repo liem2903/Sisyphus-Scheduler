@@ -9,7 +9,7 @@ type AuthContextType = {
 export const AuthContext = createContext<AuthContextType | null> (null);
 
 export function AuthProvider({children}: {children: ReactNode}) {
-    let hasRun = useRef<boolean>(false);
+    const hasRun = useRef<boolean>(false);
     const [status, setStatus ] = useState("loading");
         
     useEffect(() => {       

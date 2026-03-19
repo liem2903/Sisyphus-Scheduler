@@ -11,8 +11,8 @@ type prop = {
     status: string,
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
-    startWeek: String,
-    endWeek: String,
+    startWeek: string,
+    endWeek: string,
     setCalendarId: React.Dispatch<React.SetStateAction<string>>,
     trash: boolean,
     openUnfriend: React.Dispatch<React.SetStateAction<boolean>>,
@@ -47,7 +47,7 @@ function FriendBlock({setDeletedFriendName, setUnfriendId, last_seen, id, change
                 showSuccessfulChange(true);
                 setSuccessMessage("Successfully changed name");
 
-                let duration = await api.get(`/friend/get-last-seen`, {params: { name: newName }, withCredentials: true});
+                const duration = await api.get(`/friend/get-last-seen`, {params: { name: newName }, withCredentials: true});
                 let new_seen = ""
                 
                 if (duration.data.data.last_seen == "Untracked") {
@@ -70,7 +70,7 @@ function FriendBlock({setDeletedFriendName, setUnfriendId, last_seen, id, change
     }
 
     const handleOpenCalendar = async () => {
-        let taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id, start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        const taken_slots = await api.get(`/friend/get-availabilities`, {params: {friend_id: id, start_date: startWeek, end_date: endWeek}, withCredentials: true});
         setCalendarId(id);
 
         const events = taken_slots.data.data.map((b: busyDates) => ({

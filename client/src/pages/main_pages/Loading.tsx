@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../interceptor/interceptor';
 
 function Loading() {
-    let hasRun = useRef<boolean>(false);
+    const hasRun = useRef<boolean>(false);
     const { setStatus } = useAuth();
     const navigate = useNavigate();
 

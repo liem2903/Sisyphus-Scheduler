@@ -43,7 +43,7 @@ function GroupBlock({setDeletedGroupName, last_seen, id, changed_name, status, o
                 await api.patch('/group/change-group-name', {id: groupId, name: newName}, {withCredentials: true});
                 setPlaceholderName(newName);
                 
-                let duration = await api.get(`/friend/get-last-seen`, {params: { name: newName }, withCredentials: true});
+                const duration = await api.get(`/friend/get-last-seen`, {params: { name: newName }, withCredentials: true});
                 let new_seen = ""
                 
                 if (duration.data.data.last_seen == "Untracked") {
@@ -71,8 +71,8 @@ function GroupBlock({setDeletedGroupName, last_seen, id, changed_name, status, o
     }
 
     const handleOpenCalendar = async () => {
-        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(id), start_date: startWeek, end_date: endWeek}, withCredentials: true});
-        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+        const taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(id), start_date: startWeek, end_date: endWeek}, withCredentials: true});
+        const events = taken_slots.data.data.flatMap((b: busyDates[]) => (
             b.map((c: busyDates) => (
                 {
                     start: c.start, 

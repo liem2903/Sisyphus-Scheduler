@@ -30,8 +30,8 @@ function AddToGroup({setFocused, focused, setExtend, extend, addFriend, friend}:
                 setSuggestions([]);
                 return
             } else {
-                let data = await api.get('/friend/get-friend-from-name', {params: {name, exact: false}, withCredentials: true});
-                let friends: groupFriends[] = data.data.friends;
+                const data = await api.get('/friend/get-friend-from-name', {params: {name, exact: false}, withCredentials: true});
+                const friends: groupFriends[] = data.data.friends;
                             
                 setSuggestions(friends);
             }
@@ -47,8 +47,8 @@ function AddToGroup({setFocused, focused, setExtend, extend, addFriend, friend}:
                 setChosenFriend(undefined);
             } else {
                 try {
-                    let data = await api.get('/friend/get-friend-from-name', {params: {name, exact: true}, withCredentials: true});
-                    let addedFriend: groupFriends = data.data.friends[0];
+                    const data = await api.get('/friend/get-friend-from-name', {params: {name, exact: true}, withCredentials: true});
+                    const addedFriend: groupFriends = data.data.friends[0];
 
                     if (!friend.some((x) => x.friend_id == addedFriend.friend_id)) {
                         setfriendName("");

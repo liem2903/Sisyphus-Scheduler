@@ -46,7 +46,7 @@ function Home () {
 
     useEffect(() => {
         const getUserFriendCode = async () => {
-            let code = await api.get(`/user/get-friend-code`, {withCredentials: true});
+            const code = await api.get(`/user/get-friend-code`, {withCredentials: true});
             getFriendCode(code.data.data.friend_code);
         }
 
@@ -57,18 +57,18 @@ function Home () {
     useEffect(() => {
         const getAccess = async () => {
             setLoad(true);
-            let res = await api.get('/auth/getCalendar', {withCredentials: true});
-            let CalendarData = res.data.data;
-            let resEvents: EventType[] = []
-            let allDayEvents: AllDayEvents[] = []
+            const res = await api.get('/auth/getCalendar', {withCredentials: true});
+            const CalendarData = res.data.data;
+            const resEvents: EventType[] = []
+            const allDayEvents: AllDayEvents[] = []
             
             CalendarData.map((data: any) => {
-                let startDate = DateTime.fromISO(data.start.dateTime);
-                let endDate = DateTime.fromISO(data.end.dateTime);
+                const startDate = DateTime.fromISO(data.start.dateTime);
+                const endDate = DateTime.fromISO(data.end.dateTime);
 
                 startDate.minute
 
-                let newEvent: EventType = {
+                const newEvent: EventType = {
                     eventName: data.summary,
                     timeStart: startDate.toFormat("h:mma"),
                     duration: `${endDate.diff(startDate, 'hours').hours}`,       

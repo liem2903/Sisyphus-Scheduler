@@ -41,8 +41,8 @@ function FriendChecker({setDeletedFriendName, friendlist, setFriendList, setUnfr
 
         const getNotifications = async () => {             
             const requests = await api.get('/friend/get-friend-requests', {withCredentials: true});
-            let data: friendRequest[] = requests.data.data;
-            let friendRequests: friendRequest[] = []
+            const data: friendRequest[] = requests.data.data;
+            const friendRequests: friendRequest[] = []
             
             data.map(req => friendRequests.push(req));
             setFriendRequests(friendRequests);
@@ -54,14 +54,14 @@ function FriendChecker({setDeletedFriendName, friendlist, setFriendList, setUnfr
         }
 
         const getGroups = async () => {
-            let data = await api.get('/group/get-group-ids', {withCredentials: true});
-            let group_ids = data.data.data;
+            const data = await api.get('/group/get-group-ids', {withCredentials: true});
+            const group_ids = data.data.data;
 
-            let groups = await Promise.all(group_ids.map(async (group_id: groupIds) => {
-                let data = await api.get('/group/get-group', {params: {group_id: group_id.group_id}, withCredentials: true});
-                let group_data: groupInfo = data.data.data;
+            const groups = await Promise.all(group_ids.map(async (group_id: groupIds) => {
+                const data = await api.get('/group/get-group', {params: {group_id: group_id.group_id}, withCredentials: true});
+                const group_data: groupInfo = data.data.data;
 
-                let duration = (await api.get(`/friend/get-last-seen`, {params: { name: group_data.group_name }, withCredentials: true})).data.data;
+                const duration = (await api.get(`/friend/get-last-seen`, {params: { name: group_data.group_name }, withCredentials: true})).data.data;
                 let new_seen = ""
                 
                 if (duration.last_seen == "Untracked") {

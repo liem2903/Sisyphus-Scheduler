@@ -11,7 +11,7 @@ type Prop = {
     groupCalendarView: boolean
     openGroupCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     busyDates: busyDates[],
-    groupCalendarId: String[],
+    groupCalendarId: string[],
     startWeek: string,
     endWeek: string,
 }
@@ -33,14 +33,14 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
     const calendarRef = useRef<FullCalendar | null>(null);
 
     const handleGroupBack = async () => {
-        let new_start = DateTime.fromISO(begin).minus({days: 7}).toISO() ?? ""; 
-        let new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
+        const new_start = DateTime.fromISO(begin).minus({days: 7}).toISO() ?? ""; 
+        const new_end = DateTime.fromISO(end).minus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end);
 
-        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
-        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+        const taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
+        const events = taken_slots.data.data.flatMap((b: busyDates[]) => (
             b.map((c: busyDates) => (
                 {
                     start: c.start, 
@@ -58,14 +58,14 @@ export function GroupCalendar({groupCalendarView, openGroupCalendar, busyDates, 
     }
 
     const handleGroupNext = async () => {
-        let new_start = DateTime.fromISO(begin).plus({days: 7}).toISO() ?? ""; 
-        let new_end = DateTime.fromISO(end).plus({days: 7}).toISO() ?? "";
+        const new_start = DateTime.fromISO(begin).plus({days: 7}).toISO() ?? ""; 
+        const new_end = DateTime.fromISO(end).plus({days: 7}).toISO() ?? "";
 
         setBeginWeek(new_start);
         setEndWeek(new_end)
 
-        let taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
-        let events = taken_slots.data.data.flatMap((b: busyDates[]) => (
+        const taken_slots = await api.get(`/friend/get-group-availabilities`, {params: {friend_ids: JSON.stringify(groupCalendarId), start_date: new_start, end_date: new_end}, withCredentials: true});
+        const events = taken_slots.data.data.flatMap((b: busyDates[]) => (
             b.map((c: busyDates) => (
                 {
                     start: c.start, 
