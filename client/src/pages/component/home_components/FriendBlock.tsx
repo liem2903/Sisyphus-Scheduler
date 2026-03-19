@@ -17,10 +17,11 @@ type prop = {
     trash: boolean,
     openUnfriend: React.Dispatch<React.SetStateAction<boolean>>,
     setUnfriendId: React.Dispatch<React.SetStateAction<string>>,
+    setDeletedFriendName: React.Dispatch<React.SetStateAction<string>>,
 }
 
 
-function FriendBlock({setUnfriendId, last_seen, id, changed_name, status, openCalendar, setBusyDates, startWeek, endWeek, setCalendarId, trash, openUnfriend}: prop) {
+function FriendBlock({setDeletedFriendName, setUnfriendId, last_seen, id, changed_name, status, openCalendar, setBusyDates, startWeek, endWeek, setCalendarId, trash, openUnfriend}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -88,6 +89,7 @@ function FriendBlock({setUnfriendId, last_seen, id, changed_name, status, openCa
         if (trash) {
             setUnfriendId(id);
             openUnfriend(true);
+            setDeletedFriendName(placeHolderName);
         }
     }
 

@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { api } from "../../interceptor/interceptor";
 import Events from "./Events";
-import FriendChecker from "../component/home_components/FriendChecker";
+import FriendChecker from "./FriendChecker";
 import Calendar from "../component/home_components/Calendar";
 import Portal from "../component/global_components/Portal";
-import type { AllDayEvents, busyDates, EventType, friends } from "../../types/types";
+import type { AllDayEvents, busyDates, EventType, friends, usedGroupInfo } from "../../types/types";
 import CreateGroup from "../component/home_components/CreateGroup";
 import GroupCalendar from "../component/home_components/GroupCalendar";
 import AddFriend from "../component/home_components/AddFriend";
@@ -14,6 +14,7 @@ import AllDayEvent from "../component/home_components/AllDayEvent";
 import DailyCalendarSkeleton from "../component/skeleton_components/actual_calendar/DailyCalendarSkeleton";
 import DeletePopup from "../component/home_components/DeletePopup";
 import UnaddFriend from "../component/home_components/UnaddFriend";
+import DeleteGroup from "../component/home_components/DeleteGroup";
 const hours = ["1:00AM", "2:00AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM","1:00PM","2:00PM","3:00PM","4:00PM","5:00PM","6:00PM","7:00PM","8:00PM","9:00PM","10:00PM","11:00PM","12:00AM"];
 
 // Fix the view point issues. Consistent across - learn about this. 
@@ -37,7 +38,11 @@ function Home () {
     const [ unfriend, openUnfriend] = useState(false);
     const [ unfriendId, setUnfriendId] = useState("");
     const [ friendlist, setFriendList ] = useState<friends[]>([]);
-    
+    const [ deleteGroupId, setDeletedGroup ] = useState("");
+    const [ openGroupDelete, setGroupDelete ] = useState(false);
+    const [ groups, setGroups ] = useState<usedGroupInfo[]>([]);
+    const [ deletedFriendName, setDeletedFriendName ] = useState("");
+    const [ deletedGroupName, setDeletedGroupName ] = useState("");
 
     useEffect(() => {
         const getUserFriendCode = async () => {
@@ -107,6 +112,7 @@ function Home () {
 
     return (
         <>  
+            {/* Portal for all popups and modals. */}
             <Portal open={calendarView}> 
                 <Calendar calendarView={calendarView} openCalendar={openCalendar} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
             </Portal>
@@ -128,7 +134,11 @@ function Home () {
             </Portal>
 
             <Portal open={unfriend}>
-                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId} setFriendList={setFriendList} friendlist={friendlist}/>
+                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId} setFriendList={setFriendList} friendlist={friendlist} deletedFriendName={deletedFriendName}/>
+            </Portal>
+
+            <Portal open={openGroupDelete}> 
+                <DeleteGroup deleteGroupId={deleteGroupId} setGroupDelete={setGroupDelete} groups={groups} setGroups={setGroups} deletedGroupName={deletedGroupName}/>
             </Portal>
              
             <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
@@ -155,7 +165,7 @@ function Home () {
                             </div>
                     }
                 </div>
-                <FriendChecker setFriendList={setFriendList} friendlist={friendlist} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
+                <FriendChecker setDeletedGroupName={setDeletedGroupName} setDeletedFriendName={setDeletedFriendName} setGroups={setGroups} groups={groups} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} setFriendList={setFriendList} friendlist={friendlist} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
             </div>
         </>
      )

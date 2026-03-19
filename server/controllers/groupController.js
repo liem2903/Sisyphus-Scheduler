@@ -1,4 +1,4 @@
-import { getGroupIdsBusiness, getGroupBusiness, changeGroupNameBusiness } from '../business/groupBusiness.js';
+import { getGroupIdsBusiness, getGroupBusiness, changeGroupNameBusiness, deleteGroupBusiness } from '../business/groupBusiness.js';
 
 export async function getGroup(req, res) {
     try {
@@ -31,5 +31,16 @@ export async function changeGroupName(req, res) {
         res.status(200).json({status: true, data});
     } catch (err) {
         res.status(400).json({status: false})
+    }
+}
+
+export async function deleteGroup(req, res) {
+    try {
+        let {deleteGroupId} = req.params;
+        await deleteGroupBusiness(deleteGroupId);
+
+        res.status(200).json({status: true})
+    } catch (err) {
+        res.status(400).json({status: false});
     }
 }

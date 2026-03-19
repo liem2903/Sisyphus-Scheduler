@@ -22,3 +22,12 @@ export async function changeGroupNameData(id, newName) {
         console.log(err.message);
     }
 }
+
+export async function deleteGroupRepository(deleteGroupId) {
+    try {
+        await pool.query('DELETE FROM public.group WHERE group_id = $1', [deleteGroupId]); 
+    } catch (err) {
+        console.error(err.stack);
+        throw new Error(err.message);
+    }
+}

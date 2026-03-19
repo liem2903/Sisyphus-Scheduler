@@ -1,20 +1,20 @@
-import { api } from "../../../interceptor/interceptor";
-import AddFriendButton from "./AddFriendButton";
-import FriendBlock from "./FriendBlock";
-import RequestsButton from "./RequestsButton";
+import { api } from "../../interceptor/interceptor";
+import AddFriendButton from "../component/home_components/AddFriendButton";
+import FriendBlock from "../component/home_components/FriendBlock";
+import RequestsButton from "../component/home_components/RequestsButton";
 import React, { useEffect, useState } from 'react';
-import { type friends, type friendRequest, type busyDates, type groupIds, type groupInfo, type usedGroupInfo } from "../../../types/types";
-import GroupButton from "./GroupButton";
-import GroupBlock from "./GroupBlock";
-import FriendCheckerSkeleton from "../skeleton_components/friend_skeleton/FriendCheckerSkeleton";
-import UnfriendButton from "./UnfriendButton";
+import { type friends, type friendRequest, type busyDates, type groupIds, type groupInfo, type usedGroupInfo } from "../../types/types";
+import GroupButton from "../component/home_components/GroupButton";
+import GroupBlock from "../component/home_components/GroupBlock";
+import FriendCheckerSkeleton from "../component/skeleton_components/friend_skeleton/FriendCheckerSkeleton";
+import UnfriendButton from "../component/home_components/UnfriendButton";
 
 type Prop = {
     openCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     openGroupCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
-    startWeek: String,
-    endWeek: String,
+    startWeek: string,
+    endWeek: string,
     setCalendarId:  React.Dispatch<React.SetStateAction<string>>,
     openAddGroup: React.Dispatch<React.SetStateAction<boolean>>,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
@@ -23,12 +23,17 @@ type Prop = {
     setUnfriendId: React.Dispatch<React.SetStateAction<string>>,
     friendlist: friends[],
     setFriendList: React.Dispatch<React.SetStateAction<friends[]>>,
+    setGroupDelete: React.Dispatch<React.SetStateAction<boolean>>,
+    setDeletedGroup: React.Dispatch<React.SetStateAction<string>>, 
+    groups: usedGroupInfo[],
+    setGroups: React.Dispatch<React.SetStateAction<usedGroupInfo[]>>,
+    setDeletedFriendName: React.Dispatch<React.SetStateAction<string>>,
+    setDeletedGroupName: React.Dispatch<React.SetStateAction<string>>,
 }
 
-function FriendChecker({friendlist, setFriendList, setUnfriendId, openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends, openUnfriend}: Prop) {
+function FriendChecker({setDeletedFriendName, friendlist, setFriendList, setUnfriendId, openCalendar, openGroupCalendar, setBusyDates, startWeek, endWeek, setCalendarId, openAddGroup, setGroupCalendarId, openAddFriends, openUnfriend, setGroupDelete, setDeletedGroup, groups, setGroups, setDeletedGroupName}: Prop) {
     const [ friendRequests, setFriendRequests ] = useState<friendRequest[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
-    const [ groups, setGroups ] = useState<usedGroupInfo[]>([]);
     const [ trash, setTrashMode ] = useState(false);
 
     useEffect(() => {
@@ -98,8 +103,8 @@ function FriendChecker({friendlist, setFriendList, setUnfriendId, openCalendar, 
                                 <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
                             </div>
                         </div>
-                        {friendlist.map((val) =>  <FriendBlock setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-                        {groups.map((group) => <GroupBlock trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
+                        {friendlist.map((val) =>  <FriendBlock setDeletedFriendName={setDeletedFriendName} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                        {groups.map((group) => <GroupBlock setDeletedGroupName={setDeletedGroupName} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
                     </div>     
 
                     <div className="flex justify-end pr-[2vw] items-center gap-x-[0.5vw] flex-1">

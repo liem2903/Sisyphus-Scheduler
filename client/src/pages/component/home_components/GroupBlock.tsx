@@ -11,14 +11,17 @@ type prop = {
     status: string,
     openGroupCalendar: React.Dispatch<React.SetStateAction<boolean>>,
     setBusyDates: React.Dispatch<React.SetStateAction<busyDates[]>>,
-    startWeek: String,
-    endWeek: String,
+    startWeek: string,
+    endWeek: string,
     setGroupCalendarId: React.Dispatch<React.SetStateAction<string[]>>,
-    groupId: String,
+    groupId: string,
     trash: boolean,
+    setGroupDelete: React.Dispatch<React.SetStateAction<boolean>>,
+    setDeletedGroup: React.Dispatch<React.SetStateAction<string>>,
+    setDeletedGroupName: React.Dispatch<React.SetStateAction<string>>,
 }
 
-function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId, groupId, trash}: prop) {
+function GroupBlock({setDeletedGroupName, last_seen, id, changed_name, status, openGroupCalendar, setBusyDates, startWeek, endWeek, setGroupCalendarId, groupId, trash, setGroupDelete, setDeletedGroup}: prop) {
     const [ flipped, flipOver ] = useState(false);
     const [ newName, setNewName] = useState("");
     const [ placeHolderName, setPlaceholderName ] = useState(changed_name);
@@ -86,10 +89,18 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
         openGroupCalendar(true);
     }
 
+    const handleClick = () => {
+        if (trash) {
+            setGroupDelete(true);
+            setDeletedGroup(groupId);
+            setDeletedGroupName(placeHolderName);
+        } 
+    }
+
     return <>
         <div className='perspective-[1000px]'>
             <div className={[flipped? "rotate-y-180 relative ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] transform-3d duration-150": "ml-[2vw] mr-[2vw] w-[clamp(1em,11vw,100em)] pt-[5vh] pb-[5vh] relative transform-3d duration-150"].join(" ")}>                                                
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer hover:animate-pulse" : '', trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>   
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-0 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer hover:animate-pulse" : '', trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => handleClick()}>   
                     { trash && hovered ? <div className='text-[clamp(0.5rem,1vw,2rem)] text-center font-bold text-white italic'> Delete group </div> :
                         <div> 
                             <div className="flex justify-center items-center"> 
@@ -107,7 +118,7 @@ function GroupBlock({last_seen, id, changed_name, status, openGroupCalendar, set
                     }
                 </div>  
 
-                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer  hover:animate-pulse" : "", trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                <div className={["absolute inset-0 flex flex-col items-center bg-[#F5ECD7] rotate-y-180 hide-back transform duration-500 shadow-[0_4px_30px_0_rgba(0,0,0,0.3)] rounded-lg", hovered && !trash ? "scale-110" : "", hovered && trash ? "hover:bg-[#8B3A3A]/80 hover:justify-center hover:items-center hover:cursor-pointer  hover:animate-pulse" : "", trash && !hovered ? 'border border-red-500 bg-[#F5ECD7]/80' : ''].join(" ")} onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => handleClick()}>
                     {trash && hovered ? <div className='text-[clamp(0.5rem,1vw,2rem)] text-center font-bold text-white italic'> Delete group </div> : 
                     <div className="flex justify-center items-center"> 
                         <FlipButton flipped={flipped} flipOver={flipOver} cantFlip={cantFlip}/>
