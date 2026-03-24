@@ -1,14 +1,13 @@
-const GOOGLE_CLIENT_ID = "50181412508-ks3oa11qtnb8fefjvtlp8vu0hbegq6et.apps.googleusercontent.com";
 const REDIRECT_URI = "http://localhost:5173/loading"
 
-
 export function Google() {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
     // Tells google what to return --> ID, Email and Profile.  
     const scope = encodeURIComponent('openid email profile' + ' ' + 'https://www.googleapis.com/auth/calendar' + ' ' + 'https://www.googleapis.com/auth/calendar.freebusy');
 
     const authUrl = 
         "https://accounts.google.com/o/oauth2/v2/auth" + 
-        `?client_id=${GOOGLE_CLIENT_ID}` + 
+        `?client_id=${clientId}` + 
         `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
         "&response_type=code" +
         `&scope=${scope}` +

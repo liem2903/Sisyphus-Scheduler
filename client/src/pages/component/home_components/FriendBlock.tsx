@@ -104,7 +104,7 @@ function FriendBlock({setDeletedFriendName, setUnfriendId, last_seen, id, change
                                 <div className="text-[clamp(0.5rem,1vw,2rem)]">
                                     {placeHolderName}
                                 </div>  
-                                <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UserRound size="[10vw]"/> </button> 
+                                <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 flex hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UserRound/> </button> 
                             </div>
                             <div className="flex gap-[0.5vw] text-[clamp(0.5rem,1vw,2rem)]">
                                 <div className='hidden xl:block'> Last Seen: </div> <div className='font-semibold'> {lastSeenState} </div>  

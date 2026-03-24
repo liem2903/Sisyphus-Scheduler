@@ -65,8 +65,10 @@ function AddFriend({openAddFriends, code}: Prop) {
 
                     <div className='bg-[#F5ECD7] w-[clamp(12rem,20vw,100rem)] flex text-center flex-col mt-[3vh] rounded-md transition duration-500 shadow-[0_4px_40px_0_rgba(0,0,0,0.2)]'> 
                         <div className="justify-center text-[#3B1F0E] pb-[1vh] pt-[1vh]"> <input type="search" placeholder="Type friend's code here" className='w-7/8 rounded-full text-center focus:outline-0 text-[clamp(0.8rem,1vw,2rem)]' value={friendCode} onClick={() => {setError(false); setErrorMessage("")}} onChange={(e) => typeFriendCode(e.target.value)} onKeyDown={handleKeyDown}/> </div>
-                        {error && <div className='text-red-500 font-extrabold text-[0.65vw] underline'> {errorMessage} </div>}
                     </div>
+
+                    {error && <div className='text-red-500 font-extrabold text-[0.65vw] underline'> {errorMessage} </div>}
+
                 </>
                                 
             </div> 

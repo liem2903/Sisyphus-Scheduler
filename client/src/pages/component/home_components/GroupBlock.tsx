@@ -108,7 +108,7 @@ function GroupBlock({setDeletedGroupName, last_seen, id, changed_name, status, o
                                 <div className="flex flex-col">
                                     <div className="text-[clamp(0.5rem,1vw,2rem)]"> {placeHolderName} </div>
                                 </div>  
-                                <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UsersRound size="[10vw]"/> </button>
+                                <button onClick={() => handleOpenCalendar()} className={["w-[clamp(1rem,1.25vw,100rem)] aspect-3/2 rounded-full absolute right-1 md:top-0.5 bottom-0.5 top-auto md:bottom-auto hover:cursor-pointer justify-center items-center hover:ring-2 hover:ring-violet-400/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 flex", statusState === "Green" && "bg-green-400", statusState === "Orange" && "bg-orange-400", statusState === "Red" && "bg-red-400"].join(" ")}> <UsersRound/> </button>
                             </div>
 
                             <div className="flex gap-[0.5vw] text-[clamp(0.5rem,1vw,2rem)]">

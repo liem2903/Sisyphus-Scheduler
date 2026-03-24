@@ -155,7 +155,7 @@ function Home () {
                                         </div>
                                     </div>
                                     <div className=" overflow-y-scroll no-scrollbar"> 
-                                        {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
+                                        {hours.map((e, index) => (<div key={e} className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
                                             <div className={["pt-[3vh] pb-[1vh] pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
                                                 <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1 flex-col gap-[1vh]"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart} deletePopup={deletePopup} id={event.id} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)} </div>
                                             </div>

@@ -18,6 +18,7 @@
     "@fullcalendar/timegrid": "^6.1.20",
     "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
+    "dotenv": "^17.3.1",
     "jwt-decode": "^4.0.0",
     "lucide": "^0.562.0",
     "lucide-react": "^0.562.0",

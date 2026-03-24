@@ -51,8 +51,8 @@ function RequestsButton ({friendRequests, setRequests, setFriendList}: prop) {
                                 {requests.requester_name}
                             </div>
                             <div className="flex gap-[0.1vw] pl-[0.4vw] text-[#F5ECD7]">
-                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X size="clamp(0.5rem,1vw,1rem)" color={crossHovered ? "red" : "#F5ECD7"}/> </div>
-                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check size="clamp(0.5rem,1vw,1rem)" color={tickHovered ? "green" : "#F5ECD7"}/> </div> 
+                                <div className={crossHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onCrossHover(true)} onMouseLeave={() => onCrossHover(false)} onClick={() => {handleDecline(requests)}}> <X className="w-[clamp(0.5rem,1vw,1rem)]" color={crossHovered ? "red" : "#F5ECD7"}/> </div>
+                                <div className={tickHovered ? "hover:cursor-pointer" : ""} onMouseOver={() => onTickHover(true)} onMouseLeave={() => onTickHover(false)} onClick={() => {handleAccept(requests)}}> <Check className="w-[clamp(0.5rem,1vw,1rem)]" color={tickHovered ? "green" : "#F5ECD7"}/> </div> 
                             </div>    
                         </div>) : <div className="italic text-[clamp(0.5rem,1vw,2rem)] flex justify-center ml-[0.5vw]"> There are no pending friend requests </div>}
                 </div>

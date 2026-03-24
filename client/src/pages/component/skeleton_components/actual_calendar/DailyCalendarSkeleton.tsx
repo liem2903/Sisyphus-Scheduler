@@ -10,11 +10,11 @@ export default function DailyCalendarSkeleton() {
                 <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
                     <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
                     <div className="flex-1 flex-col">
-                        {allDayEvents.map((event) => <AllDayEventSkeleton eventName={event.eventName}/>)}
+                        {allDayEvents.map((event) => <AllDayEventSkeleton key={event.eventName} eventName={event.eventName}/>)}
                     </div>
                 </div>
                 <div className="overflow-y-scroll no-scrollbar"> 
-                    {hours.map((e, index) => (<div className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
+                    {hours.map((e, index) => (<div key={e} className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
                         <div className={["pt-[3vh] pb-[1vh] pl-[2vw] flex", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
                             <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1"> {index == 2 || index == 4 || index == 6 ? <EventSkeleton /> : null} </div>
                         </div>
