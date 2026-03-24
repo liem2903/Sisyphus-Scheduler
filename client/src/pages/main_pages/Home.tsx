@@ -46,7 +46,7 @@ function Home () {
 
     useEffect(() => {
         const getUserFriendCode = async () => {
-            const code = await api.get(`/user/get-friend-code`, {withCredentials: true});
+            const code = await api.get(`/user/get-friend-code`);
             getFriendCode(code.data.data.friend_code);
         }
 
@@ -57,7 +57,7 @@ function Home () {
     useEffect(() => {
         const getAccess = async () => {
             setLoad(true);
-            const res = await api.get('/auth/getCalendar', {withCredentials: true});
+            const res = await api.get('/calendar/getCalendar');            
             const CalendarData = res.data.data;
             const resEvents: EventType[] = []
             const allDayEvents: AllDayEvents[] = []
@@ -92,7 +92,7 @@ function Home () {
 
     useEffect(() => {
         const set_time = async () => {
-            const time_zone = await api.get('/user/get-timezone', {withCredentials: true});
+            const time_zone = await api.get('/user/get-timezone');
             const weekStart = DateTime.now().setZone(time_zone.data.data.time_zone).startOf("week").toUTC().toISO();
             const weekEnd = DateTime.now().setZone(time_zone.data.data.time_zone).endOf("week").toUTC().toISO();
 

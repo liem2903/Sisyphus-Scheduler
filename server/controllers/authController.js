@@ -8,11 +8,7 @@ import {
      storeRefreshToken, 
      createAccessTokenBusiness,     
      rotateRefreshToken,
-     logoutBusiness,
-     getCalenderBusiness,
-     getTimezoneBusiness,
-     createEventBusiness,
-     deleteEventBusiness,
+     logoutBusiness
     } from "../business/authBusiness.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -164,42 +160,6 @@ export async function logout(req, res) {
 
 
         return res.status(200).json({success: true});
-    } catch (err) {
-        return res.status(400).json({success: false});
-    }
-}
-
-export async function getCalender(req, res) {
-    try {
-        let access_token = req.access_token;
-        let time_zone = req.time_zone;
-        let calendar = await getCalenderBusiness(access_token, time_zone);
-        return res.status(200).json({success: true, data: calendar.items})
-    } catch (err) {
-        return res.status(400).json({success: false})
-    }
-}
-
-export async function createEvent(req, res) {
-    try {
-        let access_token = req.access_token;
-        let time_zone = req.time_zone;
-        let { value: eventText } = req.body;
-        await createEventBusiness(access_token, eventText, time_zone);
-        return res.status(200).json({success: true});
-
-    } catch (err) {
-        return res.status(400).json({success: false});
-    }
-}
-
-export async function deleteEvent(req, res) {
-    try {
-        let { deletedEvent } = req.params;
-        let access_token = req.access_token;
-        await deleteEventBusiness(access_token, deletedEvent);
-        return res.status(200).json({success: true});
-
     } catch (err) {
         return res.status(400).json({success: false});
     }

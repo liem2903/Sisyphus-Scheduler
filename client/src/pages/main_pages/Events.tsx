@@ -19,14 +19,14 @@ function Events({setAllDayEvents, setEvents}: prop) {
             return
         }
 
-        await api.post('/auth/create-event', {value});
+        await api.post('/calendar/create-event', {value});
         await endActions();
     }
 
     const endActions = async () => {
         setValue("");
         clickButton(false);
-        const res = await api.get('/auth/getCalendar', {withCredentials: true});
+        const res = await api.get('/calendar/getCalendar', {withCredentials: true});
         const CalendarData = res.data.data;
         const resEvents: EventType[] = []
         const allDayEvents: AllDayEvents[] = []

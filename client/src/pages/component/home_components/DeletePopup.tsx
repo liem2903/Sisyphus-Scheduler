@@ -14,7 +14,7 @@ type Prop = {
 
 export default function DeletePopup({deletePopup, deletedEvent, setEvents, events, isAllDay, allDayEvents, setAllDayEvents}: Prop) {  
     const handleClick = async () => {
-        await api.delete(`auth/delete-event/${deletedEvent}`);
+        await api.delete(`calendar/delete-event/${deletedEvent}`);
 
         if (!isAllDay) setEvents(events.filter(event => event.id !== deletedEvent));        
         else setAllDayEvents(allDayEvents.filter(event => event.id !== deletedEvent));

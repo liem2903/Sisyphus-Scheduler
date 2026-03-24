@@ -21,7 +21,7 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
                 }
 
                 clickButton(true);
-                await api.post('/auth/create-event', {value});
+                await api.post('/calendar/create-event', {value});
                 await endActions();
             }                      
         }
@@ -30,7 +30,7 @@ function SearchBar({query, setQuery, clickButton, setValue, value, setAllDayEven
             setValue("");
             clickButton(false);            
             
-            const res = await api.get('/auth/getCalendar', {withCredentials: true});
+            const res = await api.get('/calendar/getCalendar');
             const CalendarData = res.data.data;
             const resEvents: EventType[] = []
             const allDayEvents: AllDayEvents[] = []
