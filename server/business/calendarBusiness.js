@@ -40,43 +40,51 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
 
         const text = response.content[0].text;
         const event = JSON.parse(text);
-        let body = {} 
-      
-        if (event.start_time) {
-            const start = DateTime.fromISO(`${event.start_date}T${event.start_time}`, { zone: time_zone });
-            const end = DateTime.fromISO(`${event.start_date}T${event.end_time}`, { zone: time_zone });
-
-            body = {
-                summary: event.prompt,
-                start: {
-                    dateTime: start.toISO(),
-                    timeZone: start.zoneName
-                },
-                end: {
-                    dateTime: end.toISO(),
-                    timeZone: end.zoneName
-                }
-            }
-        } else {
-            let start = DateTime.fromISO(event.start_date).toISODate();
-            let end = DateTime.fromISO(event.end_date).toISODate(); 
-            
-            body = {
-                summary: event.prompt,
-                start: {
-                    date: start,
-                },
-                end: {
-                    date: end,
-                }
-            }
-        }
-
+        let body = parseClaudeResponse(event, time_zone); 
         await createEventData(access_token, body);      
-        return; 
     } catch (err) {
         throw new Error(err.message);
     }
+}
+
+export function parseClaudeResponse (event, time_zone) {
+    let body = {}
+
+    if (event.err != null) {
+        throw new Error(event.error);
+    }
+
+    if (event.start_time) {
+        const start = DateTime.fromISO(`${event.start_date}T${event.start_time}`, { zone: time_zone });
+        const end = DateTime.fromISO(`${event.start_date}T${event.end_time}`, { zone: time_zone });
+
+        body = {
+            summary: event.prompt,
+            start: {
+                dateTime: start.toISO(),
+                timeZone: start.zoneName
+            },
+            end: {
+                dateTime: end.toISO(),
+                timeZone: end.zoneName
+            }
+        }
+    } else {
+        let start = DateTime.fromISO(event.start_date).toISODate();
+        let end = DateTime.fromISO(event.end_date).toISODate(); 
+        
+        body = {
+            summary: event.prompt,
+            start: {
+                date: start,
+            },
+            end: {
+                date: end,
+            }
+        }
+    }
+
+    return body;
 }
 
 export async function deleteEventBusiness(access_token, deletedEvent) {

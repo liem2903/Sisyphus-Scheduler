@@ -36,7 +36,6 @@ api.interceptors.response.use(
 
         try {
             await api.get('/auth/refresh');
-
             waiters.forEach(w => w.resolve());
             waiters = [];
             return api(original_request);

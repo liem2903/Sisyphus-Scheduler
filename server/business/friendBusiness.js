@@ -58,18 +58,23 @@ export async function getLastSeenBusiness(change_friend_name, google_id, time_zo
     let date_time = DateTime.fromObject({day: day, year: year, month: month});
     last_seen = Math.floor(DateTime.now().diff(date_time).as('days'));
     
-    let status = ""
-    if (last_seen > 30) {
-        status = "Red";
-    } else if (last_seen > 14) {
-        status = "Orange";
-    } else {
-        status = "Green";
-    }
-    
+    let status = get_status_code(last_seen.status);
+
     return {
         last_seen: last_seen.toString(),
         status
+    }
+}
+
+export function get_status_code(last_seen) {
+     const status = "";
+
+    if (last_seen > 30) {
+        return "Red";
+    } else if (last_seen > 14) {
+        return "Orange";
+    } else {
+        return "Green";
     }
 }
 
@@ -176,10 +181,7 @@ export async function changeFriendNameBusiness(user_id, id, name) {
 
 export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, start_date, end_date) {
     try {
-        // Have to think about what defines an available time --> I am probs gonna say two hours of free time.
         isFriends(my_id, friend_id); 
-
-         // Maybe can class into WHOLE DAY FREE vs like not whole day.
         const { expiry_time, time_zone } = await redis.get(`google:access:${friend_id}`);
 
         if (Date.now() >= expiry_time) {
@@ -192,7 +194,6 @@ export async function getAvailabilitiesBusiness(my_id, my_google_id, friend_id, 
         } 
 
         const { access_token } = await redis.get(`google:access:${friend_id}`);
-        console.log(`access_token: ${access_token}`);
         
         let friends_busy = await getBusyPeriods(access_token, time_zone, start_date, end_date); 
         let my_busy = await getBusyPeriods(my_google_id, time_zone, start_date, end_date);
