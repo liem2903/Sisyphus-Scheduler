@@ -123,7 +123,7 @@ export async function checkUniqueName(user_id, name) {
 }
 
 export async function getLastSeen(name, access_token, time_max) {
-    try {
+    try {        
         const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events");
         url.searchParams.set("q", name.toLowerCase());
         url.searchParams.set("timeMax", time_max);
@@ -136,13 +136,15 @@ export async function getLastSeen(name, access_token, time_max) {
 
         const event = data.data.items[data.data.items.length - 1];
         const startStr = event?.start?.dateTime ?? event?.start?.date;
+
+        console.log(startStr);
         
         if (!startStr) {
             return {
                 status: false
             } 
         }
-
+        
         return {status: true, start: startStr};
     } catch (err) {
         console.log(err.response?.status);

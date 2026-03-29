@@ -41,8 +41,7 @@ export async function getFriendsBusiness(user_id, google_id, time_zone) {
 export async function getLastSeenBusiness(change_friend_name, google_id, time_zone) {
     let time_max = DateTime.now().setZone(time_zone).toISO();
     let last_seen = await getLastSeen(change_friend_name, google_id, time_max);    
-    let regex = /([0-9]{4})-([0-9]{2})-([0-9]{2})/
-
+    
     if (!last_seen.status) {
         return {
             last_seen: "Untracked",
@@ -50,25 +49,27 @@ export async function getLastSeenBusiness(change_friend_name, google_id, time_zo
         }
     }
 
-    let date = last_seen.start.toString().match(regex);
-    let year = parseInt(date[1]);
-    let month = parseInt(date[2].toString());
-    let day = parseInt(date[3]);
-
-    let date_time = DateTime.fromObject({day: day, year: year, month: month});
-    last_seen = Math.floor(DateTime.now().diff(date_time).as('days'));
+    last_seen = get_date(last_seen);
+    let status = get_status_code(last_seen);
     
-    let status = get_status_code(last_seen.status);
-
     return {
         last_seen: last_seen.toString(),
         status
     }
 }
 
-export function get_status_code(last_seen) {
-     const status = "";
+export function get_date(last_seen) {
+    let regex = /([0-9]{4})-([0-9]{2})-([0-9]{2})/
+    let date = last_seen.start.toString().match(regex);
+    let year = parseInt(date[1]);
+    let month = parseInt(date[2].toString());
+    let day = parseInt(date[3]);
 
+    let date_time = DateTime.fromObject({day: day, year: year, month: month});
+    return Math.floor(DateTime.now().diff(date_time).as('days'));
+}
+
+export function get_status_code(last_seen) {
     if (last_seen > 30) {
         return "Red";
     } else if (last_seen > 14) {
@@ -104,14 +105,7 @@ async function getFriendsHelper(user, google_id, time_zone, user_id) {
     let date_time = DateTime.fromObject({day: day, year: year, month: month});
     last_seen = Math.floor(DateTime.now().diff(date_time).as('days'));
     
-    let status = ""
-    if (last_seen > 30) {
-        status = "Red";
-    } else if (last_seen > 14) {
-        status = "Orange";
-    } else {
-        status = "Green";
-    }
+    let status = get_status_code(last_seen);
     
     return {
         name: friends.name,

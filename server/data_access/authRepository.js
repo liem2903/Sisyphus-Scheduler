@@ -168,3 +168,21 @@ export async function refreshAccessToken(refresh_token) {
         console.log(err.message);
     }
 }
+
+export async function getTimezoneData(access_token) {
+    try {
+        const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary");
+        
+        const res = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            },
+        });
+
+        return res.data.timeZone;
+    } catch (err) {
+        console.log(err.response?.status);
+        console.log(err.response?.data); 
+        console.log(err.message);
+    }
+}

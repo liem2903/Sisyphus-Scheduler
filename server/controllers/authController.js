@@ -8,7 +8,8 @@ import {
      storeRefreshToken, 
      createAccessTokenBusiness,     
      rotateRefreshToken,
-     logoutBusiness
+     logoutBusiness,
+     getTimezoneBusiness
     } from "../business/authBusiness.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -62,7 +63,6 @@ export async function createRefreshToken(req, res) {
             maxAge: 30 * 24 * 60 * 60 * 1000 
         }); 
 
-        console.log(`COOKIE MADE ${refresh_token.code}`)
         res.status(201).json({success: true});
     } catch (err) {
         console.log(err.message);
@@ -157,8 +157,6 @@ export async function logout(req, res) {
         })
 
         console.log(`This refresh cookie has been removed!`);
-
-
         return res.status(200).json({success: true});
     } catch (err) {
         return res.status(400).json({success: false});

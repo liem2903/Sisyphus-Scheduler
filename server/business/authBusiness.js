@@ -6,11 +6,11 @@ import {
      storeRefreshGoogleData, 
      storeRefreshTokenData,
      rotateRefreshTokenData,
-     logoutData
+     logoutData,
+     getTimezoneData
  } from "../data_access/authRepository.js";
 
 import Anthropic from '@anthropic-ai/sdk' 
-import { DateTime } from 'luxon';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
@@ -41,7 +41,6 @@ export async function storeRefreshGoogle(user_id, google_token) {
  
 export async function createRefreshTokenLogic() {
     let code = crypto.randomBytes(64).toString("hex");
-
     let expiresAt = new Date();
     expiresAt.setMonth(expiresAt.getMonth() + 1);
 
@@ -53,7 +52,7 @@ export async function storeRefreshToken(refresh_token, user_id, expires_at) {
         return storeRefreshTokenData(refresh_token, user_id, expires_at);
     } 
     catch (err) {
-        throw new Error(err.message());
+        throw new Error(err.message);
     }
 }
 
@@ -61,7 +60,7 @@ export async function rotateRefreshToken(refresh_token, user_id, expires_at) {
     try {
         return rotateRefreshTokenData(refresh_token, user_id, expires_at);
     } catch (err) {
-        throw new Error(err.message()); 
+        throw new Error(err.message); 
     }
 }
 
@@ -74,6 +73,14 @@ export async function logoutBusiness(user_id) {
     try {
         return logoutData(user_id);
     } catch (err) {
-        throw new Error(err.message());
+        throw new Error(err.message);
+    }
+}
+
+export async function getTimezoneBusiness(access_token) {
+    try {
+        return getTimezoneData(access_token)
+    } catch (err) {
+        throw new Error(err.message);
     }
 }
