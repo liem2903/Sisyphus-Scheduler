@@ -1,7 +1,12 @@
 import { parseClaudeResponse } from "../../business/calendarBusiness";
 import { DateTime } from 'luxon';
+import { jest } from '@jest/globals'
 
 describe("Unit Test Calendar 1: Event Creation Tests", () => {
+    beforeEach(() => {
+        consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    });
+
     test("Test 1: Given an event with no time - parses the correct event details", () => {
         const event = {
             prompt: "Event 1",

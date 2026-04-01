@@ -171,8 +171,9 @@ describe("Unit Test Friend 1: Getting Status", () => {
 describe("getAvailabilitiesBusiness", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
   });
-
+  
   test("returns combined busy periods when token is not expired", async () => {
     const fakeNow = 1000000;
     jest.spyOn(Date, "now").mockReturnValue(fakeNow);
