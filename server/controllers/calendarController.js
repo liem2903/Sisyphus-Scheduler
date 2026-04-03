@@ -21,7 +21,6 @@ export async function createEvent(req, res) {
         let { value: eventText } = req.body;
         await createEventBusiness(access_token, eventText, time_zone);
         return res.status(200).json({success: true});
-
     } catch (err) {
         return res.status(400).json({success: false});
     }
@@ -33,7 +32,6 @@ export async function deleteEvent(req, res) {
         let access_token = req.access_token;
         await deleteEventBusiness(access_token, deletedEvent);
         return res.status(200).json({success: true});
-
     } catch (err) {
         return res.status(400).json({success: false});
     }

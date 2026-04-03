@@ -31,9 +31,9 @@ export async function createEventBusiness(access_token, prompt, time_zone) {
         })
 
         const text = response.content[0].text;
+
         const event = JSON.parse(text);
         let body = parseClaudeResponse(event, time_zone); 
-        
         await createEventData(access_token, body);      
     } catch (err) {
         throw new Error(err.message);

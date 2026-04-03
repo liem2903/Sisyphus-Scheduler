@@ -51,6 +51,11 @@ export async function createRefreshToken(req, res) {
     try {
         const { user_id } = req.body;
 
+        if (!user_id) {
+            res.status(400).json({success: false, message: "User Id doesn't exist"}) 
+            return
+        }
+
         const refresh_token = await createRefreshTokenLogic();
         // Create cookie for refresh_token and store it.
         await storeRefreshToken(refresh_token.code, user_id, refresh_token.expiresAt);
@@ -73,6 +78,11 @@ export async function createRefreshToken(req, res) {
 export async function createAccessToken(req, res) {
     try {
         const { user_id } = req.body;
+
+        if (!user_id) {
+            res.status(400).json({status: false, err: "No user_id"});
+            return
+        }
         const access_token = await createAccessTokenBusiness(user_id);
 
         res.cookie("access_token", access_token, {
@@ -83,7 +93,7 @@ export async function createAccessToken(req, res) {
             maxAge: 30 * 24 * 60 * 60 * 1000
         })
         
-        res.status(200).json({success: true});
+        res.status(201).json({success: true});
     } catch (err) {
         console.log(err.message);
         res.status(400).json({success: false, message: err});
