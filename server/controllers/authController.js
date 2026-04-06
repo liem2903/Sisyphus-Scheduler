@@ -143,14 +143,8 @@ export async function checkUser(req, res) {
 
 export async function logout(req, res) {
     try {
-        let refresh_token = req.cookies.refresh_token;
         let user_id = req.user.user_id;
-
-        console.log(`LOGGING OUT... refresh_token is currently: ${refresh_token}`);
-
         await logoutBusiness(user_id);
-
-        console.log(`This refresh token has been removed`);
 
         res.clearCookie("access_token", {
             httpOnly: true,
@@ -158,15 +152,12 @@ export async function logout(req, res) {
             secure: false,
         });
 
-        console.log(`This access cookie has been removed!`);
-
         res.clearCookie("refresh_token", {
             httpOnly: true,
             secure: false,
             sameSite: "lax",
         })
 
-        console.log(`This refresh cookie has been removed!`);
         return res.status(200).json({success: true});
     } catch (err) {
         return res.status(400).json({success: false});
