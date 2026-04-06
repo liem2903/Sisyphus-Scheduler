@@ -8,7 +8,7 @@ function Logout () {
 
     const handleClick = async () => {
         // Delete refresh and access cookies.
-        await api.get('/api/auth/refresh/logout');
+        await api.get('/auth/refresh/logout');
         setStatus("unauthenticated");
     }
     
