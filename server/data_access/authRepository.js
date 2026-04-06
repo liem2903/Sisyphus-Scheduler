@@ -124,7 +124,7 @@ export async function logoutData(user_id) {
     try {                
         await pool.query(
             `DELETE FROM public.refresh_tokens WHERE user_id = $1`, [user_id]
-        )
+        )        
     } catch (err) {
         console.log(err.message);
     }
