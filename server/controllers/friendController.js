@@ -67,7 +67,7 @@ export async function declineFriendRequest(req, res) {
     try {
         let { id } = req.body;
 
-        setFriendRequestBusiness("Declined", id, null, null);
+        await setFriendRequestBusiness("Declined", id, null, null);
         res.status(200).json({status: true})
     } catch (err) {
         res.status(400).json({status: false})
@@ -78,7 +78,7 @@ export async function acceptFriendRequest(req, res) {
     try {
         let { id, from_user } = req.body;
         let current_user = req.user.user_id;
-        setFriendRequestBusiness("Accepted", id, from_user, current_user);
+        await setFriendRequestBusiness("Accepted", id, from_user, current_user);
         res.status(200).json({status: true})
     } catch (err) {
         res.status(400).json({status: false})
@@ -148,7 +148,7 @@ export async function createFriendGroup(req, res) {
     try {
         let my_id = req.user.user_id;
         let { groupName, friend } = req.body;
-        createFriendGroupBusiness(groupName, friend, my_id);
+        await createFriendGroupBusiness(groupName, friend, my_id);
 
         res.status(200).json({status: true})
     } catch (err) {
