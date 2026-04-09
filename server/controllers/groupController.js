@@ -4,7 +4,13 @@ export async function getGroup(req, res) {
     try {
         let { group_id } = req.query;
 
-        let data = await getGroupBusiness(group_id);                   
+        let data = await getGroupBusiness(group_id);          
+        
+        if (data == null) {
+            res.status(400).json({status: false});
+            return
+        }
+
         res.status(200).json({status: true, data}); 
     } catch (err) {
         res.status(400).json({status: false});
@@ -25,8 +31,7 @@ export async function getGroupIds(req, res) {
 export async function changeGroupName(req, res) {
     try {        
         let { id, name } = req.body;
-        let data = changeGroupNameBusiness(id, name);
-
+        let data = await changeGroupNameBusiness(id, name);
 
         res.status(200).json({status: true, data});
     } catch (err) {

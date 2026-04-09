@@ -1,3 +1,5 @@
+// groupRepository.js
+
 import pool from "../data.js";
 
 export async function getGroupIdsData(user_id) {
@@ -17,17 +19,18 @@ export async function getGroupNameData(group_id) {
 
 export async function changeGroupNameData(id, newName) {
     try {
-        await pool.query('UPDATE public.group SET group_name = $1 WHERE group_id = $2', [newName, id]);    
+        const result = await pool.query('UPDATE public.group SET group_name = $1 WHERE group_id = $2', [newName, id]);
+        if (result.rowCount === 0) throw new Error('Group not found');
     } catch (err) {
-        console.log(err.message);
+        throw new Error(err.message);
     }
 }
 
 export async function deleteGroupRepository(deleteGroupId) {
     try {
-        await pool.query('DELETE FROM public.group WHERE group_id = $1', [deleteGroupId]); 
+        const result = await pool.query('DELETE FROM public.group WHERE group_id = $1', [deleteGroupId]);
+        if (result.rowCount === 0) throw new Error('Group not found');
     } catch (err) {
-        console.error(err.stack);
         throw new Error(err.message);
     }
 }

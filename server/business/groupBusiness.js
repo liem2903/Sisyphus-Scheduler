@@ -5,6 +5,7 @@ export async function getGroupIdsBusiness(user_id) {
         return await getGroupIdsData(user_id);
     } catch (err) {
         console.log(err.message);
+        throw err;
     }
 }
 
@@ -24,14 +25,16 @@ export async function getGroupBusiness(group_id) {
         }
      } catch (err) {
         console.log(err.message);
+        throw err;
     }
 }
 
 export async function changeGroupNameBusiness(id, newName) {
     try {
-        return changeGroupNameData(id, newName);
+        return await changeGroupNameData(id, newName);
     } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
+        throw new Error(err.message);
     }
 }
 
@@ -39,6 +42,7 @@ export async function deleteGroupBusiness(deleteGroupId) {
     try {
         await deleteGroupRepository(deleteGroupId);
     } catch (err) {
-        return err;
+        console.log(err.message);
+        throw err;
     }
 }
