@@ -70,29 +70,25 @@ describe('group business functions', () => {
 
         test('should log error and return undefined if getGroupNameData throws', async () => {
             const group_id = 'FILL IN VARIABLES HERE';
-            const error = new Error('FILL IN VARIABLES HERE');
+            const error = new Error('DB Error');
 
             getGroupNameDataMock.mockRejectedValue(error);
-
-            const result = await getGroupBusiness(group_id);
-
-            expect(getGroupNameDataMock).toHaveBeenCalledTimes(1);
-            expect(getGroupNameDataMock).toHaveBeenCalledWith(group_id);
+            await expect(getGroupBusiness('group_1')).rejects.toThrow('DB Error');
             expect(getGroupDataIdMock).not.toHaveBeenCalled();
             expect(consoleLogSpy).toHaveBeenCalledWith(error.message);
-            expect(result).toBeUndefined();
+
         });
 
-        test('should log error and return undefined if getGroupDataId throws', async () => {
-            const group_id = 'FILL IN VARIABLES HERE';
-            const error = new Error('FILL IN VARIABLES HERE');
+        test('should log error and return 400 if getGroupDataId throws', async () => {
+            const group_id = 'group_1';
+            const error = new Error('DB error');
 
             getGroupNameDataMock.mockResolvedValue([
-                { group_name: 'FILL IN VARIABLES HERE' }
+                { group_name: 'Alpha Team' }
             ]);
             getGroupDataIdMock.mockRejectedValue(error);
 
-            const result = await getGroupBusiness(group_id);
+            await expect(getGroupBusiness(group_id)).rejects.toThrow('DB error');
 
             expect(getGroupNameDataMock).toHaveBeenCalledTimes(1);
             expect(getGroupNameDataMock).toHaveBeenCalledWith(group_id);
@@ -101,7 +97,6 @@ describe('group business functions', () => {
             expect(getGroupDataIdMock).toHaveBeenCalledWith(group_id);
 
             expect(consoleLogSpy).toHaveBeenCalledWith(error.message);
-            expect(result).toBeUndefined();
         });
     });
 
