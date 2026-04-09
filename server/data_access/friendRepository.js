@@ -30,7 +30,7 @@ export async function postFriendRequestData(user_id, code) {
 
 export async function setFriendRequestData(status, id) {
     try {
-        pool.query(`UPDATE public.friend_requests SET status = $1 WHERE id = $2`, [status, id]);
+        await pool.query(`UPDATE public.friend_requests SET status = $1 WHERE id = $2`, [status, id]);
     } catch (err) {
         console.log(err.message);
     }

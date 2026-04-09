@@ -18,25 +18,25 @@ dotenv.config();
 
 const client = new Anthropic();
 
-export function getGoogleToken(code) {
-    return getGoogleTokenData(code);
+export async function getGoogleToken(code) {
+    return await getGoogleTokenData(code);
 } 
 
-export function getGoogleData(access_token) {
-    return getGoogleDataAccess(access_token);
+export async function getGoogleData(access_token) {
+    return await getGoogleDataAccess(access_token);
 }
 
 export async function getUser(google_id) {
-    return getUserData(google_id);
+    return await getUserData(google_id);
 }
 
 export async function createUser(id, email, name, time_zone) {
     let friend_code = crypto.randomBytes(6).toString("base64url").toUpperCase();
-    return createUserData(id, email, name, friend_code, time_zone)
+    return await createUserData(id, email, name, friend_code, time_zone)
 }
 
 export async function storeRefreshGoogle(user_id, google_token) {
-    return storeRefreshGoogleData(user_id, google_token);
+    return await storeRefreshGoogleData(user_id, google_token);
 }
  
 export async function createRefreshTokenLogic() {
@@ -58,7 +58,7 @@ export async function storeRefreshToken(refresh_token, user_id, expires_at) {
 
 export async function rotateRefreshToken(refresh_token, user_id, expires_at) {
     try {
-        return rotateRefreshTokenData(refresh_token, user_id, expires_at);
+        return await rotateRefreshTokenData(refresh_token, user_id, expires_at);
     } catch (err) {
         throw new Error(err.message); 
     }
@@ -71,7 +71,7 @@ export async function createAccessTokenBusiness(user_id) {
 
 export async function logoutBusiness(user_id) {
     try {
-        return logoutData(user_id);
+        return await logoutData(user_id);
     } catch (err) {
         throw new Error(err.message);
     }
@@ -79,7 +79,7 @@ export async function logoutBusiness(user_id) {
 
 export async function getTimezoneBusiness(access_token) {
     try {
-        return getTimezoneData(access_token)
+        return await getTimezoneData(access_token)
     } catch (err) {
         throw new Error(err.message);
     }
