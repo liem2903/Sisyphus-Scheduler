@@ -15,7 +15,10 @@ import DailyCalendarSkeleton from "../component/skeleton_components/actual_calen
 import DeletePopup from "../component/home_components/DeletePopup";
 import UnaddFriend from "../component/home_components/UnaddFriend";
 import DeleteGroup from "../component/home_components/DeleteGroup";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 const hours = ["1:00AM", "2:00AM", "3:00AM", "4:00AM", "5:00AM", "6:00AM", "7:00AM", "8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM","1:00PM","2:00PM","3:00PM","4:00PM","5:00PM","6:00PM","7:00PM","8:00PM","9:00PM","10:00PM","11:00PM","12:00AM"];
+
 
 // Fix the view point issues. Consistent across - learn about this. 
 function Home () {
@@ -43,6 +46,10 @@ function Home () {
     const [ groups, setGroups ] = useState<usedGroupInfo[]>([]);
     const [ deletedFriendName, setDeletedFriendName ] = useState("");
     const [ deletedGroupName, setDeletedGroupName ] = useState("");
+    const [ timeMax, setTimeMax ] = useState <string | null>("");
+    const [ timeMin, setTimeMin ] = useState<string | null>("");
+    const [ viewingDate, setViewingDate ] = useState("");
+    const [ today, setToday ] = useState<string | null>("");
 
     useEffect(() => {
         const getUserFriendCode = async () => {
@@ -53,11 +60,15 @@ function Home () {
         getUserFriendCode();
     }, [])
 
-
     useEffect(() => {
         const getAccess = async () => {
             setLoad(true);
-            const res = await api.get('/calendar/getCalendar');            
+
+            if (timeMax == "" && timeMin == "") {
+                return;
+            }
+
+            const res = await api.get('/calendar/getCalendar', {params: {time_min: timeMin, time_max: timeMax}});            
             const CalendarData = res.data.data;
             const resEvents: EventType[] = []
             const allDayEvents: AllDayEvents[] = []
@@ -65,8 +76,6 @@ function Home () {
             CalendarData.map((data: any) => {
                 const startDate = DateTime.fromISO(data.start.dateTime);
                 const endDate = DateTime.fromISO(data.end.dateTime);
-
-                startDate.minute
 
                 const newEvent: EventType = {
                     eventName: data.summary,
@@ -88,16 +97,31 @@ function Home () {
         }
 
         getAccess();
-    }, [])
+    }, [timeMax, timeMin])
 
     useEffect(() => {
         const set_time = async () => {
             const time_zone = await api.get('/user/get-timezone');
-            const weekStart = DateTime.now().setZone(time_zone.data.data.time_zone).startOf("week").toUTC().toISO();
-            const weekEnd = DateTime.now().setZone(time_zone.data.data.time_zone).endOf("week").toUTC().toISO();
+            let time_zone_str = time_zone.data.data.time_zone
+            const weekStart = DateTime.now().setZone(time_zone_str).startOf("week").toUTC().toISO();
+            const weekEnd = DateTime.now().setZone(time_zone_str).endOf("week").toUTC().toISO();
+        
+            const localStartOfDay = DateTime.now()
+            .setZone(time_zone_str)
+            .startOf("day");
 
+            const time_min = localStartOfDay.toUTC().toISO();
+            const today = localStartOfDay.toUTC().toISO();
+
+            const time_max = localStartOfDay.plus({ days: 1 }).toUTC().toISO();
+            const viewing_date = localStartOfDay.toFormat("MM-dd-yyyy");
+
+            setTimeMax(time_max);   
+            setTimeMin(time_min);
+            setViewingDate(viewing_date);
             setStartWeek(weekStart ?? "");
             setEndWeek(weekEnd ?? "");
+            setToday(today);
         }
 
         set_time();
@@ -108,6 +132,39 @@ function Home () {
         const timeEnd = timeStart.plus({hours: 1})
         
         return timeStart <= DateTime.fromFormat(d.timeStart, "h:mma") && timeEnd > DateTime.fromFormat(d.timeStart, "h:mma"); 
+    }
+
+    const handleIncreaseDate = () => {
+        const time_zone = DateTime.fromISO(timeMin ?? "").zoneName;
+        const newTimeMin = DateTime.fromISO(timeMin ?? "").setZone(time_zone ?? "").plus({ days: 1 }).toUTC().toISO();
+        const newTimeMax = DateTime.fromISO(timeMax ?? "").setZone(time_zone ?? "").plus({ days: 1 }).toUTC().toISO();
+        const viewing_date = DateTime.fromISO(newTimeMin ?? "").setZone(time_zone ?? "").toFormat("MM-dd-yyyy");
+
+        setTimeMin(newTimeMin);
+        setTimeMax(newTimeMax);
+        setViewingDate(viewing_date);
+    }
+
+    const handleDecreaseDate = () => {
+        const time_zone = DateTime.fromISO(timeMin ?? "").zoneName;
+        const newTimeMin = DateTime.fromISO(timeMin ?? "").setZone(time_zone ?? "").minus({ days: 1 }).toUTC().toISO();
+        const newTimeMax = DateTime.fromISO(timeMax ?? "").setZone(time_zone ?? "").minus({ days: 1 }).toUTC().toISO();
+        const viewing_date = DateTime.fromISO(newTimeMin ?? "").setZone(time_zone ?? "").toFormat("MM-dd-yyyy");
+
+        setTimeMin(newTimeMin);
+        setTimeMax(newTimeMax);
+        setViewingDate(viewing_date);
+    }
+
+    const handleToday = () => {
+        const time_zone = DateTime.fromISO(today ?? "").zoneName;
+        const newTimeMin = DateTime.fromISO(today ?? "").setZone(time_zone ?? "").toUTC().toISO();
+        const newTimeMax = DateTime.fromISO(today ?? "").setZone(time_zone ?? "").plus({ days: 1 }).toUTC().toISO();
+        const viewing_date = DateTime.fromISO(newTimeMin ?? "").setZone(time_zone ?? "").toFormat("MM-dd-yyyy");
+
+        setTimeMin(newTimeMin);
+        setTimeMax(newTimeMax);
+        setViewingDate(viewing_date);
     }
 
     return (
@@ -146,8 +203,29 @@ function Home () {
                     <Events setAllDayEvents={setAllDayEvents} setEvents={setEvents}/>
                     {
                         loading == true ? <DailyCalendarSkeleton /> : 
-                            <div className="flex flex-col w-full pt-[3vw]"> 
-                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
+                            <div className="flex flex-col w-full pt-[2vw]"> 
+                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] overflow-hidden shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
+                                    <div className="grid grid-cols-3 items-center text-white font-bold bg-[#4A7C59] h-[4vh] px-[1vw]">
+                                        <div className="justify-self-start flex items-center gap-[0.6vw]">
+                                            <button
+                                                onClick={handleToday}
+                                                className="px-[0.8vw] py-[0.35vh] rounded-full bg-[#5B8A63] text-white text-[0.8rem] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.18)] hover:brightness-110 transition cursor-pointer"
+                                            >
+                                                Today
+                                            </button>
+
+                                            <ChevronLeft size={20} onClick={() => handleDecreaseDate()} className="cursor-pointer" />
+                                        </div>
+
+                                        <div className="justify-self-center">
+                                            {viewingDate}
+                                        </div>
+
+                                        <div className="justify-self-end cursor-pointer">
+                                            <ChevronRight size={20} onClick={() => handleIncreaseDate()}/>
+                                        </div>
+                                    </div>
+
                                     <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
                                         <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
                                         <div className="flex-1 flex-col  max-h-[10vh] overflow-y-scroll no-scrollbar">

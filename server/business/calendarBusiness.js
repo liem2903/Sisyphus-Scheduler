@@ -7,10 +7,8 @@ const client = new Anthropic();
 
 import { getCalenderData, createEventData, deleteFriendRepository } from '../data_access/calendarRepository.js'
 
-export async function getCalenderBusiness(access_token, time_zone) {
+export async function getCalenderBusiness(access_token, time_min, time_max) {
     try {
-        const time_min = DateTime.now().setZone(time_zone).startOf("day").toUTC().toISO();
-        const time_max = DateTime.now().setZone(time_zone).plus({days: 1}).startOf("day").toUTC().toISO();
         return getCalenderData(access_token, time_min, time_max);
     } catch (err) {
         throw new Error(err.message());

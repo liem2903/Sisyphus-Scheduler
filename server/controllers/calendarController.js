@@ -6,8 +6,9 @@ import { getCalenderBusiness, createEventBusiness, deleteEventBusiness } from '.
 export async function getCalender(req, res) {
     try {
         let access_token = req.access_token;
-        let time_zone = req.time_zone;        
-        let calendar = await getCalenderBusiness(access_token, time_zone);        
+        let { time_min, time_max} = req.query;
+
+        let calendar = await getCalenderBusiness(access_token, time_min, time_max);        
         return res.status(200).json({success: true, data: calendar.items})
     } catch (err) {
         return res.status(400).json({success: false})
