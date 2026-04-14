@@ -204,7 +204,7 @@ function Home () {
                     {
                         loading == true ? <DailyCalendarSkeleton /> : 
                             <div className="flex flex-col w-full pt-[2vw]"> 
-                                <div className="content-start grid grid-cols-1 w-[76vw] h-[65vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] overflow-hidden shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
+                                <div className="content-start grid grid-cols-1 w-[76vw] h-[72vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] overflow-hidden shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
                                     <div className="grid grid-cols-3 items-center text-white font-bold bg-[#4A7C59] h-[4vh] px-[1vw]">
                                         <div className="justify-self-start flex items-center gap-[0.6vw]">
                                             <button
