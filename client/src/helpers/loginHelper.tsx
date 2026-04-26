@@ -11,7 +11,8 @@ export function Google() {
         `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
         "&response_type=code" +
         `&scope=${scope}` +
-        "&access_type=offline";
+        "&access_type=offline" + 
+        "&prompt=consent";
     window.location.href = authUrl;
 }
 

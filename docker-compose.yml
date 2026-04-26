@@ -1,6 +1,7 @@
 services:
   server:
-    image: liem2903/project-sisyphus-server:1.0
+    build:
+      context: ./server
     env_file:
       - ./server/.env
     ports:

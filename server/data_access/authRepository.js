@@ -9,7 +9,7 @@ export async function getGoogleTokenData (code) {
         code, 
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
-        redirect_uri: 'http://localhost:5173/loading',
+        redirect_uri: process.env.REDIRECT_URI,
         grant_type: 'authorization_code',});
 
         const tokenRes = await axios.post(
@@ -40,6 +40,7 @@ export async function getGoogleDataAccess(access_token) {
         return profile.data;        
     } catch (err) {
         console.log(err.message);
+        throw err; // add this
     }
 }
 
