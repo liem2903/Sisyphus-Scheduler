@@ -168,84 +168,80 @@ function Home () {
     }
 
     return (
-        <>  
-            {/* Portal for all popups and modals. */}
-            <Portal open={calendarView}> 
-                <Calendar calendarView={calendarView} openCalendar={openCalendar} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
-            </Portal>
-
-            <Portal open={groupCalendarView}> 
-                <GroupCalendar groupCalendarView={groupCalendarView} openGroupCalendar={openGroupCalendar} busyDates={busyDates} groupCalendarId={groupCalendarIds} startWeek={startWeek} endWeek={endWeek}/>
-            </Portal>
-
-            <Portal open={groupView}>
-                <CreateGroup openAddGroup={openAddGroup}/>
-            </Portal>
-
-            <Portal open={addFriendsView}>
-                <AddFriend openAddFriends={openAddFriends} code={friendCode}/>
-            </Portal>
-
-            <Portal open={popup}>
-                <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents} isAllDay={isAllDay} setAllDayEvents={setAllDayEvents} allDayEvents={allDayEvents}/>
-            </Portal>
-
-            <Portal open={unfriend}>
-                <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId} setFriendList={setFriendList} friendlist={friendlist} deletedFriendName={deletedFriendName}/>
-            </Portal>
-
-            <Portal open={openGroupDelete}> 
-                <DeleteGroup deleteGroupId={deleteGroupId} setGroupDelete={setGroupDelete} groups={groups} setGroups={setGroups} deletedGroupName={deletedGroupName}/>
-            </Portal>
-             
-            <div className="flex bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] h-screen [filter:url(#noise)]/90">
-                <div className="flex flex-col w-fit overflow-y-auto h-full"> 
-                    <Events setAllDayEvents={setAllDayEvents} setEvents={setEvents}/>
-                    {
-                        loading == true ? <DailyCalendarSkeleton /> : 
-                            <div className="flex flex-col w-full pt-[2vw]"> 
-                                <div className="content-start grid grid-cols-1 w-[76vw] h-[72vh] bg-[#3B1F0E] border border-[#4A7C59] ml-[3vw] rounded-[1vw] overflow-hidden shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
-                                    <div className="grid grid-cols-3 items-center text-white font-bold bg-[#4A7C59] h-[4vh] px-[1vw]">
-                                        <div className="justify-self-start flex items-center gap-[0.6vw]">
-                                            <button
-                                                onClick={handleToday}
-                                                className="px-[0.8vw] py-[0.35vh] rounded-full bg-[#5B8A63] text-white text-[0.8rem] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.18)] hover:brightness-110 transition cursor-pointer"
-                                            >
-                                                Today
-                                            </button>
-
-                                            <ChevronLeft size={20} onClick={() => handleDecreaseDate()} className="cursor-pointer" />
-                                        </div>
-
-                                        <div className="justify-self-center">
-                                            {viewingDate}
-                                        </div>
-
-                                        <div className="justify-self-end cursor-pointer">
-                                            <ChevronRight size={20} onClick={() => handleIncreaseDate()}/>
-                                        </div>
-                                    </div>
-
-                                    <div className="top-0 flex pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-[2vh] pb-[1vh]">
-                                        <div className="border-r-2 border-r-[#4A7C59] pr-[1vw] font-bold">  All-Day </div>
-                                        <div className="flex-1 flex-col  max-h-[10vh] overflow-y-scroll no-scrollbar">
-                                            {allDayEvents.map((event) => <AllDayEvent eventName={event.eventName} eventId={event.id} deletePopup={deletePopup} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)}
-                                        </div>
-                                    </div>
-                                    <div className=" overflow-y-scroll no-scrollbar"> 
-                                        {hours.map((e, index) => (<div key={e} className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4  border-l-[#4A7C59]">
-                                            <div className={["pt-[3vh] pb-[1vh] pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
-                                                <div className="mr-[2vw]"> {e} </div> <div className="flex flex-1 flex-col gap-[1vh]"> {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart} deletePopup={deletePopup} id={event.id} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)} </div>
-                                            </div>
-                                        </div>))}
-                                    </div>
+    <>  
+        {/* All your Portals stay the same */}
+        <Portal open={calendarView}> 
+            <Calendar calendarView={calendarView} openCalendar={openCalendar} busyDates={busyDates} calendarId={calendarId} startWeek={startWeek} endWeek={endWeek}/>
+        </Portal>
+        <Portal open={groupCalendarView}> 
+            <GroupCalendar groupCalendarView={groupCalendarView} openGroupCalendar={openGroupCalendar} busyDates={busyDates} groupCalendarId={groupCalendarIds} startWeek={startWeek} endWeek={endWeek}/>
+        </Portal>
+        <Portal open={groupView}>
+            <CreateGroup openAddGroup={openAddGroup}/>
+        </Portal>
+        <Portal open={addFriendsView}>
+            <AddFriend openAddFriends={openAddFriends} code={friendCode}/>
+        </Portal>
+        <Portal open={popup}>
+            <DeletePopup deletePopup={deletePopup} deletedEvent={deletedEvent} events={events} setEvents={setEvents} isAllDay={isAllDay} setAllDayEvents={setAllDayEvents} allDayEvents={allDayEvents}/>
+        </Portal>
+        <Portal open={unfriend}>
+            <UnaddFriend openUnfriend={openUnfriend} unfriendId={unfriendId} setFriendList={setFriendList} friendlist={friendlist} deletedFriendName={deletedFriendName}/>
+        </Portal>
+        <Portal open={openGroupDelete}> 
+            <DeleteGroup deleteGroupId={deleteGroupId} setGroupDelete={setGroupDelete} groups={groups} setGroups={setGroups} deletedGroupName={deletedGroupName}/>
+        </Portal>
+         
+        {/* Mobile: stack vertically. Desktop (lg): side-by-side */}
+        <div className="flex flex-col lg:flex-row bg-linear-to-b to-[#8B5E3C] from-[#ebdfc4] min-h-screen [filter:url(#noise)]/90">
+            <div className="flex flex-col w-full lg:w-fit lg:overflow-y-auto lg:h-full"> 
+                <Events setAllDayEvents={setAllDayEvents} setEvents={setEvents}/>
+                {loading == true ? <DailyCalendarSkeleton /> : 
+                    <div className="flex flex-col w-full pt-4"> 
+                        <div className="content-start grid grid-cols-1 w-[92vw] lg:w-[76vw] h-[70vh] lg:h-[72vh] bg-[#3B1F0E] border border-[#4A7C59] mx-auto lg:ml-[3vw] rounded-2xl lg:rounded-[1vw] overflow-hidden shadow-[inset_0_4px_40px_0_rgba(0,0,0,0.3)]">
+                            <div className="grid grid-cols-3 items-center text-white font-bold bg-[#4A7C59] h-10 lg:h-[4vh] px-3 lg:px-[1vw]">
+                                <div className="justify-self-start flex items-center gap-2 lg:gap-[0.6vw]">
+                                    <button
+                                        onClick={handleToday}
+                                        className="px-3 lg:px-[0.8vw] py-1 lg:py-[0.35vh] rounded-full bg-[#5B8A63] text-white text-xs lg:text-[0.8rem] font-semibold shadow-[0_2px_8px_rgba(0,0,0,0.18)] hover:brightness-110 transition cursor-pointer"
+                                    >
+                                        Today
+                                    </button>
+                                    <ChevronLeft size={20} onClick={() => handleDecreaseDate()} className="cursor-pointer" />
+                                </div>
+                                <div className="justify-self-center text-sm lg:text-base">
+                                    {viewingDate}
+                                </div>
+                                <div className="justify-self-end cursor-pointer">
+                                    <ChevronRight size={20} onClick={() => handleIncreaseDate()}/>
                                 </div>
                             </div>
-                    }
-                </div>
-                <FriendChecker setDeletedGroupName={setDeletedGroupName} setDeletedFriendName={setDeletedFriendName} setGroups={setGroups} groups={groups} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} setFriendList={setFriendList} friendlist={friendlist} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
+
+                            <div className="top-0 flex pl-4 lg:pl-[2vw] text-[#FFF8F0] border-b-2 border-b-[#4A7C59] pt-3 lg:pt-[2vh] pb-2 lg:pb-[1vh]">
+                                <div className="border-r-2 border-r-[#4A7C59] pr-3 lg:pr-[1vw] font-bold text-sm lg:text-base">All-Day</div>
+                                <div className="flex-1 flex-col max-h-24 lg:max-h-[10vh] overflow-y-scroll no-scrollbar">
+                                    {allDayEvents.map((event) => <AllDayEvent eventName={event.eventName} eventId={event.id} deletePopup={deletePopup} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)}
+                                </div>
+                            </div>
+                            <div className="overflow-y-scroll no-scrollbar"> 
+                                {hours.map((e, index) => (
+                                    <div key={e} className="text-[#FFF8F0]/50 border-b border-b-[#4A7C59] border-l-4 border-l-[#4A7C59]">
+                                        <div className={["pt-4 lg:pt-[3vh] pb-2 lg:pb-[1vh] pl-4 lg:pl-[2vw] hover:bg-amber-50/20 flex overflow-x-scroll no-scrollbar", index % 2 == 0 ? "bg-[rgba(255,255,255,0.02)]" : ""].join(" ")}>
+                                            <div className="mr-4 lg:mr-[2vw] text-xs lg:text-base whitespace-nowrap">{e}</div>
+                                            <div className="flex flex-1 flex-col gap-2 lg:gap-[1vh]">
+                                                {events.filter(d => filterTime(d, e)).map((event) => <Event action={event.eventName} duration={event.duration} timeStart={event.timeStart} deletePopup={deletePopup} id={event.id} setDeletedEvent={setDeletedEvent} setAllDay={setAllDay}/>)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        </>
+            <FriendChecker setDeletedGroupName={setDeletedGroupName} setDeletedFriendName={setDeletedFriendName} setGroups={setGroups} groups={groups} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} setFriendList={setFriendList} friendlist={friendlist} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} openCalendar={openCalendar} openGroupCalendar={openGroupCalendar} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} setCalendarId={setCalendarId} setGroupCalendarId={setGroupCalendarIds} openAddGroup={openAddGroup} openAddFriends={openAddFriends}/> 
+        </div>
+    </>
      )
 }
 

@@ -54,13 +54,13 @@ function Events({setAllDayEvents, setEvents}: prop) {
     }
 
     return (
-        <div className="flex items-center ml-[3vw] pt-[5vh]">
-            <div className="relative flex justify-center items-center rounded-[4vw] overflow-x-hidden">
+        <div className="flex items-center mx-auto lg:mx-0 lg:ml-[3vw] pt-4 lg:pt-[5vh] w-[92vw] lg:w-auto">
+            <div className="relative flex justify-center items-center rounded-3xl lg:rounded-[4vw] overflow-x-hidden w-full">
                 <SearchBar query={value} setQuery={setValue} value={value} setValue={setValue} clickButton={clickButton} setAllDayEvents={setAllDayEvents} setEvents={setEvents}></SearchBar>
-            <button className={["rounded-[4vw] bg-[#4A7C59] border-[#181528] h-3/5 absolute right-1/40 text-[#FFF8F0] font-bold text-[clamp(0.8rem,1vw,7rem)] w-[clamp(3rem,5vw,10rem)] shadow-[0_4px_40px_0_rgba(0,0,0,0.4)]", clicked ? "animate-pulse" : " hover:ring hover:scale-110 hover:ring-[#4A7C59]/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 hover:cursor-pointer " ].join(" ")} disabled={clicked} onClick={() => {clickButton(true); handleClick()}}> <div className=''> {clicked ? <div className="animate-pulse"> Creating event... </div> : "Enter"} </div> </button>
+                <button className={["rounded-3xl lg:rounded-[4vw] bg-[#4A7C59] border-[#181528] h-3/5 absolute right-1 lg:right-1/40 text-[#FFF8F0] font-bold text-xs lg:text-[clamp(0.8rem,1vw,7rem)] w-16 lg:w-[clamp(3rem,5vw,10rem)] shadow-[0_4px_40px_0_rgba(0,0,0,0.4)]", clicked ? "animate-pulse" : " hover:ring hover:scale-110 hover:ring-[#4A7C59]/40 hover:ring-offset-2 hover:ring-offset-black/40 transition duration-200 hover:cursor-pointer " ].join(" ")} disabled={clicked} onClick={() => {clickButton(true); handleClick()}}> <div className=''> {clicked ? <div className="animate-pulse"> Creating event... </div> : "Enter"} </div> </button>
             </div>
         </div>
-    ) 
+    )
 
 }
 

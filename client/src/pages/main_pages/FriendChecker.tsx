@@ -90,32 +90,32 @@ function FriendChecker({setDeletedFriendName, friendlist, setFriendList, setUnfr
     }, [])
 
     return <>
-        {loading ? <FriendCheckerSkeleton/> :
-        <div className="flex justify-center flex-1 ml-[2vw] mr-[2vw] pt-[5vh] text-[#572e15]">
-            <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[81vh] flex flex-col w-[clamp(0.5em,15vw,100rem)] rounded-[1vw] shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">                   
-                <div className="h-full flex flex-col">
-                    <div className="flex-col gap-[1vw] flex overflow-y-scroll no-scrollbar h-[73vh]">
-                        <div className={["flex sticky top-0 z-1006  bg-[#3B1F0E] pt-[1vh]", trash ? "bg-[#3B1F0E]" : ""].join(" ")}> 
-                            <div className="flex justify-end font-bold underline w-3/5 text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
-                                Friends 
-                            </div>    
-                            <div className="flex flex-1 justify-end pr-[1vw]">
-                                <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
-                            </div>
+    {loading ? <FriendCheckerSkeleton/> :
+    <div className="flex justify-center flex-1 mx-4 lg:mx-[2vw] pt-4 lg:pt-[5vh] pb-4 lg:pb-0 text-[#572e15]">
+        <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[60vh] lg:h-[81vh] flex flex-col w-full lg:w-[clamp(0.5em,15vw,100rem)] rounded-2xl lg:rounded-[1vw] shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">                   
+            <div className="h-full flex flex-col">
+                <div className="flex-col gap-2 lg:gap-[1vw] flex overflow-y-scroll no-scrollbar h-[50vh] lg:h-[73vh]">
+                    <div className={["flex sticky top-0 z-[1006] bg-[#3B1F0E] pt-2 lg:pt-[1vh]", trash ? "bg-[#3B1F0E]" : ""].join(" ")}> 
+                        <div className="flex justify-end font-bold underline w-3/5 text-sm lg:text-[clamp(0.5rem,1vw,5rem)] text-[#FFF8F0]">
+                            Friends 
+                        </div>    
+                        <div className="flex flex-1 justify-end pr-3 lg:pr-[1vw]">
+                            <RequestsButton friendRequests={friendRequests} setRequests={setFriendRequests} setFriendList={setFriendList}/>
                         </div>
-                        {friendlist.map((val) =>  <FriendBlock key={val.id} setDeletedFriendName={setDeletedFriendName} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
-                        {groups.map((group) => <GroupBlock key={group.id} setDeletedGroupName={setDeletedGroupName} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
-                    </div>     
+                    </div>
+                    {friendlist.map((val) =>  <FriendBlock key={val.id} setDeletedFriendName={setDeletedFriendName} setUnfriendId={setUnfriendId} openUnfriend={openUnfriend} trash={trash} setCalendarId={setCalendarId} openCalendar={openCalendar} last_seen={val.last_seen != "Untracked" ? (parseInt(val.last_seen) > 1 ? `${val.last_seen} days ago` : `${val.last_seen} day ago`) : val.last_seen} id={val.id} changed_name={val.changed_name} status={val.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek}/>)}
+                    {groups.map((group) => <GroupBlock key={group.id} setDeletedGroupName={setDeletedGroupName} setGroupDelete={setGroupDelete} setDeletedGroup={setDeletedGroup} trash={trash} setGroupCalendarId={setGroupCalendarId} openGroupCalendar={openGroupCalendar} last_seen={group.last_seen} id={group.user_ids} changed_name={group.group_name} status={group.status} setBusyDates={setBusyDates} startWeek={startWeek} endWeek={endWeek} groupId={group.id}></GroupBlock>)}
+                </div>     
 
-                    <div className="flex justify-end pr-[2vw] items-center gap-x-[0.5vw] flex-1">
-                        <GroupButton openAddGroup={openAddGroup}/> 
-                        <AddFriendButton openAddFriends={openAddFriends}/>
-                        <UnfriendButton setTrashMode={setTrashMode} trash={trash}/>
-                    </div>               
-                </div>                      
-            </div>
-        </div> }
-    </>
+                <div className="flex justify-end pr-4 lg:pr-[2vw] items-center gap-x-2 lg:gap-x-[0.5vw] flex-1 py-3 lg:py-0">
+                    <GroupButton openAddGroup={openAddGroup}/> 
+                    <AddFriendButton openAddFriends={openAddFriends}/>
+                    <UnfriendButton setTrashMode={setTrashMode} trash={trash}/>
+                </div>               
+            </div>                      
+        </div>
+    </div> }
+</>
 }
 
 export default FriendChecker;
