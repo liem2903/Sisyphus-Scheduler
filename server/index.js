@@ -18,5 +18,5 @@ app.use('/api/calendar', calendar);
 app.use('/api/friend', friend);
 app.use('/api/user', user);
 app.use('/api/group', group);
-app.listen(port, () => console.log("Server started on port 4000"))
+app.listen(port, () => console.log(`Server started on port ${port}`))
 export default app;
