@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FlipButton from './FlipButton';
 import { api } from '../../../interceptor/interceptor';
 import type { busyDates } from '../../../types/types';
-import { User, UserRound } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 
 type prop = {
     last_seen: string,

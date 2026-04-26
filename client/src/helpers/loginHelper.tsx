@@ -1,4 +1,4 @@
-const REDIRECT_URI = "http://localhost:5173/loading"
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
 
 export function Google() {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID

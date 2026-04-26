@@ -1,7 +1,6 @@
-import { Clipboard, UserPlus } from 'lucide-react';
+import { Clipboard } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react'; 
 import { api } from '../../../interceptor/interceptor';
-import Spinner from '../global_components/Spinner';
 
 type Prop = {
     openAddFriends: React.Dispatch<React.SetStateAction<boolean>>,

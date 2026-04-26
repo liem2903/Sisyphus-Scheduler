@@ -1,0 +1,18 @@
+services:
+  server:
+    image: liem2903/project-sisyphus-server:1.0
+    env_file:
+      - ./server/.env
+    ports:
+      - "4000:4000"
+
+  client:
+    build:
+      context: ./client
+      args:
+        VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID}
+        VITE_REDIRECT_URI: ${VITE_REDIRECT_URI}
+    ports:
+      - "80:80"
+    depends_on:
+      - server
