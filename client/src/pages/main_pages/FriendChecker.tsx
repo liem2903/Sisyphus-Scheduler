@@ -91,7 +91,7 @@ function FriendChecker({setDeletedFriendName, friendlist, setFriendList, setUnfr
 
     return <>
     {loading ? <FriendCheckerSkeleton/> :
-    <div className="flex justify-center flex-1 mx-4 lg:mx-[2vw] pt-4 lg:pt-[5vh] pb-4 lg:pb-0 text-[#572e15]">
+    <div className="flex justify-center w-full lg:flex-1 mx-4 lg:mx-[2vw] pt-4 lg:pt-[5vh] pb-4 lg:pb-0 text-[#572e15]">
         <div className="border border-[#4A7C59] bg-[#3B1F0E] overflow-clip h-[60vh] lg:h-[81vh] flex flex-col w-full lg:w-[clamp(0.5em,15vw,100rem)] rounded-2xl lg:rounded-[1vw] shadow-[0_4px_25px_0_rgba(0,0,0,0.2)]">                   
             <div className="h-full flex flex-col">
                 <div className="flex-col gap-2 lg:gap-[1vw] flex overflow-y-scroll no-scrollbar h-[50vh] lg:h-[73vh]">
