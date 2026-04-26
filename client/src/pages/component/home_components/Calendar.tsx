@@ -17,7 +17,7 @@ type Prop = {
     endWeek: string,
 }
 
-export function calendar({calendarView, openCalendar, busyDates, calendarId, startWeek, endWeek}: Prop) {
+export function Calendar({calendarView, openCalendar, busyDates, calendarId, startWeek, endWeek}: Prop) {
     const [ begin, setBeginWeek ] = useState("");
     const [ end, setEndWeek ] = useState("");
     const [ dates, setDates ] = useState<busyDates[]>([]);
@@ -87,4 +87,4 @@ export function calendar({calendarView, openCalendar, busyDates, calendarId, sta
     </>
 }
 
-export default calendar
+export default Calendar;
